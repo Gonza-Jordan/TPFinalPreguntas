@@ -1,0 +1,99 @@
+Usuarios
+--------
+id_usuario int PK
+nombre_usuario varchar
+contraseña varchar
+nombre_completo varchar
+email varchar
+anio_nacimiento int
+sexo varchar
+pais varchar
+ciudad varchar
+foto_perfil varchar
+puntaje_total int
+trampitas int
+tipo_usuario varchar
+fecha_creacion date
+validado boolean
+
+Preguntas
+--------
+id_pregunta int PK
+contenido text
+categoria varchar
+nivel_dificultad varchar
+opcion_a text
+opcion_b text
+opcion_c text
+opcion_d text
+respuesta_correcta char(1)
+creada_por int FK -< Usuarios.id_usuario
+aprobada boolean
+veces_respondida int
+veces_respondida_correctamente int
+
+Partidas
+--------
+id_partida int PK
+id_usuario int FK -< Usuarios.id_usuario
+fecha_partida date
+puntaje_obtenido int
+estado varchar
+tipo varchar
+
+RespuestasPartida
+--------
+id_respuesta int PK
+id_partida int FK -< Partidas.id_partida
+id_pregunta int FK -< Preguntas.id_pregunta
+respuesta_seleccionada char(1)
+es_correcta boolean
+
+ReportesPreguntas
+--------
+id_reporte int PK
+id_pregunta int FK -< Preguntas.id_pregunta
+id_usuario int FK -< Usuarios.id_usuario
+motivo text
+fecha_reporte date
+resuelto boolean
+
+Trampitas
+--------
+id_trampita int PK
+id_usuario int FK -< Usuarios.id_usuario
+fecha_compra date
+estado varchar
+precio decimal
+
+Ranking
+--------
+id_ranking int PK
+id_usuario int FK -< Usuarios.id_usuario
+puntaje_total int
+posicion int
+
+Estadisticas
+--------
+fecha date PK
+cantidad_jugadores int
+preguntas_totales int
+preguntas_creadas int
+usuarios_nuevos int
+usuarios_por_pais int
+usuarios_por_sexo int
+usuarios_por_grupo_edad int
+
+EstadisticasJugador
+--------
+id_estadistica int PK
+id_usuario int FK -< Usuarios.id_usuario
+fecha date
+preguntas_respondidas int
+preguntas_correctas int
+preguntas_incorrectas int
+partidas_ganadas int
+partidas_perdidas int
+trampitas_usadas int
+porcentaje_aciertos decimal
+tiempo_promedio_respuesta decimal
