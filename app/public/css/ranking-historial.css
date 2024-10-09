@@ -1,0 +1,68 @@
+body {
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+}
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #dee2e6;
+}
+.item:hover {
+    background-color: #e9ecef;
+}
+
+/****************************** Ranking */
+.posicion {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #28a745;
+}
+.jugador {
+    font-size: 1.2rem;
+}
+.puntaje {
+    font-weight: bold;
+}
+
+/****************************** Historial */
+.pregunta {
+    font-size: 1.2rem;
+    padding: .5rem 0;
+}
+.categoria {
+    font-size: 0.85rem;
+    color: #666;
+}
+.puntos {
+    font-weight: bold;
+}
+.resultado {
+    display: flex;
+    align-items: center;
+}
+.resultado .icono {
+    margin-left: 10px;
+}
+.icono-correcto {
+    color: green;
+}
+.icono-incorrecto {
+    color: red;
+}
