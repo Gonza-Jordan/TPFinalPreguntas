@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administrador</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="admin-view">
+        <h1>Panel de Administrador</h1>
+
+        <div class="stats">
+            <h2>Estadísticas Generales</h2>
+            <ul>
+                <li>Cantidad de jugadores: {{totalJugadores}}</li>
+                <li>Cantidad de partidas jugadas: {{totalPartidas}}</li>
+                <li>Cantidad de preguntas en el juego: {{totalPreguntas}}</li>
+                <li>Cantidad de preguntas creadas: {{preguntasCreadas}}</li>
+                <li>Usuarios nuevos: {{usuariosNuevos}}</li>
+                <li>Porcentaje de preguntas respondidas correctamente: {{porcentajeRespuestasCorrectas}}%</li>
+            </ul>
+        </div>
+
+        <div class="filter">
+            <h3>Filtrar por:</h3>
+            <select>
+                <option value="dia">Día</option>
+                <option value="semana">Semana</option>
+                <option value="mes">Mes</option>
+                <option value="año">Año</option>
+            </select>
+        </div>
+
+        <div class="user-stats">
+            <h3>Usuarios por País</h3>
+            <!-- Gráfico o tabla de usuarios por país -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>País</th>
+                        <th>Cantidad de Usuarios</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#usuariosPorPais}}
+                    <tr>
+                        <td>{{pais}}</td>
+                        <td>{{cantidadUsuarios}}</td>
+                    </tr>
+                    {{/usuariosPorPais}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="user-gender-stats">
+            <h3>Usuarios por Sexo</h3>
+            <!-- Gráfico o tabla de usuarios por sexo -->
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sexo</th>
+                        <th>Cantidad de Usuarios</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#usuariosPorSexo}}
+                    <tr>
+                        <td>{{sexo}}</td>
+                        <td>{{cantidadUsuarios}}</td>
+                    </tr>
+                    {{/usuariosPorSexo}}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="user-age-stats">
+            <h3>Usuarios por Grupo de Edad</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Grupo de Edad</th>
+                        <th>Cantidad de Usuarios</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#usuariosPorEdad}}
+                    <tr>
+                        <td>{{grupoEdad}}</td>
+                        <td>{{cantidadUsuarios}}</td>
+                    </tr>
+                    {{/usuariosPorEdad}}
+                </tbody>
+            </table>
+        </div>
+        <div class="trampitas-stats">
+            <h3>Balance de Trampitas</h3>
+            <p>Total de trampitas vendidas: {{totalTrampitas}}</p>
+            <p>Ganancias con trampitas: ${{gananciasTrampitas}}</p>
+        </div>
+
+        <button id="imprimir-btn">Imprimir Reporte</button>
+    </main>
+</body>
+</html>
