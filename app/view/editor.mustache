@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Editor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <main class="editor-view">
+        <h1>Bienvenido, {{nombreEditor}}</h1>
+        <h2>Gestión de Preguntas</h2>
+
+        <button id="nueva-pregunta-btn">Crear nueva pregunta</button>
+        <h3>Preguntas Existentes</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Pregunta</th>
+                    <th>Pregunta</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#preguntasExistentes}}
+                <tr>
+                    <td>{{idPregunta}}</td>
+                    <td>{{textoPregunta}}</td>
+                    <td>
+                        <button class="modificar-btn" data-id="{{idPregunta}}">Modificar</button>
+                        <button class="eliminar-btn" data-id="{{idPregunta}}">Eliminar</button>
+                    </td>
+                </tr>
+                {{/preguntasExistentes}}
+            </tbody>
+        </table>
+        <h3>Preguntas Reportadas</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Pregunta</th>
+                    <th>Pregunta</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#preguntasReportadas}}
+                <tr>
+                    <td>{{idPregunta}}</td>
+                    <td>{{textoPregunta}}</td>
+                    <td>
+                        <button class="aprobar-btn" data-id="{{idPregunta}}">Aprobar</button>
+                        <button class="eliminar-btn" data-id="{{idPregunta}}">Dar de baja</button>
+                    </td>
+                </tr>
+                {{/preguntasReportadas}}
+            </tbody>
+        </table>
+        <h3>Preguntas Sugeridas por Usuarios</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Pregunta</th>
+                    <th>Pregunta</th>
+                    <th>Acción</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#preguntasSugeridas}}
+                <tr>
+                    <td>{{idPregunta}}</td>
+                    <td>{{textoPregunta}}</td>
+                    <td>
+                        <button class="aprobar-btn" data-id="{{idPregunta}}">Aprobar</button>
+                        <button class="modificar-btn" data-id="{{idPregunta}}">Modificar</button>
+                    </td>
+                </tr>
+                {{/preguntasSugeridas}}
+            </tbody>
+        </table>
+    </main>
+</body>
+</html>
