@@ -64,16 +64,16 @@
     <header>
         <h1>Hola, usuario!</h1>
         <p>Mi puntaje: <strong>puntaje usuario</strong></p>
-        <a href="perfil.mustache">
+        <a href="/perfil.mustache">
             <img src="" alt="Perfil" id="perfil-icon">
         </a>
     </header>
 
     <section class="buttons">
-        <a href="historial.mustache" class="button">Historial de partidas</a>
-        <a href="ranking.mustache" class="button">Ranking</a>
-        <a href="crearPregunta.mustache" class="button">Crear nueva pregunta</a>
-        <a href="crearPartida.mustache" class="button">Nueva partida</a>
+        <a href="/historial.mustache" class="button">Historial de partidas</a>
+        <a href="/ranking.mustache" class="button">Ranking</a>
+        <a href="/crearPregunta.mustache" class="button">Crear nueva pregunta</a>
+        <a href="/crearPartida.mustache" class="button">Nueva partida</a>
     </section>
 </main>
 

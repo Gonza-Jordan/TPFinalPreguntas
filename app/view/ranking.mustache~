@@ -12,44 +12,36 @@
     <h1 class="text-center mb-4">Ranking de Jugadores</h1>
 
     <a href="perfilJugador.mustache" style="text-decoration: none; color: black">
-        <div class="item">
-                <span class="posicion">1</span>
-                <span class="jugador">Juan Pérez</span>
-                <span class="puntaje">1500</span>
-        </div>
+    <div class="item">
+            <span class="posicion">1</span>
+            <span class="jugador">Juan Pérez</span>
+            <span class="puntaje">1500</span>
+    </div>
     </a>
 
-    <a href="perfilJugador.mustache" style="text-decoration: none; color: black">
     <div class="item">
         <span class="posicion">2</span>
         <span class="jugador">María Gómez</span>
         <span class="puntaje">1400</span>
     </div>
-    </a>
 
-    <a href="perfilJugador.mustache" style="text-decoration: none; color: black">
     <div class="item">
         <span class="posicion">3</span>
         <span class="jugador">Carlos López</span>
         <span class="puntaje">1300</span>
     </div>
-    </a>
 
-    <a href="perfilJugador.mustache" style="text-decoration: none; color: black">
     <div class="item">
         <span class="posicion">4</span>
         <span class="jugador">Lucía Fernández</span>
         <span class="puntaje">1200</span>
     </div>
-    </a>
 
-    <a href="perfilJugador.mustache" style="text-decoration: none; color: black">
     <div class="item">
         <span class="posicion">5</span>
         <span class="jugador">Pedro Sánchez</span>
         <span class="puntaje">1100</span>
     </div>
-    </a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>

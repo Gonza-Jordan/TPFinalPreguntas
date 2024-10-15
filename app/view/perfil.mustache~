@@ -48,10 +48,5 @@
             <button class="admin-button">Panel de administrador</button>
         </div>
     </a>
-    <a href="editor.mustache">
-        <div class="admin-panel">
-            <button class="admin-button">Panel de editor</button>
-        </div>
-    </a>
 </div>
 </body>
