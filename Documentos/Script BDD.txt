@@ -28,7 +28,7 @@ opcion_c text
 opcion_d text
 respuesta_correcta char(1)
 creada_por int FK -< Usuarios.id_usuario
-aprobada boolean
+estado_aprobacion enum("Aprobada ,No Aprobada, Rechazada, En Revision")
 veces_respondida int
 veces_respondida_correctamente int
 
