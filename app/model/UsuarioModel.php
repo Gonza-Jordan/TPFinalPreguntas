@@ -78,33 +78,31 @@ class UsuarioModel {
         return $num > 0;
     }
 
-public function obtenerUsuarioPorId($id_usuario) {
-    $query = "SELECT id_usuario, nombre_usuario, contraseña, nombre_completo, email, fecha_nacimiento, sexo, pais, ciudad, foto_perfil, tipo_usuario FROM " . $this->table_name . " WHERE id_usuario = :id_usuario";
-    $stmt = $this->conn->prepare($query);
-    $stmt->bindParam(':id_usuario', $id_usuario);
-    $stmt->execute();
+    public function obtenerUsuarioPorId($id_usuario) {
+        $query = "SELECT id_usuario, nombre_usuario, contraseña, nombre_completo, email, fecha_nacimiento, sexo, pais, ciudad, foto_perfil, tipo_usuario FROM " . $this->table_name . " WHERE id_usuario = :id_usuario";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_usuario', $id_usuario);
+        $stmt->execute();
 
-    return $stmt->fetch(PDO::FETCH_ASSOC);
-}
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 
+    public function actualizarPerfil($id_usuario, $fechaNacimiento, $sexo, $pais, $ciudad, $email, $password) {
+        $query = "UPDATE " . $this->table_name . " SET fecha_nacimiento = :fechaNacimiento, sexo = :sexo, pais = :pais, ciudad = :ciudad, email = :email, contraseña = :password WHERE id_usuario = :id_usuario";
 
-public function actualizarPerfil($id_usuario, $fechaNacimiento, $sexo, $pais, $ciudad, $email, $password) {
-    $query = "UPDATE " . $this->table_name . " SET fecha_nacimiento = :fechaNacimiento, sexo = :sexo, pais = :pais, ciudad = :ciudad, email = :email, contraseña = :password WHERE id_usuario = :id_usuario";
+        $stmt = $this->conn->prepare($query);
 
-    $stmt = $this->conn->prepare($query);
+        // Vincular los parámetros
+        $stmt->bindParam(':fechaNacimiento', $fechaNacimiento);
+        $stmt->bindParam(':sexo', $sexo);
+        $stmt->bindParam(':pais', $pais);
+        $stmt->bindParam(':ciudad', $ciudad);
+        $stmt->bindParam(':email', $email);
+        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':id_usuario', $id_usuario);
 
-    // Vincular los parámetros
-    $stmt->bindParam(':fechaNacimiento', $fechaNacimiento);
-    $stmt->bindParam(':sexo', $sexo);
-    $stmt->bindParam(':pais', $pais);
-    $stmt->bindParam(':ciudad', $ciudad);
-    $stmt->bindParam(':email', $email);
-    $stmt->bindParam(':password', $password);
-    $stmt->bindParam(':id_usuario', $id_usuario);
-
-    return $stmt->execute();
-}
-
+        return $stmt->execute();
+    }
 
     public function actualizarFoto($id_usuario, $nombreArchivo) {
         $query = "UPDATE usuarios SET foto_perfil = :foto_perfil WHERE id_usuario = :id_usuario";
@@ -118,6 +116,4 @@ public function actualizarPerfil($id_usuario, $fechaNacimiento, $sexo, $pais, $c
         }
         return false;
     }
-
-
 }

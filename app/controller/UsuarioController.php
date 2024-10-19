@@ -33,45 +33,53 @@ class UsuarioController {
         }
     }
 
-public function actualizarFotoPerfil() {
-    if (isset($_POST['id_usuario']) && isset($_FILES['nueva_foto'])) {
-        $id_usuario = $_POST['id_usuario'];
-        $foto = $_FILES['nueva_foto'];
+    public function actualizarFotoPerfil() {
+        if (isset($_POST['id_usuario']) && isset($_FILES['nueva_foto'])) {
+            $id_usuario = $_POST['id_usuario'];
+            $foto = $_FILES['nueva_foto'];
 
-        if ($foto['error'] === UPLOAD_ERR_OK) {
-            $nombreArchivo = 'foto_' . $id_usuario . '.' . pathinfo($foto['name'], PATHINFO_EXTENSION);
-            $rutaDestino = __DIR__ . '/../public/perfiles/' . $nombreArchivo;
+            if ($foto['error'] === UPLOAD_ERR_OK) {
+                $nombreArchivo = 'foto_' . $id_usuario . '.' . pathinfo($foto['name'], PATHINFO_EXTENSION);
+                $rutaDestino = __DIR__ . '/../public/perfiles/' . $nombreArchivo;
 
-            // Mueve el archivo a la carpeta de perfiles
-            if (move_uploaded_file($foto['tmp_name'], $rutaDestino)) {
-                if ($this->usuarioModel->actualizarFoto($id_usuario, $nombreArchivo)) {
-                    echo json_encode(['status' => 'success', 'message' => 'Foto de perfil actualizada exitosamente.']);
+                // Mueve el archivo a la carpeta de perfiles
+                if (move_uploaded_file($foto['tmp_name'], $rutaDestino)) {
+                    if ($this->usuarioModel->actualizarFoto($id_usuario, $nombreArchivo)) {
+                        echo json_encode(['status' => 'success', 'message' => 'Foto de perfil actualizada exitosamente.']);
+                    } else {
+                        echo json_encode(['status' => 'error', 'message' => 'Error al actualizar la base de datos.']);
+                    }
                 } else {
-                    echo json_encode(['status' => 'error', 'message' => 'Error al actualizar la base de datos.']);
+                    echo json_encode(['status' => 'error', 'message' => 'Error al mover el archivo subido.']);
                 }
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Error al mover el archivo subido.']);
+                echo json_encode(['status' => 'error', 'message' => 'Error al subir la foto.']);
             }
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'Error al subir la foto.']);
+            echo json_encode(['status' => 'error', 'message' => 'ID de usuario o archivo no proporcionado.']);
         }
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'ID de usuario o archivo no proporcionado.']);
     }
-}
 
 
     public function actualizarPerfilUsuario() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id_usuario = $_POST['id_usuario'];
-            $fechaNacimiento = $_POST['fechaNacimiento']; // Esto debe contener la fecha completa
+            $fechaNacimiento = $_POST['fechaNacimiento'];
             $sexo = $_POST['sexo'];
             $pais = $_POST['pais'];
             $ciudad = $_POST['ciudad'];
             $email = $_POST['email'];
             $password = $_POST['password'];
 
-            // Actualizar el perfil
+            // Obtener la contraseña anterior
+            $usuario = $this->usuarioModel->obtenerUsuarioPorId($id_usuario);
+
+            if (empty($password)) {
+                $password = $usuario['contraseña'];
+            } else {
+                $password = password_hash($password, PASSWORD_BCRYPT);
+            }
+
             $resultado = $this->usuarioModel->actualizarPerfil($id_usuario, $fechaNacimiento, $sexo, $pais, $ciudad, $email, $password);
 
             if ($resultado) {
@@ -81,4 +89,5 @@ public function actualizarFotoPerfil() {
             }
         }
     }
+
 }
