@@ -17,7 +17,7 @@ class RegistroController {
             }
 
             $this->usuarioModel->nombre_completo = $datos['nombre_completo'];
-            $this->usuarioModel->anio_nacimiento = $datos['anio_nacimiento'];
+            $this->usuarioModel->fecha_nacimiento = $datos['fecha_nacimiento'];
             $this->usuarioModel->sexo = $datos['sexo'];
             $this->usuarioModel->pais = $datos['pais'];
             $this->usuarioModel->ciudad = $datos['ciudad'];
@@ -43,9 +43,9 @@ class RegistroController {
             $errores[] = "El nombre completo es requerido y debe tener al menos 3 caracteres";
         }
 
-        if(!is_numeric($datos['anio_nacimiento']) || 
-           $datos['anio_nacimiento'] < 1900 || 
-           $datos['anio_nacimiento'] > date('Y')) {
+        if(!is_numeric($datos['fecha_nacimiento']) ||
+           $datos['fecha_nacimiento'] < 1900 ||
+           $datos['fecha_nacimiento'] > date('Y')) {
             $errores[] = "Año de nacimiento inválido";
         }
 

@@ -6,53 +6,131 @@
     <title>Perfil</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="public/css/perfil-perfilJugador.css">
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
 </head>
 <body>
 <div class="perfil">
-  <header>
-    <a class="back-button" href="home">⟵</a>
-    <h1>username</h1>
-    <div class="icons">
-      <button class="qr-button">QR</button>
-      <button class="edit-button">✏️</button>
+    <header>
+        <a class="back-button" href="home">⟵</a>
+        <h1>{{nombre_usuario}}</h1>
+        <p class="tipo-usuario"><strong>Tipo de usuario:</strong> {{tipo_usuario}}</p>
+        <div class="icons">
+            <button class="qr-button">QR</button>
+            <button class="edit-button">✏️</button>
+        </div>
+    </header>
+
+    <!-- Imagen de perfil -->
+    <div class="imagen-perfil">
+        <img src="public/perfiles/{{foto_perfil}}" alt="Foto de perfil" class="foto-perfil">
     </div>
-  </header>
-  <form>
-    <label for="fecha-nacimiento">Fecha de nacimiento</label>
-    <input type="date" id="fecha-nacimiento" name="fechaNacimiento" value="">
 
-    <label for="sexo">Sexo</label>
-    <select id="sexo" name="sexo">
-        <option value="M">Masculino</option>
-        <option value="F">Femenino</option>
-        <option value="O">Otro</option>
-    </select>
+    <!-- Formulario de cambio de imagen de perfil -->
+    <div class="cambiar-imagen">
+        <form id="cambiar-foto-form" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="id_usuario" value="{{id_usuario}}">
+            <label for="nueva_foto">Cambiar foto de perfil:</label>
+            <input type="file" id="nueva_foto" name="nueva_foto" accept="image/*" required>
+            <button type="submit" class="btn btn-primary">Subir nueva foto</button>
+        </form>
+    </div>
 
-    <label for="ubicacion">Ubicación</label>
-    <textarea id="ubicacion" name="ubicacion">ubicacion</textarea>
+    <!-- Formulario de actualización de perfil -->
+    <form id="editar-perfil-form" method="POST">
+        <input type="hidden" name="id_usuario" value="{{id_usuario}}">
+        <label for="fecha-nacimiento">Fecha de nacimiento</label>
+        <input type="date" id="fecha-nacimiento" name="fechaNacimiento" value="{{anio_nacimiento_formateado}}" required>
 
-    <label for="email">Correo electrónico</label>
-    <input type="email" id="email" name="email" value="">
+        <label for="sexo">Sexo</label>
+        <select id="sexo" name="sexo">
+            <option value="M" {{#is_masculino}}selected{{/is_masculino}}>Masculino</option>
+            <option value="F" {{#is_femenino}}selected{{/is_femenino}}>Femenino</option>
+            <option value="O" {{#is_otro}}selected{{/is_otro}}>Otro</option>
+        </select>
 
-    <label for="password">Contraseña</label>
-    <input type="password" id="password" name="password">
+        <label for="pais">Ubicación - País</label>
+        <input type="text" id="pais" name="pais" value="{{pais}}" required>
 
-    <label for="repassword">Repetir contraseña</label>
-    <input type="password" id="repassword" name="repassword">
-  </form>
+        <label for="ciudad">Ubicación - Ciudad</label>
+        <input type="text" id="ciudad" name="ciudad" value="{{ciudad}}" required>
+
+        <label for="email">Correo electrónico</label>
+        <input type="email" id="email" name="email" value="{{email}}" required>
+
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" name="password" value="{{contrasena}}">
+
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+    </form>
+
     <a href="logIn.mustache">
         <button class="logout-button">Cerrar sesión</button>
     </a>
-    <a href="administrador.mustache">
-        <div class="admin-panel">
-            <button class="admin-button">Panel de administrador</button>
-        </div>
-    </a>
-    <a href="editor.mustache">
-        <div class="admin-panel">
-            <button class="admin-button">Panel de editor</button>
-        </div>
-    </a>
+
+    <!-- Panel de administrador -->
+    {{#is_admin}}
+        <a href="administrador.mustache">
+            <div class="admin-panel">
+                <button class="admin-button">Panel de administrador</button>
+            </div>
+        </a>
+    {{/is_admin}}
+
+    <!-- Panel de editor -->
+    {{#is_editor}}
+        <a href="editor.mustache">
+            <div class="admin-panel">
+                <button class="admin-button">Panel de editor</button>
+            </div>
+        </a>
+    {{/is_editor}}
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Muestra un mensaje de éxito si se redirige con la consulta correspondiente
+        if (window.location.href.indexOf('updated=success') > -1) {
+            Swal.fire('Perfil actualizado correctamente.'); // Popup para el éxito
+        }
+
+        // Lógica para cambiar la foto de perfil
+        document.getElementById('cambiar-foto-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Evitar que el formulario se envíe de forma tradicional
+
+            let formData = new FormData(this);
+            let xhr = new XMLHttpRequest();
+
+            xhr.open("POST", "index.php?page=actualizarFoto", true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4) {
+                    let response = JSON.parse(xhr.responseText);
+                    if (xhr.status === 200 && response.status === 'success') {
+                        alert(response.message); // Mostrar mensaje de éxito
+                        location.reload(); // Recargar la página
+                    } else {
+                        alert(response.message); // Mostrar mensaje de error
+                    }
+                }
+            };
+            xhr.send(formData);
+        });
+
+        // Lógica para actualizar el perfil
+        document.getElementById('editar-perfil-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            let formData = new FormData(this);
+            let xhr = new XMLHttpRequest();
+
+            xhr.open("POST", "index.php?page=actualizarPerfil", true);
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    Swal.fire('Perfil actualizado exitosamente.'); // Popup para éxito
+                }
+            };
+            xhr.send(formData);
+        });
+    });
+</script>
+
 </body>
+</html>
