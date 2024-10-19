@@ -9,7 +9,6 @@ include_once ('controller/HomeController.php');
 include_once ('controller/PerfilController.php');
 
 include_once ('model/HomeModel.php');
-include_once ('model/PerfilModel.php');
 
 class Configuration
 {
