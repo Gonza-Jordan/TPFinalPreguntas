@@ -32,6 +32,16 @@ if ($page == 'perfil') {
 
     $usuarioController = new UsuarioController($db);
     $usuarioController->actualizarFotoPerfil();
+
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && $page == 'actualizarPerfil') {
+    require_once 'controller/UsuarioController.php';
+    require_once 'config/Database.php';
+
+    $database = new Database();
+    $db = $database->getConnection();
+
+    $usuarioController = new UsuarioController($db);
+    $usuarioController->actualizarPerfilUsuario();
 } else {
     $router->route($page, $action);
 }
