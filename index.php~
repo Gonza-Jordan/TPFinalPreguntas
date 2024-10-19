@@ -1,0 +1,10 @@
+<?php
+include_once("config/Configuration.php");
+
+$configuration = new Configuration();
+$router = $configuration->getRouter();
+
+$page = $_GET['page'] ?? 'Home';
+$action = $_GET['action'] ?? 'list';
+
+$router->route($page, $action);

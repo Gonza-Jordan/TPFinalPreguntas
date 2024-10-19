@@ -1,0 +1,11 @@
+<?php
+
+class Presenter
+{
+    public function __construct() {}
+
+    public function show($view){
+        include_once($view.'.mustache');
+    }
+
+}
