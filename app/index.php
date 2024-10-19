@@ -11,21 +11,27 @@ if ($page == 'perfil') {
     $id_usuario = $_GET['id'] ?? null;
 
     if ($id_usuario) {
-        // Ajustamos la ruta para el controlador correcto
         require_once 'controller/UsuarioController.php';
         require_once 'config/Database.php';
 
-        // Crear la conexión a la base de datos
         $database = new Database();
         $db = $database->getConnection();
 
-        // Crear la instancia del controlador y mostrar el perfil
         $usuarioController = new UsuarioController($db);
         $usuarioController->mostrarPerfil($id_usuario);
     } else {
         echo "ID de usuario no especificado.";
     }
+
+} elseif ($_SERVER['REQUEST_METHOD'] === 'POST' && $page == 'actualizarFoto') {
+    require_once 'controller/UsuarioController.php';
+    require_once 'config/Database.php';
+
+    $database = new Database();
+    $db = $database->getConnection();
+
+    $usuarioController = new UsuarioController($db);
+    $usuarioController->actualizarFotoPerfil();
 } else {
-    // Enviar a otras rutas usando el router
     $router->route($page, $action);
 }

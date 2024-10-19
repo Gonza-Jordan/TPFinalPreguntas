@@ -79,12 +79,25 @@ class UsuarioModel {
     }
 
     public function obtenerUsuarioPorId($id_usuario) {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE id_usuario = :id_usuario";
+        $query = "SELECT * FROM usuarios WHERE id_usuario = :id_usuario";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":id_usuario", $id_usuario);
+        $stmt->bindParam(':id_usuario', $id_usuario);
         $stmt->execute();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);  // Asegurate de devolver un array asociativo
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public function actualizarFoto($id_usuario, $nombreArchivo) {
+        $query = "UPDATE usuarios SET foto_perfil = :foto_perfil WHERE id_usuario = :id_usuario";
+        $stmt = $this->conn->prepare($query);
+
+        $stmt->bindParam(':foto_perfil', $nombreArchivo);
+        $stmt->bindParam(':id_usuario', $id_usuario);
+
+        if ($stmt->execute()) {
+            return true;
+        }
+        return false;
     }
 
 

@@ -22,10 +22,10 @@ CREATE TABLE usuarios (
 
 --insert de usuario
 INSERT INTO usuarios (nombre_usuario, contraseña, nombre_completo, email, anio_nacimiento, sexo, pais, ciudad, foto_perfil, puntaje_total, trampitas, tipo_usuario, validado)
-VALUES ('jmartinez', '12345password', 'Juan Martinez', 'juan.martinez@example.com', 1990, 'Masculino', 'Argentina', 'Buenos Aires', 'foto1.jpg', 150, 3, 'jugador', TRUE);
+VALUES ('jmartinez', '12345password', 'Juan Martinez', 'juan.martinez@example.com', 1990, 'Masculino', 'Argentina', 'Buenos Aires', 'foto_1.jpg', 150, 3, 'jugador', TRUE);
 
 INSERT INTO usuarios (nombre_usuario, contraseña, nombre_completo, email, anio_nacimiento, sexo, pais, ciudad, foto_perfil, puntaje_total, trampitas, tipo_usuario, validado)
-VALUES ('mperez', 'securePass456', 'Maria Perez', 'maria.perez@example.com', 1985, 'Femenino', 'Mexico', 'Guadalajara', 'foto2.png', 200, 5, 'editor', FALSE);
+VALUES ('mperez', 'securePass456', 'Maria Perez', 'maria.perez@example.com', 1985, 'Femenino', 'Mexico', 'Guadalajara', 'foto_2.jpg', 200, 5, 'editor', FALSE);
 
 INSERT INTO usuarios (nombre_usuario, contraseña, nombre_completo, email, anio_nacimiento, sexo, pais, ciudad, foto_perfil, puntaje_total, trampitas, tipo_usuario, validado)
-VALUES ('lgomez', 'mypassword789', 'Luis Gomez', 'luis.gomez@example.com', 2000, 'Prefiero no cargarlo', 'España', 'Madrid', 'foto3.jpg', 100, 1, 'jugador', TRUE);
+VALUES ('lgomez', 'mypassword789', 'Luis Gomez', 'luis.gomez@example.com', 2000, 'Prefiero no cargarlo', 'España', 'Madrid', 'foto_3.jpg', 100, 1, 'jugador', TRUE);

@@ -54,11 +54,6 @@ p {
     gap: 10px;
 }
 
-.edit-button {
-    font-size: 18px;
-    cursor: pointer;
-}
-
 .qr-button, .edit-button {
     background: none;
     border: none;
@@ -151,6 +146,7 @@ textarea {
 .admin-button:hover {
     background-color: #025aa5;
 }
+
 .tipo-usuario {
     margin-top: 5px;
     font-size: 16px;
@@ -158,9 +154,71 @@ textarea {
     display: block;
     text-align: center;
 }
+
 p.tipo-usuario {
     margin-top: 10px;
     display: block;
     font-size: 16px;
     color: #555;
+}
+
+/* Imagen de perfil centrada */
+.profile-image {
+    margin-top: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: #ddd;
+    margin: 0 auto;
+}
+
+.profile-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+}
+
+.cambiar-imagen {
+    margin-top: 10px;
+    text-align: center;
+}
+
+.cambiar-imagen label {
+    font-size: 14px;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.cambiar-imagen button {
+    margin-top: 10px;
+}
+
+.imagen-perfil {
+    margin-top: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    border-radius: 50%;
+    background-color: #ddd;
+    margin: 0 auto;
+}
+
+.imagen-perfil img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid #ddd;
 }
