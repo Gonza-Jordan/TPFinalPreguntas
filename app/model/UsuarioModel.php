@@ -77,4 +77,15 @@ class UsuarioModel {
         $num = $stmt->rowCount();
         return $num > 0;
     }
+
+    public function obtenerUsuarioPorId($id_usuario) {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE id_usuario = :id_usuario";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":id_usuario", $id_usuario);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);  // Asegurate de devolver un array asociativo
+    }
+
+
 }

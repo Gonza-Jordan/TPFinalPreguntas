@@ -18,14 +18,18 @@ body {
 
 header {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
     margin-bottom: 20px;
+    text-align: center;
+    position: relative;
 }
 
 h1 {
     font-size: 24px;
     margin: 0;
+    display: block;
+    width: 100%;
 }
 
 p {
@@ -35,17 +39,24 @@ p {
 }
 
 .back-button {
-    background: none;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-    text-decoration: none;
-    color: black;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .icons {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     gap: 10px;
+}
+
+.edit-button {
+    font-size: 18px;
+    cursor: pointer;
 }
 
 .qr-button, .edit-button {
@@ -55,7 +66,6 @@ p {
     cursor: pointer;
 }
 
-/* Estilos del formulario */
 form {
     display: flex;
     flex-direction: column;
@@ -81,7 +91,6 @@ textarea {
     resize: none;
 }
 
-/* Historial de partidas */
 .historial-partidas {
     margin-top: 20px;
 }
@@ -110,7 +119,6 @@ textarea {
     font-size: 14px;
 }
 
-/* Estilos adicionales para el Perfil */
 .logout-button {
     background-color: #d9534f;
     color: white;
@@ -142,4 +150,17 @@ textarea {
 
 .admin-button:hover {
     background-color: #025aa5;
+}
+.tipo-usuario {
+    margin-top: 5px;
+    font-size: 16px;
+    color: #555;
+    display: block;
+    text-align: center;
+}
+p.tipo-usuario {
+    margin-top: 10px;
+    display: block;
+    font-size: 16px;
+    color: #555;
 }
