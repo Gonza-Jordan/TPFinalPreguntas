@@ -4,7 +4,7 @@ include_once("config/Configuration.php");
 $configuration = new Configuration();
 $router = $configuration->getRouter();
 
-$page = $_GET['page'] ?? 'home';
-$action = $_GET['action'] ?? 'show';
+$page = $_GET['page'] ?? '';
+$action = $_GET['action'] ?? '';
 
 $router->route($page, $action);

@@ -25,8 +25,9 @@ class AuthController {
                 $this->mustache->show('home');
                 exit();
             } else {
-                echo '<h1>Usuario o contraseña incorrectos</h1>';
-//                $this->mustache->show('login', ['error' => 'Usuario o contraseña incorrectos']);
+                // Entra siempre por aca, dejo el echo de abajo para verificar
+                //echo '<h1>Usuario o contraseña incorrectos</h1>';
+                $this->mustache->show('login', ['error' => 'Usuario o contraseña incorrectos']);
             }
         } else {
             $this->mustache->show('login');
