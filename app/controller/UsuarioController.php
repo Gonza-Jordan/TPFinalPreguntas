@@ -17,7 +17,6 @@ class UsuarioController {
             $usuario['is_femenino'] = ($usuario['sexo'] == 'Femenino');
             $usuario['is_otro'] = ($usuario['sexo'] == 'Otro');
 
-            // Asegúrate de que tipo_usuario esté definido
             $usuario['is_admin'] = (isset($usuario['tipo_usuario']) && $usuario['tipo_usuario'] == 'admin') ? true : false;
             $usuario['is_editor'] = (isset($usuario['tipo_usuario']) && $usuario['tipo_usuario'] == 'editor') ? true : false;
 
@@ -42,7 +41,6 @@ class UsuarioController {
                 $nombreArchivo = 'foto_' . $id_usuario . '.' . pathinfo($foto['name'], PATHINFO_EXTENSION);
                 $rutaDestino = __DIR__ . '/../public/perfiles/' . $nombreArchivo;
 
-                // Mueve el archivo a la carpeta de perfiles
                 if (move_uploaded_file($foto['tmp_name'], $rutaDestino)) {
                     if ($this->usuarioModel->actualizarFoto($id_usuario, $nombreArchivo)) {
                         echo json_encode(['status' => 'success', 'message' => 'Foto de perfil actualizada exitosamente.']);

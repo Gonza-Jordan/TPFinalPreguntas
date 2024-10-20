@@ -13,7 +13,7 @@ class AuthController {
     }
 
     public function login() {
-        $errorHTML = ''; // Inicializa como vacío
+        $errorHTML = '';
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = $_POST['username'];
@@ -27,12 +27,10 @@ class AuthController {
                 header('Location: /TPFinalPreguntas/app/index.php?page=home&action=show');
                 exit();
             } else {
-                // Genera el HTML del error
                 $errorHTML = '<div class="alert alert-danger">Usuario o contraseña incorrectos</div>';
             }
         }
 
-        // Pasa el HTML del error directamente a la plantilla
         $this->mustache->show('logIn', ['errorHTML' => $errorHTML]);
     }
 
