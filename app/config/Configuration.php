@@ -4,10 +4,13 @@ include_once('Presenter.php');
 include_once('MustachePresenter.php');
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 include_once('Router.php');
+include_once ('Database.php');
 
+include_once ('controller/AuthController.php');
 include_once ('controller/HomeController.php');
 include_once ('controller/PerfilController.php');
 
+include_once ('model/UserModel.php');
 include_once ('model/HomeModel.php');
 include_once ('model/PerfilModel.php');
 
@@ -24,7 +27,23 @@ class Configuration
 
     public function getRouter()
     {
-        return new Router($this, "getHomeController", "show");
+        return new Router($this, "getAuthController", "show");
+    }
+
+    public function getAuthController()
+    {
+        return new AuthController($this->getPresenter(), $this->getUserModel());
+    }
+
+    public function getUserModel()
+    {
+        return new UserModel($this->getDatabase());
+    }
+
+    public function getDatabase()
+    {
+        $db = new Database();
+        return $db->getConnection();
     }
 
     public function getHomeController()
