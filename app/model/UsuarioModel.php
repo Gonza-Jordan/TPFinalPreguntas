@@ -116,4 +116,9 @@ class UsuarioModel {
         }
         return false;
     }
+    public function findUserByUsername($username) {
+        $stmt = $this->conn->prepare("SELECT * FROM " . $this->table_name . " WHERE nombre_usuario = ?");
+        $stmt->execute([$username]);
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

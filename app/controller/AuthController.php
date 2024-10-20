@@ -13,6 +13,8 @@ class AuthController {
     }
 
     public function login() {
+        $errorHTML = ''; // Inicializa como vacío
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = $_POST['username'];
             $password = $_POST['password'];
@@ -20,18 +22,18 @@ class AuthController {
             $user = $this->userModel->findUserByUsername($username);
 
             if ($user && password_verify($password, $user['contraseña'])) {
+                // Inicia sesión y redirige
                 $_SESSION['user_id'] = $user['id_usuario'];
-//                header('Location: /home/show');
-                $this->mustache->show('home');
+                header('Location: /TPFinalPreguntas/app/index.php?page=home&action=show');
                 exit();
             } else {
-                // Entra siempre por aca, dejo el echo de abajo para verificar
-                //echo '<h1>Usuario o contraseña incorrectos</h1>';
-                $this->mustache->show('login', ['error' => 'Usuario o contraseña incorrectos']);
+                // Genera el HTML del error
+                $errorHTML = '<div class="alert alert-danger">Usuario o contraseña incorrectos</div>';
             }
-        } else {
-            $this->mustache->show('login');
         }
 
+        // Pasa el HTML del error directamente a la plantilla
+        $this->mustache->show('logIn', ['errorHTML' => $errorHTML]);
     }
+
 }
