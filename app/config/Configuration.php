@@ -8,11 +8,9 @@ include_once ('Database.php');
 
 include_once ('controller/AuthController.php');
 include_once ('controller/HomeController.php');
-include_once ('controller/PerfilController.php');
 
-include_once ('model/UserModel.php');
+include_once ('model/UsuarioModel.php');
 include_once ('model/HomeModel.php');
-include_once ('model/PerfilModel.php');
 
 class Configuration
 {
@@ -37,7 +35,7 @@ class Configuration
 
     public function getUserModel()
     {
-        return new UserModel($this->getDatabase());
+        return new UsuarioModel($this->getDatabase());
     }
 
     public function getDatabase()

@@ -21,17 +21,14 @@ class AuthController {
 
             if ($user && password_verify($password, $user['contraseña'])) {
                 $_SESSION['user_id'] = $user['id_usuario'];
-//                header('Location: /home/show');
-                $this->mustache->show('home');
+                header('Location: /home/show');
                 exit();
             } else {
-                // Entra siempre por aca, dejo el echo de abajo para verificar
-                //echo '<h1>Usuario o contraseña incorrectos</h1>';
-                $this->mustache->show('login', ['error' => 'Usuario o contraseña incorrectos']);
+                $this->mustache->show('logIn', ['error' => 'Usuario o contraseña incorrectos']);
             }
         } else {
-            $this->mustache->show('login');
+            $this->mustache->show('logIn');
         }
-
     }
 }
+

@@ -16,6 +16,12 @@ class Router
     public function route($controllerName, $methodName)
     {
         $controller = $this->getControllerFrom($controllerName);
+
+        // Si el método no está especificado, usa el método por defecto
+        if (empty($methodName)) {
+            $methodName = $this->defaultMethod; // Asegúrate de que $this->defaultMethod esté configurado
+        }
+
         $this->executeMethodFromController($controller, $methodName);
     }
 
