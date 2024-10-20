@@ -1,23 +1,21 @@
 <?php
 
-include_once 'vendor/mustache/src/Mustache/Autoloader.php';
-
 class MustachePresenter {
-    private $mustache;
-    private $viewsPath;
+    private $templatePath;
 
-    public function __construct($viewsPath) {
-        $this->viewsPath = $viewsPath;
-        $this->mustache = new Mustache_Engine(array(
-            'loader' => new Mustache_Loader_FilesystemLoader($this->viewsPath),
-        ));
+    public function __construct($templatePath) {
+        $this->templatePath = $templatePath;
     }
 
-    public function render($template, $data = array()) {
-        return $this->mustache->render($template, $data);
-    }
+    public function show($template, $data = []) {
+        $mustache = new Mustache_Engine();
+        $templateFile = $this->templatePath . '/' . $template . '.mustache';
 
-    public function show($template, $data = array()) {
-        echo $this->render($template, $data);
+        if (file_exists($templateFile)) {
+            $templateContent = file_get_contents($templateFile);
+            echo $mustache->render($templateContent, $data);
+        } else {
+            throw new Exception("Template not found: " . $templateFile);
+        }
     }
 }

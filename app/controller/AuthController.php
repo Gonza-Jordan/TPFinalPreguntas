@@ -13,22 +13,27 @@ class AuthController {
     }
 
     public function login() {
+        $error = null; // Inicializa la variable error
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $username = $_POST['username'];
             $password = $_POST['password'];
 
             $user = $this->userModel->findUserByUsername($username);
 
-            if ($user && password_verify($password, $user['contraseña'])) {
+            if ($user && password_verify($password, $user['contraseña'])) { // Asegúrate de que este campo sea correcto
                 $_SESSION['user_id'] = $user['id_usuario'];
-                header('Location: /home/show');
+                header('Location: /TPFinalPreguntas/app/index.php?page=home&action=show'); // Ruta correcta para tu home
                 exit();
             } else {
-                $this->mustache->show('logIn', ['error' => 'Usuario o contraseña incorrectos']);
+                $error = 'Usuario o contraseña incorrectos'; // Asigna el mensaje de error
             }
-        } else {
-            $this->mustache->show('logIn');
         }
-    }
-}
 
+        var_dump($user); // Muestra el usuario encontrado
+        var_dump($error); // Muestra el mensaje de error
+
+        // Renderiza la vista con el mensaje de error
+        $this->mustache->show('logIn', ['error' => $error]);
+    }
+
+}

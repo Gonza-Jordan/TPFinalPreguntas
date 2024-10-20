@@ -54,10 +54,6 @@ class Configuration
         return new HomeModel();
     }
 
-    public function getPerfilController()
-    {
-        return new PerfilController($this->getPresenter(), $this->getPerfilModel());
-    }
 
     public function getPerfilModel()
     {
