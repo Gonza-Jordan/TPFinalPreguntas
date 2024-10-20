@@ -10,6 +10,9 @@
 <body style="height: 100vh;">
 <div class="container">
     <h2 class="text-center mb-4">Iniciar Sesión</h2>
+
+    {{{errorHTML}}} <!-- Aquí se insertará el HTML generado del error -->
+
     <form action="/TPFinalPreguntas/app/auth/login" method="POST">
         <div class="mb-3">
             <label for="username" class="form-label">Nombre de usuario</label>
