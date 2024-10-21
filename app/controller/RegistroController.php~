@@ -14,14 +14,14 @@ class RegistroController {
         $this->mustache->show('SignUp');
     }
 
-    public function registrar($datos, $archivos) {
+    public function registrar($datos) {
         $errores = $this->validarDatos($datos);
         
         if(empty($errores)) {
-            $foto_perfil = $this->procesarFotoPerfil($archivos);
-            if($foto_perfil === false) {
-                return ["error" => "Error al procesar la imagen"];
-            }
+//            $foto_perfil = $this->procesarFotoPerfil($archivos);
+//            if($foto_perfil === false) {
+//                return ["error" => "Error al procesar la imagen"];
+//            }
 
             $this->usuarioModel->nombre_completo = $datos['nombre_completo'];
             $this->usuarioModel->anio_nacimiento = $datos['anio_nacimiento'];
@@ -31,7 +31,7 @@ class RegistroController {
             $this->usuarioModel->email = $datos['email'];
             $this->usuarioModel->contrasenia = $datos['contrasenia'];
             $this->usuarioModel->nombre_usuario = $datos['nombre_usuario'];
-            $this->usuarioModel->foto_perfil = $foto_perfil;
+//            $this->usuarioModel->foto_perfil = $foto_perfil;
 
             if($this->usuarioModel->registrar()) {
                 return ["success" => "Usuario registrado exitosamente"];
