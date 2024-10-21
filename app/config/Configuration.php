@@ -49,11 +49,9 @@ class Configuration
         return new HomeController($this->getPresenter(), $this->getHomeModel());
     }
 
-    public function getHomeModel()
-    {
-        return new HomeModel();
+    public function getHomeModel() {
+        return new HomeModel($this->getDatabase());
     }
-
 
     public function getPerfilModel()
     {

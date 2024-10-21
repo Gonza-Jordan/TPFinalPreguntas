@@ -1,4 +1,5 @@
 <?php
+session_start();
 include_once 'config/Configuration.php';
 
 $configuration = new Configuration();
@@ -10,7 +11,6 @@ $action = $_GET['action'] ?? 'show';
 // Verifica si hay un método POST para la actualización de perfil o foto
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($page == 'actualizarFoto') {
-        // Actualiza la foto de perfil
         require_once 'controller/UsuarioController.php';
         require_once 'config/Database.php';
 
@@ -19,10 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $usuarioController = new UsuarioController($db);
         $usuarioController->actualizarFotoPerfil();
-        exit(); // Finaliza aquí para evitar continuar con el enrutamiento
-
+        exit();
     } elseif ($page == 'actualizarPerfil') {
-        // Actualiza el perfil del usuario
         require_once 'controller/UsuarioController.php';
         require_once 'config/Database.php';
 
@@ -31,7 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         $usuarioController = new UsuarioController($db);
         $usuarioController->actualizarPerfilUsuario();
-        exit(); // Finaliza aquí para evitar continuar con el enrutamiento
+        exit();
     }
 }
+
 $router->route($page, $action);

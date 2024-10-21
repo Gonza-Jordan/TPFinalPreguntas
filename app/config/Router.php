@@ -10,6 +10,9 @@ class Router {
         $this->defaultMethod = $defaultMethod;
         $this->configuration = $configuration;
     }
+    public function getAuthController() {
+        return new AuthController($this->getMustache(), $this->getUserModel());
+    }
 
     public function route($controllerName, $methodName)
     {

@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__ . '/../model/UsuarioModel.php';
 require_once __DIR__ . '/../helper/TemplateEngine.php';
+require_once __DIR__ . '/../helper/SessionHelper.php';
 
 class UsuarioController {
     private $usuarioModel;
@@ -10,28 +11,31 @@ class UsuarioController {
     }
 
     public function mostrarPerfil($id_usuario) {
+        // Verifica si el usuario está autenticado
+        SessionHelper::verificarSesion();
+
+        if ($_SESSION['user_id'] != $id_usuario) {
+            echo "Acceso denegado. No tienes permiso para ver este perfil.";
+            exit();
+        }
+
         $usuario = $this->usuarioModel->obtenerUsuarioPorId($id_usuario);
 
         if ($usuario) {
+            // Cargar variables extra necesarias para la vista
             $usuario['is_masculino'] = ($usuario['sexo'] == 'Masculino');
             $usuario['is_femenino'] = ($usuario['sexo'] == 'Femenino');
             $usuario['is_otro'] = ($usuario['sexo'] == 'Otro');
 
-            $usuario['is_admin'] = (isset($usuario['tipo_usuario']) && $usuario['tipo_usuario'] == 'admin') ? true : false;
-            $usuario['is_editor'] = (isset($usuario['tipo_usuario']) && $usuario['tipo_usuario'] == 'editor') ? true : false;
+            $usuario['is_admin'] = ($usuario['tipo_usuario'] == 'admin');
+            $usuario['is_editor'] = ($usuario['tipo_usuario'] == 'editor');
 
-            if (isset($usuario['fecha_nacimiento']) && !empty($usuario['fecha_nacimiento'])) {
-                $usuario['anio_nacimiento_formateado'] = date('Y-m-d', strtotime($usuario['fecha_nacimiento']));
-            } else {
-                $usuario['anio_nacimiento_formateado'] = '';
-            }
-
+            // Renderizar la vista del perfil
             echo TemplateEngine::render(__DIR__ . '/../view/perfil.mustache', $usuario);
         } else {
             echo "Usuario no encontrado.";
         }
     }
-
     public function actualizarFotoPerfil() {
         if (isset($_POST['id_usuario']) && isset($_FILES['nueva_foto'])) {
             $id_usuario = $_POST['id_usuario'];
@@ -58,7 +62,6 @@ class UsuarioController {
         }
     }
 
-
     public function actualizarPerfilUsuario() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id_usuario = $_POST['id_usuario'];
@@ -81,11 +84,10 @@ class UsuarioController {
             $resultado = $this->usuarioModel->actualizarPerfil($id_usuario, $fechaNacimiento, $sexo, $pais, $ciudad, $email, $password);
 
             if ($resultado) {
-                echo "Perfil actualizado exitosamente.";
+                echo json_encode(['status' => 'success', 'message' => 'Perfil actualizado exitosamente.']);
             } else {
-                echo "Error al actualizar el perfil.";
+                echo json_encode(['status' => 'error', 'message' => 'Error al actualizar el perfil.']);
             }
         }
     }
-
 }

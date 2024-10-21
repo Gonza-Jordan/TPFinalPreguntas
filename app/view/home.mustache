@@ -56,16 +56,26 @@
         .button:hover {
             background-color: #0056b3;
         }
+
+        .logout-button {
+            margin-top: 20px;
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .logout-button:hover {
+            background-color: #c82333;
+        }
     </style>
 </head>
 
 <body>
 <main class="home-view">
     <header>
-        <h1>Hola, usuario!</h1>
-        <p>Mi puntaje: <strong>puntaje usuario</strong></p>
-        <a href="perfil">
-            <img src="" alt="Perfil" id="perfil-icon">
+        <h1>Hola, {{nombre_usuario}}!</h1>
+        <p>Mi puntaje: <strong>{{puntaje_total}}</strong></p>
+        <a href="perfil.mustache">
+            <img src="/TPFinalPreguntas/app/public/perfiles/{{foto_perfil}}" alt="Perfil" id="perfil-icon">
         </a>
     </header>
 
@@ -74,6 +84,11 @@
         <a href="ranking.mustache" class="button">Ranking</a>
         <a href="crearPregunta.mustache" class="button">Crear nueva pregunta</a>
         <a href="crearPartida.mustache" class="button">Nueva partida</a>
+
+        <!-- Botón de Cerrar Sesión -->
+        <form action="/TPFinalPreguntas/app/index.php?page=auth&action=logout" method="POST">
+            <button type="submit" class="button logout-button">Cerrar sesión</button>
+        </form>
     </section>
 </main>
 
