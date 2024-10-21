@@ -13,16 +13,16 @@
     <h2 class="text-center mb-4">Registro</h2>
     <form action="registro/registrar" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
-            <label for="fullName" class="form-label">Nombre completo</label>
-            <input type="text" class="form-control" id="fullName" name="fullName" required>
+            <label for="nombre_completo" class="form-label">Nombre completo</label>
+            <input type="text" class="form-control" id="nombre_completo" name="nombre_completo" required>
         </div>
         <div class="mb-3">
-            <label for="birthYear" class="form-label">Año de nacimiento</label>
-            <input type="number" class="form-control" id="birthYear" name="birthYear" min="1900" max="2024" required>
+            <label for="anio_nacimiento" class="form-label">Año de nacimiento</label>
+            <input type="number" class="form-control" id="anio_nacimiento" name="anio_nacimiento" min="1900" max="2024" required>
         </div>
         <div class="mb-3">
             <label class="form-label">Sexo</label>
-            <select class="form-select" name="gender" required>
+            <select class="form-select" name="sexo" required>
                 <option value="" disabled selected>Selecciona una opción</option>
                 <option value="Masculino">Masculino</option>
                 <option value="Femenino">Femenino</option>
@@ -33,31 +33,32 @@
             <label class="form-label">País y Ciudad</label>
             <div class="map-placeholder">Mapa</div>
             <!-- Aquí integrarías el mapa interactivo para la selección -->
-            <input type="text" class="form-control" name="country" placeholder="País" required>
-            <input type="text" class="form-control mt-2" name="city" placeholder="Ciudad" required>
+            <input type="text" class="form-control" name="pais" placeholder="País" required>
+            <input type="text" class="form-control mt-2" name="ciudad" placeholder="Ciudad" required>
         </div>
         <div class="mb-3">
             <label for="email" class="form-label">Correo electrónico</label>
             <input type="email" class="form-control" id="email" name="email" required>
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="password" name="password" required>
+            <label for="contrasenia" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="contrasenia" name="contrasenia" required>
         </div>
+<!--        <div class="mb-3">-->
+<!--            <label for="confirmar_contrasenia" class="form-label">Repite la contraseña</label>-->
+<!--            <input type="password" class="form-control" id="confirmar_contrasenia" name="confirmar_contrasenia" required>-->
+<!--        </div>-->
         <div class="mb-3">
-            <label for="confirmPassword" class="form-label">Repite la contraseña</label>
-            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+            <label for="nombre_usuario" class="form-label">Nombre de usuario</label>
+            <input type="text" class="form-control" id="nombre_usuario" name="nombre_usuario" required>
         </div>
-        <div class="mb-3">
-            <label for="username" class="form-label">Nombre de usuario</label>
-            <input type="text" class="form-control" id="username" name="username" required>
-        </div>
-        <div class="mb-3">
-            <label for="profilePicture" class="form-label">Foto de perfil</label>
-            <input type="file" class="form-control" id="profilePicture" name="profilePicture" accept="image/*" required>
-        </div>
+<!--        <div class="mb-3">-->
+<!--            <label for="foto_perfil" class="form-label">Foto de perfil</label>-->
+<!--            <input type="file" class="form-control" id="foto_perfil" name="foto_perfil" accept="image/*" required>-->
+<!--        </div>-->
         <button type="submit" class="btn btn-primary w-100">Registrarse</button>
     </form>
+
     <div class="text-center mt-3">
         <p>¿Ya tienes una cuenta? <a href="auth">Inicia sesión</a></p>
     </div>

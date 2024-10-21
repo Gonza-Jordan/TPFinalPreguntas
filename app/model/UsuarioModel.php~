@@ -42,7 +42,7 @@ class UsuarioModel {
         $this->email = htmlspecialchars(strip_tags($this->email));
         $this->nombre_usuario = htmlspecialchars(strip_tags($this->nombre_usuario));
 
-        $contrasenia_hash = password_hash($this->contrasenia, PASSWORD_BCRYPT);
+        $contrasenia_hash = password_hash($this->contrasenia, contrasenia_BCRYPT);
 
         $stmt->bindParam(":nombre_completo", $this->nombre_completo);
         $stmt->bindParam(":anio_nacimiento", $this->anio_nacimiento);

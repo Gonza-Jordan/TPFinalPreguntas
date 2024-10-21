@@ -14,15 +14,22 @@ class RegistroController {
         $this->mustache->show('SignUp');
     }
 
-    public function registrar($datos) {
-        $errores = $this->validarDatos($datos);
-        
-        if(empty($errores)) {
-//            $foto_perfil = $this->procesarFotoPerfil($archivos);
-//            if($foto_perfil === false) {
-//                return ["error" => "Error al procesar la imagen"];
-//            }
+    public function registrar() {
+        // Obtener datos del formulario
+        $datos = $_POST;
+        $archivos = $_FILES;
 
+        // Validar los datos
+        $errores = $this->validarDatos($datos);
+
+        if(empty($errores)) {
+            // Procesar la imagen de perfil
+            $foto_perfil = $this->procesarFotoPerfil($archivos);
+            if($foto_perfil === false) {
+                return ["error" => "Error al procesar la imagen"];
+            }
+
+            // Asignar valores a los atributos del modelo
             $this->usuarioModel->nombre_completo = $datos['nombre_completo'];
             $this->usuarioModel->anio_nacimiento = $datos['anio_nacimiento'];
             $this->usuarioModel->sexo = $datos['sexo'];
@@ -30,9 +37,11 @@ class RegistroController {
             $this->usuarioModel->ciudad = $datos['ciudad'];
             $this->usuarioModel->email = $datos['email'];
             $this->usuarioModel->contrasenia = $datos['contrasenia'];
+//            $this->usuarioModel->comparar_contrasenia = $datos['comparar_contrasenia'];
             $this->usuarioModel->nombre_usuario = $datos['nombre_usuario'];
-//            $this->usuarioModel->foto_perfil = $foto_perfil;
+            $this->usuarioModel->foto_perfil = $foto_perfil;
 
+            // Intentar registrar al usuario
             if($this->usuarioModel->registrar()) {
                 return ["success" => "Usuario registrado exitosamente"];
             } else {
@@ -42,6 +51,8 @@ class RegistroController {
 
         return ["errores" => $errores];
     }
+
+
 
     private function validarDatos($datos) {
         $errores = [];
@@ -78,9 +89,9 @@ class RegistroController {
         if(strlen($datos['contrasenia']) < 6) {
             $errores[] = "La contraseña debe tener al menos 6 caracteres";
         }
-        if($datos['contrasenia'] !== $datos['contrasenia_confirm']) {
-            $errores[] = "Las contraseñas no coinciden";
-        }
+//        if($datos['contrasenia'] !== $datos['comparar_contrasenia']) {
+//            $errores[] = "Las contraseñas no coinciden";
+//        }
 
         return $errores;
     }
@@ -93,7 +104,7 @@ class RegistroController {
 
             if(in_array($extension, $permitidos)) {
                 $nombre_archivo = uniqid() . "." . $extension;
-                $ruta_destino = "uploads/" . $nombre_archivo;
+                $ruta_destino = "public/perfiles/" . $nombre_archivo;
 
                 if(move_uploaded_file($file['tmp_name'], $ruta_destino)) {
                     return $nombre_archivo;
