@@ -11,7 +11,6 @@ class UsuarioController {
     }
 
     public function mostrarPerfil($id_usuario) {
-        // Verifica si el usuario está autenticado
         SessionHelper::verificarSesion();
 
         if ($_SESSION['user_id'] != $id_usuario) {
@@ -30,7 +29,6 @@ class UsuarioController {
             $usuario['is_admin'] = ($usuario['tipo_usuario'] == 'admin');
             $usuario['is_editor'] = ($usuario['tipo_usuario'] == 'editor');
 
-            // Renderizar la vista del perfil
             echo TemplateEngine::render(__DIR__ . '/../view/perfil.mustache', $usuario);
         } else {
             echo "Usuario no encontrado.";
@@ -65,7 +63,7 @@ class UsuarioController {
     public function actualizarPerfilUsuario() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id_usuario = $_POST['id_usuario'];
-            $anio_nacimiento = $_POST['anio_nacimiento']; // Aquí el nombre debe coincidir con el del formulario
+            $anio_nacimiento = $_POST['anio_nacimiento'];
             $sexo = $_POST['sexo'];
             $pais = $_POST['pais'];
             $ciudad = $_POST['ciudad'];
