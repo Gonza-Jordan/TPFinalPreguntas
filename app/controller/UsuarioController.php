@@ -21,7 +21,6 @@ class UsuarioController {
         $usuario = $this->usuarioModel->obtenerUsuarioPorId($id_usuario);
 
         if ($usuario) {
-            // Cargar variables extra necesarias para la vista
             $usuario['is_masculino'] = ($usuario['sexo'] == 'Masculino');
             $usuario['is_femenino'] = ($usuario['sexo'] == 'Femenino');
             $usuario['is_otro'] = ($usuario['sexo'] == 'Otro');

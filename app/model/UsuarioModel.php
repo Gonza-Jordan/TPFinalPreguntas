@@ -121,4 +121,8 @@ class UsuarioModel {
         $stmt->execute([$username]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function getLastInsertedId() {
+        return $this->conn->lastInsertId();
+    }
+
 }

@@ -15,21 +15,13 @@ class RegistroController {
     }
 
     public function registrar() {
-        // Obtener datos del formulario
         $datos = $_POST;
         $archivos = $_FILES;
 
-        // Validar los datos
         $errores = $this->validarDatos($datos);
 
-        if(empty($errores)) {
-            // Procesar la imagen de perfil
-            $foto_perfil = $this->procesarFotoPerfil($archivos);
-//            if($foto_perfil === false) {
-//                return ["error" => "Error al procesar la imagen"];
-//            }
-
-            // Asignar valores a los atributos del modelo
+        if (empty($errores)) {
+            // Primero registramos el usuario sin la foto
             $this->usuarioModel->nombre_completo = $datos['nombre_completo'];
             $this->usuarioModel->anio_nacimiento = $datos['anio_nacimiento'];
             $this->usuarioModel->sexo = $datos['sexo'];
@@ -37,21 +29,35 @@ class RegistroController {
             $this->usuarioModel->ciudad = $datos['ciudad'];
             $this->usuarioModel->email = $datos['email'];
             $this->usuarioModel->contrasenia = $datos['contrasenia'];
-//            $this->usuarioModel->comparar_contrasenia = $datos['comparar_contrasenia'];
             $this->usuarioModel->nombre_usuario = $datos['nombre_usuario'];
-            $this->usuarioModel->foto_perfil = $foto_perfil;
 
-            // Intentar registrar al usuario
+            // Primero registrar el usuario
             if($this->usuarioModel->registrar()) {
-                return ["success" => "Usuario registrado exitosamente"];
+                // Obtener el ID del usuario registrado
+                $id_usuario = $this->usuarioModel->getLastInsertedId();
+
+                // Procesar la foto de perfil usando el ID del usuario
+                $foto_perfil = $this->procesarFotoPerfil($archivos, $id_usuario);
+                if($foto_perfil === false) {
+                    return ["error" => "Error al procesar la imagen"];
+                }
+
+                // Actualizamos el usuario con la ruta de la foto de perfil
+                $this->usuarioModel->actualizarFoto($id_usuario, $foto_perfil);
+
+                // Redirigimos con el mensaje de éxito
+                header('Location: /TPFinalPreguntas/app/index.php?page=registro&status=success');
+                exit();
             } else {
-                return ["error" => "Error al registrar usuario"];
+                header('Location: /TPFinalPreguntas/app/index.php?page=registro&status=error_registro');
+                exit();
             }
+        } else {
+            $errores_texto = urlencode(implode(', ', $errores));
+            header("Location: /TPFinalPreguntas/app/index.php?page=registro&status=error_validacion&errors=$errores_texto");
+            exit();
         }
-
-        return ["errores" => $errores];
     }
-
 
 
     private function validarDatos($datos) {
@@ -89,26 +95,31 @@ class RegistroController {
         if(strlen($datos['contrasenia']) < 6) {
             $errores[] = "La contraseña debe tener al menos 6 caracteres";
         }
-//        if($datos['contrasenia'] !== $datos['comparar_contrasenia']) {
-//            $errores[] = "Las contraseñas no coinciden";
-//        }
+        if($datos['contrasenia'] !== $datos['comparar_contrasenia']) {
+            $errores[] = "Las contraseñas no coinciden";
+       }
 
         return $errores;
     }
 
-    private function procesarFotoPerfil($archivos) {
-        if(isset($archivos['foto_perfil'])) {
+    private function procesarFotoPerfil($archivos, $id_usuario) {
+        if (isset($archivos['foto_perfil'])) {
             $file = $archivos['foto_perfil'];
             $permitidos = ['jpg', 'jpeg', 'png'];
             $extension = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
 
-            if(in_array($extension, $permitidos)) {
-                $nombre_archivo = uniqid() . "." . $extension;
-                $ruta_destino = "public/perfiles/" . $nombre_archivo;
+            if (in_array($extension, $permitidos)) {
+                // Usar el ID del usuario para el nombre de la imagen
+                $nombre_archivo = 'foto_' . $id_usuario . '.' . $extension;
+                $ruta_destino = __DIR__ . '/../public/perfiles/' . $nombre_archivo;
 
-                if(move_uploaded_file($file['tmp_name'], $ruta_destino)) {
+                if (move_uploaded_file($file['tmp_name'], $ruta_destino)) {
                     return $nombre_archivo;
+                } else {
+                    return false;
                 }
+            } else {
+                return false;
             }
         }
         return false;
