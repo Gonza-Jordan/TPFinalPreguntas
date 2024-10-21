@@ -65,7 +65,7 @@ class UsuarioController {
     public function actualizarPerfilUsuario() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $id_usuario = $_POST['id_usuario'];
-            $fechaNacimiento = $_POST['fechaNacimiento'];
+            $anio_nacimiento = $_POST['anio_nacimiento']; // Aquí el nombre debe coincidir con el del formulario
             $sexo = $_POST['sexo'];
             $pais = $_POST['pais'];
             $ciudad = $_POST['ciudad'];
@@ -81,7 +81,7 @@ class UsuarioController {
                 $password = password_hash($password, PASSWORD_BCRYPT);
             }
 
-            $resultado = $this->usuarioModel->actualizarPerfil($id_usuario, $fechaNacimiento, $sexo, $pais, $ciudad, $email, $password);
+            $resultado = $this->usuarioModel->actualizarPerfil($id_usuario, $anio_nacimiento, $sexo, $pais, $ciudad, $email, $password);
 
             if ($resultado) {
                 echo json_encode(['status' => 'success', 'message' => 'Perfil actualizado exitosamente.']);
@@ -90,4 +90,5 @@ class UsuarioController {
             }
         }
     }
+
 }

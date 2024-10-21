@@ -10,12 +10,20 @@ class Router {
         $this->defaultMethod = $defaultMethod;
         $this->configuration = $configuration;
     }
+
     public function getAuthController() {
         return new AuthController($this->getMustache(), $this->getUserModel());
     }
 
     public function route($controllerName, $methodName)
     {
+        // Agregar manejo especial para 'perfil'
+        if ($controllerName === 'perfil') {
+            $this->routeToPerfilController($methodName);
+            return;
+        }
+
+        // Continuar con la lógica original
         $controller = $this->getControllerFrom($controllerName);
 
         // Verifica si el método está especificado, si no, usa el método por defecto
@@ -24,6 +32,24 @@ class Router {
         }
 
         $this->executeMethodFromController($controller, $methodName);
+    }
+
+    private function routeToPerfilController($methodName) {
+        $controller = $this->configuration->getPerfilController();
+
+        // Si no se especifica un método, usar 'mostrarPerfil' por defecto
+        if (empty($methodName)) {
+            $methodName = 'mostrarPerfil';
+        }
+
+        // Suponiendo que siempre se mostrará el perfil del usuario autenticado
+        if (isset($_SESSION['user_id'])) {
+            $controller->mostrarPerfil($_SESSION['user_id']);
+        } else {
+            // Redirigir al login si no hay sesión
+            header('Location: /TPFinalPreguntas/app/index.php?page=auth&action=show');
+            exit();
+        }
     }
 
     private function getControllerFrom($module) {

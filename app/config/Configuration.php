@@ -4,13 +4,17 @@ include_once('Presenter.php');
 include_once('MustachePresenter.php');
 include_once('vendor/mustache/src/Mustache/Autoloader.php');
 include_once('Router.php');
-include_once ('Database.php');
+include_once('Database.php');
 
-include_once ('controller/AuthController.php');
-include_once ('controller/HomeController.php');
+// Controladores
+include_once('controller/AuthController.php');
+include_once('controller/HomeController.php');
+include_once('controller/PerfilController.php');  // Agregado el controlador de perfil
+include_once('controller/UsuarioController.php'); // Agregado el controlador de usuario
 
-include_once ('model/UsuarioModel.php');
-include_once ('model/HomeModel.php');
+// Modelos
+include_once('model/UsuarioModel.php');
+include_once('model/HomeModel.php');
 
 class Configuration
 {
@@ -25,7 +29,7 @@ class Configuration
 
     public function getRouter()
     {
-        return new Router($this, "getAuthController", "show");
+        return new Router($this, "getHomeController", "show");
     }
 
     public function getAuthController()
@@ -49,13 +53,18 @@ class Configuration
         return new HomeController($this->getPresenter(), $this->getHomeModel());
     }
 
-    public function getHomeModel() {
+    public function getHomeModel()
+    {
         return new HomeModel($this->getDatabase());
     }
 
-    public function getPerfilModel()
+    public function getUsuarioController()
     {
-        return new PerfilModel();
+        return new UsuarioController($this->getDatabase());
+    }
+    public function getPerfilController()
+    {
+        return new PerfilController($this->getDatabase());
     }
 
 }

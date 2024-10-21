@@ -5,7 +5,7 @@ class UsuarioModel {
 
     public $id;
     public $nombre_completo;
-    public $fecha_nacimiento;
+    public $anio_nacimiento;
     public $sexo;
     public $pais;
     public $ciudad;
@@ -23,7 +23,7 @@ class UsuarioModel {
         $query = "INSERT INTO " . $this->table_name . "
                 SET
                     nombre_completo = :nombre_completo,
-                    fecha_nacimiento = :fecha_nacimiento,
+                    anio_nacimiento = :anio_nacimiento,
                     sexo = :sexo,
                     pais = :pais,
                     ciudad = :ciudad,
@@ -35,7 +35,7 @@ class UsuarioModel {
         $stmt = $this->conn->prepare($query);
 
         $this->nombre_completo = htmlspecialchars(strip_tags($this->nombre_completo));
-        $this->fecha_nacimiento = htmlspecialchars(strip_tags($this->fecha_nacimiento));
+        $this->anio_nacimiento = htmlspecialchars(strip_tags($this->anio_nacimiento));
         $this->sexo = htmlspecialchars(strip_tags($this->sexo));
         $this->pais = htmlspecialchars(strip_tags($this->pais));
         $this->ciudad = htmlspecialchars(strip_tags($this->ciudad));
@@ -45,7 +45,7 @@ class UsuarioModel {
         $contrasenia_hash = contrasenia_hash($this->contrasenia, contrasenia_BCRYPT);
 
         $stmt->bindParam(":nombre_completo", $this->nombre_completo);
-        $stmt->bindParam(":fecha_nacimiento", $this->fecha_nacimiento);
+        $stmt->bindParam(":anio_nacimiento", $this->anio_nacimiento);
         $stmt->bindParam(":sexo", $this->sexo);
         $stmt->bindParam(":pais", $this->pais);
         $stmt->bindParam(":ciudad", $this->ciudad);
@@ -79,7 +79,7 @@ class UsuarioModel {
     }
 
     public function obtenerUsuarioPorId($id_usuario) {
-        $query = "SELECT id_usuario, nombre_usuario, contraseña, nombre_completo, email, fecha_nacimiento, sexo, pais, ciudad, foto_perfil, tipo_usuario FROM " . $this->table_name . " WHERE id_usuario = :id_usuario";
+        $query = "SELECT id_usuario, nombre_usuario, contraseña, nombre_completo, email, anio_nacimiento, sexo, pais, ciudad, foto_perfil, tipo_usuario FROM " . $this->table_name . " WHERE id_usuario = :id_usuario";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id_usuario', $id_usuario);
         $stmt->execute();
@@ -87,13 +87,13 @@ class UsuarioModel {
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    public function actualizarPerfil($id_usuario, $fechaNacimiento, $sexo, $pais, $ciudad, $email, $password) {
-        $query = "UPDATE " . $this->table_name . " SET fecha_nacimiento = :fechaNacimiento, sexo = :sexo, pais = :pais, ciudad = :ciudad, email = :email, contraseña = :password WHERE id_usuario = :id_usuario";
+    public function actualizarPerfil($id_usuario, $anioNacimiento, $sexo, $pais, $ciudad, $email, $password) {
+        $query = "UPDATE " . $this->table_name . " SET anio_nacimiento = :anio_nacimiento, sexo = :sexo, pais = :pais, ciudad = :ciudad, email = :email, contraseña = :password WHERE id_usuario = :id_usuario";
 
         $stmt = $this->conn->prepare($query);
 
         // Vincular los parámetros
-        $stmt->bindParam(':fechaNacimiento', $fechaNacimiento);
+        $stmt->bindParam(':anio_nacimiento', $anioNacimiento);
         $stmt->bindParam(':sexo', $sexo);
         $stmt->bindParam(':pais', $pais);
         $stmt->bindParam(':ciudad', $ciudad);

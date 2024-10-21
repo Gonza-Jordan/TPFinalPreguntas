@@ -8,7 +8,7 @@ CREATE TABLE usuarios (
                           contraseña VARCHAR(255) NOT NULL,
                           nombre_completo VARCHAR(100),
                           email VARCHAR(100) NOT NULL,
-                          fecha_nacimiento INT,
+                          anio_nacimiento INT,
                           sexo VARCHAR(20),
                           pais VARCHAR(50),
                           ciudad VARCHAR(50),
@@ -21,11 +21,11 @@ CREATE TABLE usuarios (
 );
 
 --insert de usuario
-INSERT INTO usuarios (nombre_usuario, contraseña, nombre_completo, email, fecha_nacimiento, sexo, pais, ciudad, foto_perfil, puntaje_total, trampitas, tipo_usuario, validado)
+INSERT INTO usuarios (nombre_usuario, contraseña, nombre_completo, email, anio_nacimiento, sexo, pais, ciudad, foto_perfil, puntaje_total, trampitas, tipo_usuario, validado)
 VALUES ('jmartinez', '$2y$10$zhmzgVp2Ud/5VQ5DWBAnFugtpa2rkED1MG.w1BlcSaS.J6JTanZbq', 'Juan Martinez', 'juan.martinez@example.com', 1990, 'Masculino', 'Argentina', 'Buenos Aires', 'foto_1.jpg', 150, 3, 'jugador', TRUE);
 
-INSERT INTO usuarios (nombre_usuario, contraseña, nombre_completo, email, fecha_nacimiento, sexo, pais, ciudad, foto_perfil, puntaje_total, trampitas, tipo_usuario, validado)
+INSERT INTO usuarios (nombre_usuario, contraseña, nombre_completo, email, anio_nacimiento, sexo, pais, ciudad, foto_perfil, puntaje_total, trampitas, tipo_usuario, validado)
 VALUES ('mperez', '$2y$10$zhmzgVp2Ud/5VQ5DWBAnFugtpa2rkED1MG.w1BlcSaS.J6JTanZbq', 'Maria Perez', 'maria.perez@example.com', 1985, 'Femenino', 'Mexico', 'Guadalajara', 'foto_2.jpg', 200, 5, 'editor', FALSE);
 
-INSERT INTO usuarios (nombre_usuario, contraseña, nombre_completo, email, fecha_nacimiento, sexo, pais, ciudad, foto_perfil, puntaje_total, trampitas, tipo_usuario, validado)
+INSERT INTO usuarios (nombre_usuario, contraseña, nombre_completo, email, anio_nacimiento, sexo, pais, ciudad, foto_perfil, puntaje_total, trampitas, tipo_usuario, validado)
 VALUES ('lgomez', '$2y$10$zhmzgVp2Ud/5VQ5DWBAnFugtpa2rkED1MG.w1BlcSaS.J6JTanZbq', 'Luis Gomez', 'luis.gomez@example.com', 2000, 'Prefiero no cargarlo', 'España', 'Madrid', 'foto_3.jpg', 100, 1, 'jugador', TRUE);

@@ -5,7 +5,7 @@ nombre_usuario varchar
 contraseña varchar
 nombre_completo varchar
 email varchar
-fecha_nacimiento int
+anio_nacimiento int
 sexo varchar
 pais varchar
 ciudad varchar
