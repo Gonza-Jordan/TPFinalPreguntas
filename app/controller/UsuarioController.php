@@ -15,7 +15,7 @@ class UsuarioController {
 
         if ($_SESSION['user_id'] != $id_usuario) {
             echo "Acceso denegado. No tienes permiso para ver este perfil.";
-            exit();
+            exit(); //redirect al home
         }
 
         $usuario = $this->usuarioModel->obtenerUsuarioPorId($id_usuario);
@@ -29,7 +29,7 @@ class UsuarioController {
             $usuario['is_admin'] = ($usuario['tipo_usuario'] == 'admin');
             $usuario['is_editor'] = ($usuario['tipo_usuario'] == 'editor');
 
-            echo TemplateEngine::render(__DIR__ . '/../view/perfil.mustache', $usuario);
+            echo TemplateEngine::render(__DIR__ . '/../view/perfil.mustache', $usuario);  // Resolver esto porque el controller no tiene que saber de mustache
         } else {
             echo "Usuario no encontrado.";
         }

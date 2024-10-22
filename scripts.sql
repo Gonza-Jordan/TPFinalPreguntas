@@ -17,7 +17,8 @@ CREATE TABLE usuarios (
                           trampitas INT DEFAULT 0,
                           tipo_usuario VARCHAR(20) DEFAULT 'jugador',
                           fecha_creacion DATE DEFAULT CURRENT_DATE,
-                          validado BOOLEAN DEFAULT FALSE
+                          validado BOOLEAN DEFAULT FALSE,
+                          token_activacion VARCHAR(32);
 );
 
 --insert de usuario

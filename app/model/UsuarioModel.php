@@ -21,16 +21,18 @@ class UsuarioModel {
 
     public function registrar() {
         $query = "INSERT INTO " . $this->table_name . "
-                SET
-                    nombre_completo = :nombre_completo,
-                    anio_nacimiento = :anio_nacimiento,
-                    sexo = :sexo,
-                    pais = :pais,
-                    ciudad = :ciudad,
-                    email = :email,
-                    contrasenia = :contrasenia,
-                    nombre_usuario = :nombre_usuario,
-                    foto_perfil = :foto_perfil";
+            SET
+                nombre_completo = :nombre_completo,
+                anio_nacimiento = :anio_nacimiento,
+                sexo = :sexo,
+                pais = :pais,
+                ciudad = :ciudad,
+                email = :email,
+                contrasenia = :contrasenia,
+                nombre_usuario = :nombre_usuario,
+                foto_perfil = :foto_perfil,
+                token_activacion = :token_activacion,
+                activo = 0";
 
         $stmt = $this->conn->prepare($query);
 
@@ -42,7 +44,8 @@ class UsuarioModel {
         $this->email = htmlspecialchars(strip_tags($this->email));
         $this->nombre_usuario = htmlspecialchars(strip_tags($this->nombre_usuario));
 
-        $contrasenia_hash = contrasenia_hash($this->contrasenia, contrasenia_BCRYPT);
+        $contrasenia_hash = password_hash($this->contrasenia, PASSWORD_BCRYPT);
+        $token_activacion = bin2hex(random_bytes(16)); // Generar un token
 
         $stmt->bindParam(":nombre_completo", $this->nombre_completo);
         $stmt->bindParam(":anio_nacimiento", $this->anio_nacimiento);
@@ -53,8 +56,10 @@ class UsuarioModel {
         $stmt->bindParam(":contrasenia", $contrasenia_hash);
         $stmt->bindParam(":nombre_usuario", $this->nombre_usuario);
         $stmt->bindParam(":foto_perfil", $this->foto_perfil);
+        $stmt->bindParam(":token_activacion", $token_activacion);
 
-        if($stmt->execute()) {
+        if ($stmt->execute()) {
+            $this->token_activacion = $token_activacion; // Guardar el token
             return true;
         }
         return false;
@@ -120,5 +125,26 @@ class UsuarioModel {
         $stmt = $this->conn->prepare("SELECT * FROM " . $this->table_name . " WHERE nombre_usuario = ?");
         $stmt->execute([$username]);
         return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // guardar el token de activación
+    public function guardarTokenActivacion($token) {
+        $query = "UPDATE " . $this->table_name . " SET token_activacion = :token WHERE email = :email";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':token', $token);
+        $stmt->bindParam(':email', $this->email);
+
+        return $stmt->execute();
+    }
+
+    // activa cuenta
+    public function activarCuenta($token) {
+        $query = "UPDATE " . $this->table_name . " 
+                  SET activo = 1, token_activacion = NULL 
+                  WHERE token_activacion = :token AND activo = 0";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':token', $token);
+
+        return $stmt->execute();
     }
 }
