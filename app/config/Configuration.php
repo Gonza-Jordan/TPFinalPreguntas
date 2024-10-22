@@ -12,10 +12,12 @@ include_once('controller/HomeController.php');
 include_once('controller/PerfilController.php');  // Agregado el controlador de perfil
 include_once('controller/UsuarioController.php'); // Agregado el controlador de usuario
 include_once ('controller/RegistroController.php');
+include_once ('controller/PartidaController.php');
 
 // Modelos
 include_once('model/UsuarioModel.php');
 include_once('model/HomeModel.php');
+include_once ('model/PartidaModel.php');
 
 class Configuration
 {
@@ -71,6 +73,16 @@ class Configuration
     public function getRegistroController()
     {
         return new RegistroController($this->getPresenter(), $this->getDatabase());
+    }
+
+    public function getPartidaController()
+    {
+        return new PartidaController($this->getPresenter(), $this->getPartidaModel());
+    }
+
+    public function getPartidaModel()
+    {
+        return new PartidaModel($this->getDatabase());
     }
 
 }
