@@ -10,14 +10,7 @@
 <body style="height: 100vh;">
 <div class="container">
     <h2 class="text-center mb-4">Iniciar Sesión</h2>
-
-    <!-- Mostrar mensaje de activación -->
-    <?php if (!empty($mensaje)): ?>
-    <div class="alert alert-warning text-center">
-        <?php echo $mensaje; ?>
-    </div>
-    <?php endif; ?>
-
+    {{{errorHTML}}}
     <form action="/TPFinalPreguntas/app/auth/login" method="POST">
         <div class="mb-3">
             <label for="username" class="form-label">Nombre de usuario</label>
@@ -30,7 +23,7 @@
         <button type="submit" class="btn btn-primary w-100">Iniciar Sesión</button>
     </form>
     <div class="text-center mt-3">
-        <p>¿No tienes una cuenta? <a href="registro">Regístrate</a></p>
+        <p>¿No tienes una cuenta? <a href="/TPFinalPreguntas/app/signUp">Regístrate</a></p>
     </div>
 </div>
 
