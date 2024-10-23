@@ -9,9 +9,7 @@ class PartidaModel
     }
 
     public function getPregunta(){
-        //Obtener pregunta random de la base
-        //$pregunta = $this->conn->query("SELECT * FROM pregunta");
-        $pregunta = null;
+        $pregunta = $this->conn->query("SELECT * FROM preguntas ORDER BY RAND() LIMIT 1")->fetch(PDO::FETCH_ASSOC);
         return $pregunta;
     }
 
