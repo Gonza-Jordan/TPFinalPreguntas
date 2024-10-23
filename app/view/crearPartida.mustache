@@ -89,6 +89,26 @@
         </div>
     </div>
 
+    <div class="modal fade" id="respuestaIncorrectaModal" tabindex="-1" aria-labelledby="respuestaIncorrectaModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="respuestaIncorrectaModalLabel">Respuesta Incorrecta</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Lo siento, tu respuesta es incorrecta. La respuesta correcta era:
+                    <strong>{{respuesta_correcta}}</strong>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="closeModal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // Código JavaScript para manejar la selección de opciones
@@ -108,5 +128,21 @@
             });
         });
     </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var resultado = "{{resultado}}"; // Este valor viene desde el controlador
+            if (resultado === "incorrecta") {
+                var modal = new bootstrap.Modal(document.getElementById('respuestaIncorrectaModal'));
+                modal.show();
+
+                // Redirigir al home después de cerrar el modal
+                document.getElementById('closeModal').addEventListener('click', function() {
+                    window.location.href = 'home';
+                });
+            }
+        });
+    </script>
+
 </body>
 </html>
