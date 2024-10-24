@@ -132,3 +132,12 @@ VALUES
     ('¿Qué videojuego incluye la franquicia "Zelda"?', 'Entretenimiento', 'Fácil', 'Final Fantasy', 'The Legend of Zelda', 'Super Mario Bros', 'Metroid', 'B', '6', 'Aprobada'),
     ('¿Qué actriz interpretó a Hermione Granger en la serie de películas de Harry Potter?', 'Entretenimiento', 'Fácil', 'Emma Watson', 'Emma Thompson', 'Helena Bonham Carter', 'Maggie Smith', 'A', '6', 'Aprobada'),
     ('¿Qué película ganó el Oscar a mejor película en 2020?', 'Entretenimiento', 'Difícil', '1917', 'Parasite', 'Joker', 'Once Upon a Time in Hollywood', 'B', '6', 'Aprobada');
+
+//tabla usuario_preguntas
+CREATE TABLE usuarios_preguntas (
+                                    id INT PRIMARY KEY AUTO_INCREMENT,
+                                    id_usuario INT,
+                                    id_pregunta INT,
+                                    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+                                    FOREIGN KEY (id_pregunta) REFERENCES preguntas(id_pregunta)
+);
