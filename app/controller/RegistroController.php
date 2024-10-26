@@ -2,7 +2,6 @@
 class RegistroController {
     private $usuarioModel;
 
-    // Ver clase grabada y consultar esta parte
     private $mustache;
 
     public function __construct($mustache, $db) {
@@ -19,20 +18,23 @@ class RegistroController {
         $archivos = $_FILES;
 
         $errores = $this->validarDatos($datos);
+        $registro = $this->usuarioModel->registrar($nombre_completo, $anio_nacimiento, $nombre_usuario, $email, $contrasenia, $sexo, $ciudad, $pais, $latitud, $longitud, $foto_perfil);
 
         if (empty($errores)) {
             // Primero registramos el usuario sin la foto
-            $this->usuarioModel->nombre_completo = $datos['nombre_completo'];
-            $this->usuarioModel->anio_nacimiento = $datos['anio_nacimiento'];
-            $this->usuarioModel->sexo = $datos['sexo'];
-            $this->usuarioModel->pais = $datos['pais'];
-            $this->usuarioModel->ciudad = $datos['ciudad'];
-            $this->usuarioModel->email = $datos['email'];
-            $this->usuarioModel->contrasenia = $datos['contrasenia'];
-            $this->usuarioModel->nombre_usuario = $datos['nombre_usuario'];
+            $nombre_completo = $datos['nombre_completo'];
+            $anio_nacimiento = $datos['anio_nacimiento'];
+            $sexo = $datos['sexo'];
+            $pais = $datos['pais'];
+            $ciudad = $datos['ciudad'];
+            $latitud = $datos['latitud'];
+            $longitud = $datos['longitud'];
+            $email = $datos['email'];
+            $contrasenia = $datos['contrasenia'];
+            $nombre_usuario = $datos['nombre_usuario'];
 
             // Primero registrar el usuario
-            if($this->usuarioModel->registrar()) {
+            if($registro) {
                 // Obtener el ID del usuario registrado
                 $id_usuario = $this->usuarioModel->getLastInsertedId();
 

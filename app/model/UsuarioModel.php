@@ -3,80 +3,65 @@ class UsuarioModel {
     private $conn;
     private $table_name = "usuarios";
 
-    public $id;
-    public $nombre_completo;
-    public $anio_nacimiento;
-    public $sexo;
-    public $pais;
-    public $ciudad;
-    public $email;
-    public $contrasenia;
-    public $nombre_usuario;
-    public $foto_perfil;
+    private $id;
+    private $nombre_completo;
+    private $anio_nacimiento;
+    private $sexo;
+    private $pais;
+    private $ciudad;
+    private $latitud;
+    private $longitud;
+    private $email;
+    private $contrasenia;
+    private $nombre_usuario;
+    private $foto_perfil;
 
-    // Ver clase grabada y consultar esta parte
     public function __construct($db) {
         $this->conn = $db;
     }
 
-    public function registrar() {
-        $query = "INSERT INTO " . $this->table_name . "
-                SET
-                    nombre_completo = :nombre_completo,
-                    anio_nacimiento = :anio_nacimiento,
-                    sexo = :sexo,
-                    pais = :pais,
-                    ciudad = :ciudad,
-                    email = :email,
-                    contraseña = :contrasenia,
-                    nombre_usuario = :nombre_usuario,
-                    foto_perfil = :foto_perfil";
+    // Verificar que el nombre de usuario existe
+    public function nombreUsuarioExiste($nombre_usuario)
+    {
+        $sql = "SELECT 1 
+                FROM $this.table_name 
+                WHERE nombre_usuario = '" . $nombre_usuario. "'";
 
-        $stmt = $this->conn->prepare($query);
+        $usuario_encontrado = $this->conn->query($sql);
 
-        $this->nombre_completo = htmlspecialchars(strip_tags($this->nombre_completo));
-        $this->anio_nacimiento = htmlspecialchars(strip_tags($this->anio_nacimiento));
-        $this->sexo = htmlspecialchars(strip_tags($this->sexo));
-        $this->pais = htmlspecialchars(strip_tags($this->pais));
-        $this->ciudad = htmlspecialchars(strip_tags($this->ciudad));
-        $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->nombre_usuario = htmlspecialchars(strip_tags($this->nombre_usuario));
-
-        $contrasenia_hash = password_hash($this->contrasenia, PASSWORD_BCRYPT);
-
-        $stmt->bindParam(":nombre_completo", $this->nombre_completo);
-        $stmt->bindParam(":anio_nacimiento", $this->anio_nacimiento);
-        $stmt->bindParam(":sexo", $this->sexo);
-        $stmt->bindParam(":pais", $this->pais);
-        $stmt->bindParam(":ciudad", $this->ciudad);
-        $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":contrasenia", $contrasenia_hash);
-        $stmt->bindParam(":nombre_usuario", $this->nombre_usuario);
-        $stmt->bindParam(":foto_perfil", $this->foto_perfil);
-
-        if($stmt->execute()) {
-            return true;
-        }
-        return false;
+        return sizeof($usuario_encontrado) > 0;
     }
 
-    public function emailExiste() {
-        $query = "SELECT id_usuario FROM " . $this->table_name . " WHERE email = ? LIMIT 0,1";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->email);
-        $stmt->execute();
-        $num = $stmt->rowCount();
-        return $num > 0;
+    // Verificar que el email existe
+    public function emailExiste($email)
+    {
+        $sql = "SELECT 1 
+                FROM $this.table_name
+                WHERE email = '" . $email. "'";
+
+        $email_encontrado = $this->conn->query($sql);
+
+        return sizeof($email_encontrado) > 0;
     }
 
-    public function nombre_usuarioExiste() {
-        $query = "SELECT id_usuario FROM " . $this->table_name . " WHERE nombre_usuario = ? LIMIT 0,1";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(1, $this->nombre_usuario);
-        $stmt->execute();
-        $num = $stmt->rowCount();
-        return $num > 0;
+    public function registrar($nombre_completo, $anio_nacimiento, $nombre_usuario, $email, $contrasenia, $sexo, $ciudad, $pais, $latitud, $longitud, $foto_perfil) {
+        try {
+            // Primero verificar si el nombre de usuario ya existe
+            if ($this->nombreUsuarioExiste($nombre_usuario)) {
+                return ['success' => false, 'message' => 'El nombre de usuario ya está en uso'];
+            }
+            
+            $hashed_password = password_hash($contrasenia, PASSWORD_DEFAULT);
+                        
+            $sql = "INSERT INTO " . $this->table_name . " (nombre_completo, anio_nacimiento, sexo, pais, ciudad, latitud, longitud, email, contraseña, nombre_usuario, foto_perfil)
+                    VALUES (:nombre_completo, :anio_nacimiento, :sexo, :pais, :ciudad, :latitud, :longitud, :email, :contrasenia, :nombre_usuario, :foto_perfil)";
+            
+            return ['success' => true, 'message' => 'Usuario registrado exitosamente'];
+
+        } catch(PDOException $e) {
+            return ['success' => false, 'message' => 'Error al registrar usuario: ' . $e->getMessage()];
     }
+}
 
     public function obtenerUsuarioPorId($id_usuario) {
         $query = "SELECT id_usuario, nombre_usuario, contraseña, nombre_completo, email, anio_nacimiento, sexo, pais, ciudad, foto_perfil, tipo_usuario FROM " . $this->table_name . " WHERE id_usuario = :id_usuario";
