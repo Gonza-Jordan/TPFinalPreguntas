@@ -18,8 +18,7 @@ class RegistroController {
         $archivos = $_FILES;
 
         $errores = $this->validarDatos($datos);
-        $registro = $this->usuarioModel->registrar($nombre_completo, $anio_nacimiento, $nombre_usuario, $email, $contrasenia, $sexo, $ciudad, $pais, $latitud, $longitud, $foto_perfil);
-
+        
         if (empty($errores)) {
             // Primero registramos el usuario sin la foto
             $nombre_completo = $datos['nombre_completo'];
@@ -32,6 +31,8 @@ class RegistroController {
             $email = $datos['email'];
             $contrasenia = $datos['contrasenia'];
             $nombre_usuario = $datos['nombre_usuario'];
+
+            $registro = $this->usuarioModel->registrar($nombre_completo, $anio_nacimiento, $nombre_usuario, $email, $contrasenia, $sexo, $ciudad, $pais, $latitud, $longitud, $foto_perfil);
 
             // Primero registrar el usuario
             if($registro) {
