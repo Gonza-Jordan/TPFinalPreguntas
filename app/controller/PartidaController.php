@@ -22,12 +22,18 @@ class PartidaController
             $data['resultado'] = ""; // Inicializar el resultado vacío
         }
 
-        $data['pregunta'] = $this->model->getPregunta($idUsuario);
-        $_SESSION['pregunta_actual'] = $data['pregunta'];
+        $pregunta = $this->model->getPregunta($idUsuario);
+        if ($pregunta) {
+            $_SESSION['pregunta_actual'] = $pregunta;
+            $data['pregunta'] = $pregunta;
+        } else {
+
+            $data['pregunta'] = null;
+            $data['mensaje'] = "No hay más preguntas disponibles para este usuario.";
+        }
+
         echo json_encode($data);
-        echo json_encode($idUsuario);
-        // Mostrar la vista con los datos
-//        $this->presenter->show('crearPartida', $data);
+
         $this->presenter->show('crearPartida', $data);
     }
 
@@ -47,9 +53,6 @@ class PartidaController
 
         return $data;
     }
-
-
-
 
 
 
