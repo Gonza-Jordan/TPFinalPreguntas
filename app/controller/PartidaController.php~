@@ -28,7 +28,7 @@ class PartidaController
         echo json_encode($idUsuario);
         // Mostrar la vista con los datos
 //        $this->presenter->show('crearPartida', $data);
-        $this->presenter->show('crearPartida', $data);
+        $this->presenter->show('crearPartida');
     }
 
     public function validarRespuesta($idUsuario)
