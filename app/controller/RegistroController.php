@@ -83,14 +83,14 @@ class RegistroController {
         if(!filter_var($datos['email'], FILTER_VALIDATE_EMAIL)) {
             $errores[] = "Email inválido";
         }
-        if($this->usuarioModel->emailExiste()) {
+        if($this->usuarioModel->emailExiste($datos['email'])) {
             $errores[] = "Este email ya está registrado";
         }
 
         if(empty($datos['nombre_usuario']) || strlen($datos['nombre_usuario']) < 3) {
             $errores[] = "El nombre de usuario debe tener al menos 3 caracteres";
         }
-        if($this->usuarioModel->nombre_usuarioExiste()) {
+        if($this->usuarioModel->nombreUsuarioExiste($datos['nombre_usuario'])) {
             $errores[] = "Este nombre de usuario ya está en uso";
         }
 
