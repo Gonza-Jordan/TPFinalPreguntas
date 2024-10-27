@@ -79,7 +79,7 @@ class UsuarioModel {
     }
 
     public function obtenerUsuarioPorId($id_usuario) {
-        $query = "SELECT id_usuario, nombre_usuario, contraseña, nombre_completo, email, anio_nacimiento, sexo, pais, ciudad, foto_perfil, tipo_usuario FROM " . $this->table_name . " WHERE id_usuario = :id_usuario";
+        $query = "SELECT id_usuario, nombre_usuario, contraseña, nombre_completo, email, anio_nacimiento, sexo, pais, ciudad, foto_perfil, puntaje_total, tipo_usuario FROM " . $this->table_name . " WHERE id_usuario = :id_usuario";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':id_usuario', $id_usuario);
         $stmt->execute();

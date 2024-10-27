@@ -42,9 +42,13 @@ class PartidaController
         $respuestaCorrecta = $_SESSION['pregunta_actual']['respuesta_correcta'];
         $respuestaSeleccionada = $_POST['respuesta'];
 
-        if ($respuestaSeleccionada == $respuestaCorrecta) {
-            $this->model->sumarPuntos($idUsuario);
-            $data['resultado'] = "correcta";
+        if ($respuestaSeleccionada === $respuestaCorrecta) {
+            if ($this->model->sumarPuntos($idUsuario)) {
+                $data['resultado'] = "correcta";
+            } else {
+                $data['resultado'] = "error";
+                $data['mensaje'] = "No se pudieron sumar los puntos.";
+            }
         } else {
             // Guardar la respuesta correcta en los datos para mostrarla en el modal
             $data['resultado'] = "incorrecta";
