@@ -10,7 +10,7 @@ class PartidaModel
 
     public function getPregunta($idUsuario) {
         $sql = "
-            SELECT p.id_pregunta, p.pregunta
+            SELECT id_pregunta, contenido, opcion_a, opcion_b, opcion_c, opcion_d, respuesta_correcta
             FROM preguntas p
             WHERE p.id_pregunta NOT IN (
                 SELECT up.id_pregunta
@@ -34,6 +34,13 @@ class PartidaModel
         }
 
         return $pregunta;
+    }
+
+    public function sumarPuntos($idUsuario) {
+        $sql = "UPDATE usuarios SET puntaje_total = puntaje_total + 10 WHERE id_usuario = :idUsuario";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+        $stmt->execute();
     }
 
     // Metodo para registrar que una pregunta ha sido mostrada a un usuario
