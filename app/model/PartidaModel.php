@@ -34,7 +34,7 @@ class PartidaModel
         }
 
         $sql = "
-        SELECT id_pregunta, contenido, opcion_a, opcion_b, opcion_c, opcion_d, respuesta_correcta
+        SELECT id_pregunta, contenido, categoria, opcion_a, opcion_b, opcion_c, opcion_d, respuesta_correcta
         FROM preguntas p
         WHERE p.id_pregunta NOT IN (
             SELECT up.id_pregunta
