@@ -152,4 +152,12 @@ class UsuarioModel {
 
         return $stmt->execute();
     }
+    public function findUserByUsername($username) {
+        $query = "SELECT * FROM " . $this->table_name . " WHERE nombre_usuario = :username LIMIT 1";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
