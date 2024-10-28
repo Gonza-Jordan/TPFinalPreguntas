@@ -19,18 +19,23 @@ class PartidaController
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['respuesta'])) {
             $data = $this->validarRespuesta($idUsuario);
         } else {
-            $data['resultado'] = ""; // Inicializar el resultado vacío
+            $data['resultado'] = "";
         }
 
-        $pregunta = $this->model->getPregunta($idUsuario);
-        if ($pregunta) {
-            $_SESSION['pregunta_actual'] = $pregunta;
-            $data['pregunta'] = $pregunta;
+        if($_SESSION['pregunta_actual'] == null){
+            $pregunta = $this->model->getPregunta($idUsuario);
+            if ($pregunta) {
+                $_SESSION['pregunta_actual'] = $pregunta;
+                $data['pregunta'] = $pregunta;
+            } else {
+
+                $data['pregunta'] = null;
+                $data['mensaje'] = "No hay más preguntas disponibles para este usuario.";
+            }
         } else {
-
-            $data['pregunta'] = null;
-            $data['mensaje'] = "No hay más preguntas disponibles para este usuario.";
+            $data['pregunta'] = $_SESSION['pregunta_actual'];
         }
+
 
         $this->presenter->show('crearPartida', $data);
     }
@@ -52,6 +57,7 @@ class PartidaController
             $data['resultado'] = "incorrecta";
         }
 
+        $_SESSION['pregunta_actual'] = null;
         return $data;
     }
 
