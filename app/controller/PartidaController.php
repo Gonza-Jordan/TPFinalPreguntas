@@ -32,6 +32,17 @@ class PartidaController
             $data['mensaje'] = "No hay más preguntas disponibles para este usuario.";
         }
 
+        $categoriaActual = $data['pregunta']['categoria'];
+        $categoriaJson = file_get_contents('public/data/categorias.json');
+        $categorias = json_decode($categoriaJson, true);
+        $categoriaDatos = $categorias[strtolower($categoriaActual)] ?? null;
+        // Agregar los datos de la categoría al array $data
+        if ($categoriaDatos) {
+            $data['categoria'] = $categoriaActual;
+            $data['categoriaColor'] = $categoriaDatos['color'];
+            $data['categoriaImagen'] = $categoriaDatos['imagen'];
+        }
+
         echo json_encode($data);
 
         $this->presenter->show('crearPartida', $data);

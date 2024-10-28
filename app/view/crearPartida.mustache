@@ -51,6 +51,12 @@
 </head>
 <body>
     <div class="container">
+        {{#categoria}}
+        <div class="categoria-container" style="--categoria-color: {{categoriaColor}}">
+            <img src="public/img/{{categoriaImagen}}" alt="Personaje" class="personaje-img">
+            <span>Categoría: {{categoria}}</span>
+        </div>
+        {{/categoria}}
         <div class="game-container">
 
             <form action="partida" method="post">
