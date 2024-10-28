@@ -10,7 +10,9 @@ if (empty($token)) {
     header('Location: error.php?mensaje=token_faltante');
     exit();
 }
-$db = Database::getConnection();
+
+// Instanciar la clase Database y obtener la conexión
+$db = (new Database())->getConnection();
 $usuarioModel = new UsuarioModel($db);
 
 // Verificar y activar la cuenta
@@ -22,5 +24,3 @@ if ($usuarioModel->activarCuenta($token)) {
     exit();
 }
 ?>
-
-// Cualquier reques va por el index y va al controller que corresponda, mover a Registro o Usuario

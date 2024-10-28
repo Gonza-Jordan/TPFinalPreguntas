@@ -1,26 +1,24 @@
-
 <?php
+
+require_once __DIR__ . '/../../vendor/autoload.php';  // Usar el autoload de Composer
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
-require 'PHPMailer/src/Exception.php';
 
 class EmailHelper
 {
     public function enviarCorreoActivacion($email, $token)
     {
-        $mail = new PHPMailer(true);
+        $mail = new PHPMailer(true);  // 'true' para excepciones
 
         try {
+            // Configuración del servidor SMTP
             $mail->isSMTP();
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
-            $mail->Username = 'brian67.bk@gmail.com';
-            $mail->Password = 'btkk btrq slqb jnbp';
-            $mail->SMTPSecure = 'tls';
+            $mail->Username = 'brian67.bk@gmail.com'; // Tu correo de Gmail
+            $mail->Password = 'rzws dyww xbyr xzuf'; // La contraseña de aplicación
+            $mail->SMTPSecure = 'tls';  // Usar 'tls'
             $mail->Port = 587;
 
             // Remitente y destinatario
@@ -31,7 +29,9 @@ class EmailHelper
             $mail->isHTML(true);
             $mail->Subject = 'Activación de cuenta';
             $mail->Body = "Haz clic en el siguiente enlace para activar tu cuenta: ";
-            $mail->Body .= "<a href='http://localhost/Pregunta2/TPFinalPreguntas/activar.php?token=$token'>Activar Cuenta</a>";
+            $mail->Body .= "<a href='http://localhost/TPFinalPreguntas/activar.php?token=$token'>Activar Cuenta</a>";
+
+            // Enviar el correo
             $mail->send();
             return true;
         } catch (Exception $e) {
@@ -40,5 +40,3 @@ class EmailHelper
         }
     }
 }
-
-
