@@ -14,11 +14,20 @@ body {
     width: 100%;
 }
 .map-placeholder {
-    background-color: #e0e0e0;
+    position: relative;
     width: 100%;
-    height: 200px;
-    margin-bottom: 20px;
-    text-align: center;
-    line-height: 200px;
-    color: #666;
+    height: 250px; /* Cambia el tamaño según lo necesites */
+    overflow: hidden;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    border: 1px solid #ddd; /* Para visualizar mejor los límites */
 }
+
+#map {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
