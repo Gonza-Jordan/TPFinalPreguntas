@@ -32,8 +32,6 @@ class PartidaController
             $data['mensaje'] = "No hay más preguntas disponibles para este usuario.";
         }
 
-        echo json_encode($data);
-
         $this->presenter->show('crearPartida', $data);
     }
 
@@ -50,9 +48,8 @@ class PartidaController
                 $data['mensaje'] = "No se pudieron sumar los puntos.";
             }
         } else {
-            // Guardar la respuesta correcta en los datos para mostrarla en el modal
+            $data['respuesta_correcta'] = $_SESSION['pregunta_actual']['opcion_' . strtolower($respuestaCorrecta)];
             $data['resultado'] = "incorrecta";
-            $data['respuesta_correcta'] = $respuestaCorrecta;
         }
 
         return $data;
