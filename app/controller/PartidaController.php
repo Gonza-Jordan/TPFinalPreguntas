@@ -22,7 +22,9 @@ class PartidaController
             $data['resultado'] = "";
         }
 
-        if($_SESSION['pregunta_actual'] == null){
+        if(isset($_SESSION['pregunta_actual'])){
+            $data['pregunta'] = $_SESSION['pregunta_actual'];
+        } else {
             $pregunta = $this->model->getPregunta($idUsuario);
             if ($pregunta) {
                 $_SESSION['pregunta_actual'] = $pregunta;
@@ -32,9 +34,8 @@ class PartidaController
                 $data['pregunta'] = null;
                 $data['mensaje'] = "No hay más preguntas disponibles para este usuario.";
             }
-        } else {
-            $data['pregunta'] = $_SESSION['pregunta_actual'];
         }
+
         $categoriaActual = $data['pregunta']['categoria'];
         $categoriaJson = file_get_contents('public/data/categorias.json');
         $categorias = json_decode($categoriaJson, true);
