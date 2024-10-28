@@ -55,6 +55,4 @@ class PartidaController
         return $data;
     }
 
-
-
 }

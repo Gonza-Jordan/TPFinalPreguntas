@@ -47,3 +47,37 @@ body {
 .report-link:hover {
     text-decoration: underline;
 }
+
+
+.personaje-img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    animation: float 3s ease-in-out infinite;
+}
+
+.categoria-btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: capitalize;
+}
+
+.categoria-btn:hover {
+    opacity: 0.9;
+    transform: scale(1.05);
+}
+
+.categoria-container {
+    display: flex;
+    align-items: center;
+    background-color: var(--categoria-color);
+    color: white;
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}

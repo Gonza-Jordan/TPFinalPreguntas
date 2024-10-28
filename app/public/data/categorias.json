@@ -1,0 +1,32 @@
+{
+    "deportes": {
+        "color": "#FF0000",
+        "imagen": "deportes.png",
+        "personaje": "Ira"
+    },
+    "historia": {
+        "color": "#0000FF",
+        "imagen": "historia.png",
+        "personaje": "Tristeza"
+    },
+    "ciencia": {
+        "color": "#8A2BE2",
+        "imagen": "ciencia.png",
+        "personaje": "Miedo"
+    },
+    "arte": {
+        "color": "#006400",
+        "imagen": "arte.png",
+        "personaje": "Desagrado"
+    },
+    "geografia": {
+        "color": "#FFFF00",
+        "imagen": "geografia.png",
+        "personaje": "Alegría"
+    },
+    "entretenimiento": {
+        "color": "#FF00FF",
+        "imagen": "entretenimiento.png",
+        "personaje": "BingBong"
+    }
+}
