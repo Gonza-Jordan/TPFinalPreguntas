@@ -19,20 +19,34 @@ class PartidaController
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['respuesta'])) {
             $data = $this->validarRespuesta($idUsuario);
         } else {
-            $data['resultado'] = ""; // Inicializar el resultado vacío
+            $data['resultado'] = "";
         }
 
-        $pregunta = $this->model->getPregunta($idUsuario);
-        if ($pregunta) {
-            $_SESSION['pregunta_actual'] = $pregunta;
-            $data['pregunta'] = $pregunta;
+        if(isset($_SESSION['pregunta_actual'])){
+            $data['pregunta'] = $_SESSION['pregunta_actual'];
         } else {
+            $pregunta = $this->model->getPregunta($idUsuario);
+            if ($pregunta) {
+                $_SESSION['pregunta_actual'] = $pregunta;
+                $data['pregunta'] = $pregunta;
+            } else {
 
-            $data['pregunta'] = null;
-            $data['mensaje'] = "No hay más preguntas disponibles para este usuario.";
+                $data['pregunta'] = null;
+                $data['mensaje'] = "No hay más preguntas disponibles para este usuario.";
+            }
         }
 
-        echo json_encode($data);
+        $categoriaActual = $data['pregunta']['categoria'];
+        $categoriaJson = file_get_contents('public/data/categorias.json');
+        $categorias = json_decode($categoriaJson, true);
+        $categoriaDatos = $categorias[strtolower($categoriaActual)] ?? null;
+
+        if ($categoriaDatos) {
+            $data['categoria'] = $categoriaActual;
+            $data['categoriaColor'] = $categoriaDatos['color'];
+            $data['categoriaImagen'] = $categoriaDatos['imagen'];
+        }
+
 
         $this->presenter->show('crearPartida', $data);
     }
@@ -50,14 +64,12 @@ class PartidaController
                 $data['mensaje'] = "No se pudieron sumar los puntos.";
             }
         } else {
-            // Guardar la respuesta correcta en los datos para mostrarla en el modal
+            $data['respuesta_correcta'] = $_SESSION['pregunta_actual']['opcion_' . strtolower($respuestaCorrecta)];
             $data['resultado'] = "incorrecta";
-            $data['respuesta_correcta'] = $respuestaCorrecta;
         }
 
+        $_SESSION['pregunta_actual'] = null;
         return $data;
     }
-
-
 
 }
