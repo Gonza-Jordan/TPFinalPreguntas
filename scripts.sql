@@ -1,7 +1,4 @@
-CREATE DATABASE tpfinalpreguntas;
-
 USE tpfinalpreguntas;
---Creo la tabla usuario
 CREATE TABLE usuarios (
                           id_usuario INT AUTO_INCREMENT PRIMARY KEY,
                           nombre_usuario VARCHAR(50) NOT NULL,
@@ -18,10 +15,9 @@ CREATE TABLE usuarios (
                           tipo_usuario VARCHAR(20) DEFAULT 'jugador',
                           fecha_creacion DATE DEFAULT CURRENT_DATE,
                           validado BOOLEAN DEFAULT FALSE,
-                          token_activacion VARCHAR(32);
+                          token_activacion VARCHAR(32)
 );
 
---insert de usuario
 INSERT INTO usuarios (nombre_usuario, contraseña, nombre_completo, email, anio_nacimiento, sexo, pais, ciudad, foto_perfil, puntaje_total, trampitas, tipo_usuario, validado)
 VALUES ('jmartinez', '$2y$10$zhmzgVp2Ud/5VQ5DWBAnFugtpa2rkED1MG.w1BlcSaS.J6JTanZbq', 'Juan Martinez', 'juan.martinez@example.com', 1990, 'Masculino', 'Argentina', 'Buenos Aires', 'foto_1.jpg', 150, 3, 'jugador', TRUE);
 

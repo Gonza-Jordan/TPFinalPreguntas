@@ -9,11 +9,61 @@
     <style>
         body {
             background-color: #f4f4f4;
+            margin: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
+            flex-direction: column;
+        }
+
+        header {
+            width: 100%;
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #perfil-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+
+        .logout-button {
+            background-color: #dc3545;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .logout-button:hover {
+            background-color: #c82333;
         }
 
         .home-view {
@@ -23,23 +73,15 @@
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             max-width: 600px;
             width: 100%;
-        }
-
-        header {
+            margin-top: 80px; /* Espacio para el header */
             text-align: center;
-            margin-bottom: 20px;
-        }
-
-        #perfil-icon {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
         }
 
         .buttons {
             display: flex;
             flex-direction: column;
             gap: 10px;
+            margin-top: 20px;
         }
 
         .button {
@@ -56,39 +98,39 @@
         .button:hover {
             background-color: #0056b3;
         }
-
-        .logout-button {
-            margin-top: 20px;
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .logout-button:hover {
-            background-color: #c82333;
-        }
     </style>
 </head>
 
 <body>
-<main class="home-view">
-    <header>
-        <h1>Hola, {{nombre_usuario}}!</h1>
-        <p>Mi puntaje: <strong>{{puntaje_total}}</strong></p>
-        <a href="perfil">
-            <img src="/TPFinalPreguntas/app/public/perfiles/{{foto_perfil}}" alt="Perfil" id="perfil-icon">
-        </a>
-    </header>
+<header>
+    <nav>
+        <a href="inicio.mustache">Inicio</a>
+        <a href="historial.mustache">Historial</a>
+        <a href="ranking.mustache">Ranking</a>
+        <a href="crearPregunta.mustache">Crear Pregunta</a>
+    </nav>
 
+    <div class="user-info">
+        <!-- Foto de perfil al lado del nombre -->
+        <img src="/TPFinalPreguntas/app/public/perfiles/{{foto_perfil}}" alt="Perfil" id="perfil-icon">
+        <h1 style="margin: 0;">Hola, {{nombre_usuario}}!</h1>
+    </div>
+
+    <div class="user-info">
+        <p style="margin: 0;">Mi puntaje: <strong>{{puntaje_total}}</strong></p>
+        <!-- Botón de cerrar sesión al lado del puntaje -->
+        <form action="/TPFinalPreguntas/app/index.php?page=auth&action=logout" method="POST" style="margin: 0;">
+            <button type="submit" class="logout-button">Cerrar sesión</button>
+        </form>
+    </div>
+</header>
+
+<main class="home-view">
     <section class="buttons">
         <a href="historial.mustache" class="button">Historial de partidas</a>
         <a href="ranking.mustache" class="button">Ranking</a>
         <a href="crearPregunta.mustache" class="button">Crear nueva pregunta</a>
         <a href="partida" class="button">Nueva partida</a>
-
-        <!-- Botón de Cerrar Sesión -->
-        <form action="/TPFinalPreguntas/app/index.php?page=auth&action=logout" method="POST">
-            <button type="submit" class="button logout-button">Cerrar sesión</button>
-        </form>
     </section>
 </main>
 
