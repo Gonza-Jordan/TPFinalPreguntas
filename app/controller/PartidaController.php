@@ -35,6 +35,16 @@ class PartidaController
         } else {
             $data['pregunta'] = $_SESSION['pregunta_actual'];
         }
+        $categoriaActual = $data['pregunta']['categoria'];
+        $categoriaJson = file_get_contents('public/data/categorias.json');
+        $categorias = json_decode($categoriaJson, true);
+        $categoriaDatos = $categorias[strtolower($categoriaActual)] ?? null;
+
+        if ($categoriaDatos) {
+            $data['categoria'] = $categoriaActual;
+            $data['categoriaColor'] = $categoriaDatos['color'];
+            $data['categoriaImagen'] = $categoriaDatos['imagen'];
+        }
 
 
         $this->presenter->show('crearPartida', $data);
