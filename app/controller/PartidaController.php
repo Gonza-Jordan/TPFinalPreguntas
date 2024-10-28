@@ -64,7 +64,9 @@ class PartidaController
                 $data['mensaje'] = "No se pudieron sumar los puntos.";
             }
         } else {
-            $data['respuesta_correcta'] = $_SESSION['pregunta_actual']['opcion_' . strtolower($respuestaCorrecta)];
+            // Obtener el texto de la respuesta correcta en base a la letra
+            $opcionCorrecta = $_SESSION['pregunta_actual']['opcion_' . strtolower($respuestaCorrecta)];
+            $data['respuesta_correcta'] = $opcionCorrecta; // Guarda el texto de la respuesta correcta
             $data['resultado'] = "incorrecta";
         }
 
