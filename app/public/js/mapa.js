@@ -5,7 +5,11 @@
 // {y}: Coordenada vertical del azulejo.
 
 var map = L.map('map').setView([0, 0], 2);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19, // Nivel máximo de zoom
+    subdomains: 'abc' // Permite el uso de subdominios
+}).addTo(map);
 
 // Manejar selección de ubicación
 map.on('click', function(e) {

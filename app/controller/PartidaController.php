@@ -28,6 +28,21 @@ class PartidaController
         echo json_encode($idUsuario);
         // Mostrar la vista con los datos
 //        $this->presenter->show('crearPartida', $data);
+
+        // Obtener la categoría con su color
+        $categoriaActual = $data['pregunta']['categoria'];
+        $categoriaJson = file_get_contents('public/data/categorias.json');
+        $categorias = json_decode($categoriaJson, true);
+
+        $categoriaDatos = $categorias[strtolower($categoriaActual)] ?? null;
+
+        // Agregar los datos de la categoría al array $data
+        if ($categoriaDatos) {
+            $data['categoria'] = $categoriaActual;
+            $data['categoriaColor'] = $categoriaDatos['color'];
+            $data['categoriaImagen'] = $categoriaDatos['imagen'];
+    }
+
         $this->presenter->show('crearPartida', $data);
     }
 
@@ -47,10 +62,4 @@ class PartidaController
 
         return $data;
     }
-
-
-
-
-
-
 }
