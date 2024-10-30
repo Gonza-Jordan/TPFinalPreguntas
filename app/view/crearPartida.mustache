@@ -12,7 +12,7 @@
 <div class="container">
     {{#categoria}}
         <div class="categoria-container" style="--categoria-color: {{categoriaColor}};">
-            <img src="public/img/{{categoriaImagen}}" alt="Personaje" class="personaje-img">
+            <img src="/TPFinalPreguntas/app/public/img/{{categoriaImagen}}" alt="Personaje" class="personaje-img">
             <span>Categoría: {{categoria}}</span>
         </div>
     {{/categoria}}
@@ -71,7 +71,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/TPFinalPreguntas/app/public/js/cronometro.js"></script>
 <script>
-    const respuestaCorrecta = "{{pregunta.respuesta_correcta}}";
+    const respuestaCorrecta = "{{respuesta_correcta}}";
     const resultado = "{{resultado}}";
 
     document.querySelectorAll('.option-btn').forEach(button => {

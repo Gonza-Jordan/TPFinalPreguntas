@@ -19,7 +19,7 @@
     <div class="game-container">
         <div class="timer" id="timer">Tiempo: 15s</div>
 
-        <form id="preguntaForm" action="/verificarRespuesta" method="post">
+        <form id="preguntaForm" action="/TPFinalPreguntas/app/partida/verificarRespuesta" method="post">
             {{#pregunta}}
                 <p class="question-title">{{contenido}}</p>
 
@@ -71,7 +71,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="/TPFinalPreguntas/app/public/js/cronometro.js"></script>
 <script>
-    const respuestaCorrecta = "{{pregunta.respuesta_correcta}}";
+    const respuestaCorrecta = "{{respuesta_correcta}}";
     const resultado = "{{resultado}}";
 
     document.querySelectorAll('.option-btn').forEach(button => {

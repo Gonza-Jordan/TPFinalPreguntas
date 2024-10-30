@@ -8,6 +8,18 @@ class PartidaModel
         $this->conn = $db;
     }
 
+    public function buscarPartidaEnCurso($idUsuario)
+    {
+        $sql = "SELECT * FROM partidas 
+            WHERE id_usuario = :idUsuario AND estado = 'enCurso' 
+            ORDER BY horario_inicio DESC LIMIT 1";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
     public function crearPartida($idUsuario) {
 
         $partida['pregunta'] = $this->getPregunta($idUsuario);
@@ -38,7 +50,7 @@ class PartidaModel
         $stmt->execute();
         $respuestaCorrecta = $stmt->fetch(PDO::FETCH_ASSOC);
         $resultado['esCorrecta'] = $respuestaCorrecta['respuesta_correcta'] == $respuesta;
-        $resultado['opcionCorrecta'] = $respuestaCorrecta;
+        $resultado['opcionCorrecta'] = $respuestaCorrecta['respuesta_correcta'];
         return $resultado;
     }
 
@@ -125,7 +137,14 @@ class PartidaModel
         return $partida;
     }
 
-    public function finalizarPartida($idPartida, $opcionCorrecta) {
+    public function finalizarPartida($idPartida, $opcionCorrecta = '') {
+        $sqlFinalizar = "UPDATE partidas SET estado = 'finalizada' WHERE id_partida = :idPartida";
+        $stmt = $this->conn->prepare($sqlFinalizar);
+        $stmt->bindParam(':idPartida', $idPartida, PDO::PARAM_INT);
+        $stmt->execute();
+
+        if($opcionCorrecta != '') {
+
         $sqlPregunta = "SELECT id_pregunta FROM partidas WHERE id_partida = :idPartida";
         $stmt = $this->conn->prepare($sqlPregunta);
         $stmt->bindParam(':idPartida', $idPartida, PDO::PARAM_INT);
@@ -140,17 +159,24 @@ class PartidaModel
         $stmt->execute();
         $respuestaCorrecta = $stmt->fetchColumn();
 
-        $sqlFinalizar = "UPDATE partidas SET estado = 'finalizada' WHERE id_partida = :idPartida";
-        $stmt = $this->conn->prepare($sqlFinalizar);
+        return $respuestaCorrecta;
+        }
+    }
+
+
+    public function entregarUltimaPregunta($idUsuario, $idPartida) {
+        $sql = "SELECT preguntas.*
+            FROM preguntas
+            JOIN partidas ON preguntas.id_pregunta = partidas.id_pregunta
+            WHERE partidas.id_usuario = :idUsuario AND partidas.id_partida = :idPartida AND partidas.estado = 'enCurso'";
+
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
         $stmt->bindParam(':idPartida', $idPartida, PDO::PARAM_INT);
         $stmt->execute();
-
-        return $respuestaCorrecta;
+        $pregunta = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $pregunta;
     }
 
-
-    public function entregarUltimaPregunta() {
-
-    }
 
 }

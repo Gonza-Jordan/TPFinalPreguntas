@@ -1,16 +1,4 @@
 
-document.addEventListener("DOMContentLoaded", function() {
-    var resultado = "{{resultado}}"; // Este valor viene desde el controlador
-    if (resultado === "incorrecta") {
-        var modal = new bootstrap.Modal(document.getElementById('respuestaIncorrectaModal'));
-        modal.show();
-
-        // Redirigir al home después de cerrar el modal
-        document.getElementById('closeModal').addEventListener('click', function() {
-                window.location.href = 'home';
-        });
-    }
-});
 document.addEventListener("DOMContentLoaded", function () {
     let tiempoRestante = 15;
     const timerElement = document.getElementById("timer");
@@ -32,23 +20,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function mostrarModalTiempoAgotado() {
         const modalBody = document.getElementById("modal-body-text");
-        modalBody.innerHTML = "Lo siento, se acabó el tiempo. La respuesta correcta era la opción: <strong>" + respuestaCorrecta + "</strong>";
+        modalBody.innerHTML = "Lo siento, se acabó el tiempo.";
         const modal = new bootstrap.Modal(document.getElementById('respuestaIncorrectaModal'));
         modal.show();
-
-        document.getElementById('closeModal').addEventListener('click', function () {
-            window.location.href = 'home';
-        });
     }
 
     if (resultado === "incorrecta") {
         const modalBody = document.getElementById("modal-body-text");
-        modalBody.innerHTML = "Lo siento, tu respuesta es incorrecta. La respuesta correcta era la opción: <strong>" + respuestaCorrecta + "</strong>";
+        modalBody.innerHTML = "La respuesta correcta era la opción: <strong>" + respuestaCorrecta + "</strong>";
         const modal = new bootstrap.Modal(document.getElementById('respuestaIncorrectaModal'));
         modal.show();
-
-        document.getElementById('closeModal').addEventListener('click', function () {
-            window.location.href = 'home';
-        });
     }
+
+    document.getElementById('closeModal').addEventListener('click', function () {
+        window.location.href = '/TPFinalPreguntas/app';
+    });
 });
+
