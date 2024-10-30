@@ -116,10 +116,10 @@ class PartidaModel
         $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
         $stmt->execute();
 
-        $sql = "UPDATE partidas SET puntos_sumados = puntos_sumados + 10 WHERE id_partida = :idPartida";
+        $sql = "UPDATE partidas SET puntos_sumados = punto_sumados + 10 WHERE id_partida = :idPartida";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':idPartida', $idPartida, PDO::PARAM_INT);
-        $stmt->execute();
+        $stmt->execute();  
     }
 
     public function siguientePregunta($idUsuario, $idPartida) {

@@ -79,7 +79,7 @@ class PartidaController
 
             if ($resultado['esCorrecta']) {
                 //$data['resultado'] = "correcta";
-                $this->model->sumarPuntos($idUsuario);
+                $this->model->sumarPuntos($idUsuario, $idPartida);
                 $this->siguientePregunta($idUsuario, $idPartida);
             } else {
                 $opcionCorrecta = $resultado['opcionCorrecta'];

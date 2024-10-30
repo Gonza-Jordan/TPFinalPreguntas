@@ -148,5 +148,6 @@ CREATE TABLE partidas (
                           id_usuario INT,
                           id_pregunta INT,
                           horario_inicio DATETIME,
+                          puntos_sumados INT DEFAULT 0,
                           estado VARCHAR(20)
 );

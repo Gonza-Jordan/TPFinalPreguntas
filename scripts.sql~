@@ -144,9 +144,10 @@ CREATE TABLE usuarios_preguntas (
 
 --tabla partidas
 CREATE TABLE partidas (
-                          id_partida INT,
+                          id_partida INT AUTO_INCREMENT PRIMARY KEY,
                           id_usuario INT,
                           id_pregunta INT,
                           horario_inicio DATETIME,
+                          puntos_sumados INT,
                           estado VARCHAR(20)
 );
