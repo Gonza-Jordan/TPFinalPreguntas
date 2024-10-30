@@ -15,17 +15,6 @@ class PartidaController
     {
         var_dump($partida);
         SessionHelper::verificarSesion();
-
-        $categoriaActual = $partida['pregunta']['categoria'];
-        $categoriaJson = file_get_contents('public/data/categorias.json');
-        $categorias = json_decode($categoriaJson, true);
-        $categoriaDatos = $categorias[strtolower($categoriaActual)] ?? null;
-        if ($categoriaDatos) {
-            $partida['categoria'] = $categoriaActual;
-            $partida['categoriaColor'] = $categoriaDatos['color'];
-            $partida['categoriaImagen'] = $categoriaDatos['imagen'];
-        }
-        
         $this->presenter->show('crearPartida', $partida);
     }
 
@@ -37,20 +26,20 @@ class PartidaController
         $partida = $this->model->crearPartida($idUsuario);
         if ($partida) {
             $_SESSION['id_partida'] = $partida['id_partida'];
-//            $categoriaActual = $partida['pregunta']['categoria'];
-//            $categoriaJson = file_get_contents('public/data/categorias.json');
-//            $categorias = json_decode($categoriaJson, true);
-//            $categoriaDatos = $categorias[strtolower($categoriaActual)] ?? null;
+            $categoriaActual = $partida['pregunta']['categoria'];
+            $categoriaJson = file_get_contents('public/data/categorias.json');
+            $categorias = json_decode($categoriaJson, true);
+            $categoriaDatos = $categorias[strtolower($categoriaActual)] ?? null;
         } else {
             $partida['pregunta'] = null;
             $partida['mensaje'] = "No hay más preguntas disponibles para este usuario.";
         }
 
-//        if ($categoriaDatos) {
-//            $partida['categoria'] = $categoriaActual;
-//            $partida['categoriaColor'] = $categoriaDatos['color'];
-//            $partida['categoriaImagen'] = $categoriaDatos['imagen'];
-//        }
+        if ($categoriaDatos) {
+            $partida['categoria'] = $categoriaActual;
+            $partida['categoriaColor'] = $categoriaDatos['color'];
+            $partida['categoriaImagen'] = $categoriaDatos['imagen'];
+        }
 
         $this->show($partida);
     }

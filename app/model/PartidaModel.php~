@@ -37,7 +37,7 @@ class PartidaModel
         $stmt->bindParam(':idPartida', $idPartida, PDO::PARAM_INT);
         $stmt->execute();
         $respuestaCorrecta = $stmt->fetch(PDO::FETCH_ASSOC);
-        $resultado['esCorrecta'] = $respuestaCorrecta['respuesta_correcta'] == $respuesta;
+        $resultado['esCorrecta'] = $respuestaCorrecta == $respuesta;
         $resultado['opcionCorrecta'] = $respuestaCorrecta;
         return $resultado;
     }

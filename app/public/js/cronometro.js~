@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 document.addEventListener("DOMContentLoaded", function () {
-    let tiempoRestante = 15;
+    let tiempoRestante = 100;
     const timerElement = document.getElementById("timer");
     const preguntaForm = document.getElementById("preguntaForm");
 

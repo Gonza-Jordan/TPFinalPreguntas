@@ -19,7 +19,7 @@
     <div class="game-container">
         <div class="timer" id="timer">Tiempo: 15s</div>
 
-        <form id="preguntaForm" action="/TPFinalPreguntas/app/partida/verificarRespuesta" method="post">
+        <form id="preguntaForm" action="/verificarRespuesta" method="post">
             {{#pregunta}}
                 <p class="question-title">{{contenido}}</p>
 
