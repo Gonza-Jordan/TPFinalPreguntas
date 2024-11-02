@@ -56,6 +56,12 @@ class Router {
 
     private function executeMethodFromController($controller, $method) {
         $validMethod = method_exists($controller, $method) ? $method : $this->defaultMethod;
-        call_user_func(array($controller, $validMethod));
+        $reflection = new ReflectionMethod($controller, $validMethod);
+
+        if ($reflection->getNumberOfParameters() > 0) {
+            call_user_func(array($controller, $validMethod), null);
+        } else {
+            call_user_func(array($controller, $validMethod));
+        }
     }
 }

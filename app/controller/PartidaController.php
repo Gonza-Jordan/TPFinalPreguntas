@@ -11,10 +11,13 @@ class PartidaController
         $this->model = $model;
     }
 
-    public function show($partida)
-    {
-//        var_dump($partida);
+    public function show($partida = null) {
         SessionHelper::verificarSesion();
+
+        if ($partida === null || !isset($partida['pregunta'])) {
+            header("Location: /TPFinalPreguntas/app/index.php");
+            exit();
+        }
 
         $categoriaActual = $partida['pregunta']['categoria'];
         $categoriaJson = file_get_contents('public/data/categorias.json');
