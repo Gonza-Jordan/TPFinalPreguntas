@@ -235,4 +235,40 @@ class PartidaModel
             $stmt->execute();
         }
     }
+    public function obtenerRatioRespuestasCorrectas($idUsuario) {
+        $sql = "SELECT COUNT(*) as total_respuestas,
+                   SUM(CASE WHEN es_correcta = 1 THEN 1 ELSE 0 END) as respuestas_correctas
+            FROM respuestas_usuarios
+            WHERE id_usuario = :idUsuario";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data['total_respuestas'] > 0) {
+            return ($data['respuestas_correctas'] / $data['total_respuestas']) * 100;
+        } else {
+            return null;
+        }
+    }
+    public function getPreguntaAcordeDificultad($idUsuario) {
+        $ratio = $this->obtenerRatioRespuestasCorrectas($idUsuario);
+
+        if ($ratio === null) {
+            $dificultad = null;
+        } elseif ($ratio > 70) {
+            $dificultad = 'Dificil';
+        } elseif ($ratio < 30) {
+            $dificultad = 'Facil';
+        } else {
+            $dificultad = 'Medio';
+        }
+
+        $sql = "SELECT * FROM preguntas WHERE nivel_dificultad = :dificultad ORDER BY RAND() LIMIT 1";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':dificultad', $dificultad, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }
