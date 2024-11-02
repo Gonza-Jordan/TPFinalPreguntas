@@ -37,28 +37,23 @@ class PartidaController
         SessionHelper::verificarSesion();
         $idUsuario = $_SESSION['user_id'];
 
-        // Verificar si hay una partida en curso para el usuario
         $partidaEnCurso = $this->model->buscarPartidaEnCurso($idUsuario);
         if ($partidaEnCurso) {
-            // Calcular la diferencia en segundos entre el horario de inicio de la partida y el tiempo actual
             $horarioInicio = new DateTime($partidaEnCurso['horario_inicio']);
             $ahora = new DateTime();
-            $diferenciaSegundos = $horarioInicio->diff($ahora)->s; // Calcula la diferencia en segundos
+            $diferenciaSegundos = $horarioInicio->diff($ahora)->s;
 
             if ($diferenciaSegundos < 15) {
-                // Si la partida es reciente (menos de 15 segundos), retornar la partida existente
                 $_SESSION['id_partida'] = $partidaEnCurso['id_partida'];
                 $ultimaPregunta = $this->model->entregarUltimaPregunta($idUsuario, $partidaEnCurso['id_partida']);
                 $data['pregunta'] = $ultimaPregunta;
                 $this->show($data);
                 return;
             } else {
-                // Si la partida tiene más de 15 segundos, finalizarla
                 $this->model->finalizarPartida($partidaEnCurso['id_partida']);
             }
         }
 
-        // Si no hay partida en curso reciente o la anterior fue finalizada, crear una nueva
         $partida = $this->model->crearPartida($idUsuario);
         if ($partida) {
             $_SESSION['id_partida'] = $partida['id_partida'];
@@ -70,18 +65,18 @@ class PartidaController
         $this->show($partida);
     }
 
-    public function verificarRespuesta()
-    {
+    public function verificarRespuesta($idUsuario = null, $respuestaSeleccionada = null, $idPartida = null) {
         SessionHelper::verificarSesion();
-        $idUsuario = $_SESSION['user_id'];
+
+        $idUsuario = $idUsuario ?? $_SESSION['user_id'];
+        $idPartida = $idPartida ?? $_SESSION['id_partida'];
 
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['respuesta'])) {
             $respuestaSeleccionada = $_POST['respuesta'];
-            $idPartida = $_SESSION['id_partida'];
+
             $resultado = $this->model->verificarRespuesta($idUsuario, $respuestaSeleccionada, $idPartida);
 
             if ($resultado['esCorrecta']) {
-                //$data['resultado'] = "correcta";
                 $this->model->sumarPuntos($idUsuario, $idPartida);
                 $this->siguientePregunta($idUsuario, $idPartida);
             } else {
@@ -89,11 +84,9 @@ class PartidaController
                 $this->finalizarPartida($idUsuario, $idPartida, $opcionCorrecta);
             }
         } else {
-            $this->model->entregarUltimaPregunta();
+            $this->model->entregarUltimaPregunta($idUsuario, $idPartida);
         }
-
     }
-
 
     public function siguientePregunta($idUsuario, $idPartida){
         $partida = $this->model->siguientePregunta($idUsuario, $idPartida);
@@ -110,5 +103,49 @@ class PartidaController
 
         $this->show($data);
     }
+    private function actualizarEstadisticasPregunta($idPregunta, $esCorrecta) {
+        $sqlUpdate = "UPDATE preguntas SET veces_respondida = veces_respondida + 1 WHERE id_pregunta = :idPregunta";
+        $stmt = $this->conn->prepare($sqlUpdate);
+        $stmt->bindParam(':idPregunta', $idPregunta, PDO::PARAM_INT);
+        $stmt->execute();
+
+        if ($esCorrecta) {
+            $sqlUpdateCorrectas = "UPDATE preguntas SET veces_respondida_correctamente = veces_respondida_correctamente + 1 WHERE id_pregunta = :idPregunta";
+            $stmt = $this->conn->prepare($sqlUpdateCorrectas);
+            $stmt->bindParam(':idPregunta', $idPregunta, PDO::PARAM_INT);
+            $stmt->execute();
+        }
+
+        $this->actualizarDificultad($idPregunta);
+    }
+
+    private function actualizarDificultad($idPregunta) {
+        $sql = "SELECT veces_respondida, veces_respondida_correctamente FROM preguntas WHERE id_pregunta = :idPregunta";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':idPregunta', $idPregunta, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data && $data['veces_respondida'] > 0) {
+            $vecesRespondida = $data['veces_respondida'];
+            $vecesRespondidaCorrectamente = $data['veces_respondida_correctamente'];
+
+            $porcentajeCorrectas = ($vecesRespondidaCorrectamente / $vecesRespondida) * 100;
+
+            $nivelDificultad = 'Medio';
+            if ($porcentajeCorrectas > 70) {
+                $nivelDificultad = 'Facil';
+            } elseif ($porcentajeCorrectas < 30) {
+                $nivelDificultad = 'Dificil';
+            }
+
+            $sqlUpdateDificultad = "UPDATE preguntas SET nivel_dificultad = :nivelDificultad WHERE id_pregunta = :idPregunta";
+            $stmt = $this->conn->prepare($sqlUpdateDificultad);
+            $stmt->bindParam(':nivelDificultad', $nivelDificultad, PDO::PARAM_STR);
+            $stmt->bindParam(':idPregunta', $idPregunta, PDO::PARAM_INT);
+            $stmt->execute();
+        }
+    }
+
 
 }

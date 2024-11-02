@@ -39,21 +39,32 @@ class PartidaModel
         return $partida;
     }
 
-    public function verificarRespuesta($idUsuario, $respuesta, $idPartida) {
-        $sql = "SELECT preguntas.respuesta_correcta 
-            FROM preguntas 
-            JOIN partidas ON preguntas.id_pregunta = partidas.id_pregunta
-            WHERE partidas.id_usuario = :idUsuario AND partidas.id_partida = :idPartida";
+    public function verificarRespuesta($idUsuario, $respuestaSeleccionada, $idPartida) {
+        $sql = "SELECT preguntas.id_pregunta, preguntas.respuesta_correcta 
+                FROM preguntas 
+                JOIN partidas ON preguntas.id_pregunta = partidas.id_pregunta
+                WHERE partidas.id_usuario = :idUsuario AND partidas.id_partida = :idPartida";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
         $stmt->bindParam(':idPartida', $idPartida, PDO::PARAM_INT);
         $stmt->execute();
-        $respuestaCorrecta = $stmt->fetch(PDO::FETCH_ASSOC);
-        $resultado['esCorrecta'] = $respuestaCorrecta['respuesta_correcta'] == $respuesta;
-        $resultado['opcionCorrecta'] = $respuestaCorrecta['respuesta_correcta'];
+        $respuestaData = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($respuestaData) {
+            $idPregunta = $respuestaData['id_pregunta'];
+            $esCorrecta = ($respuestaData['respuesta_correcta'] == $respuestaSeleccionada);
+
+            $this->actualizarEstadisticasPregunta($idPregunta, $esCorrecta);
+
+            $resultado['esCorrecta'] = $esCorrecta;
+            $resultado['opcionCorrecta'] = $respuestaData['respuesta_correcta'];
+        } else {
+            $resultado['esCorrecta'] = false;
+            $resultado['opcionCorrecta'] = null;
+        }
+
         return $resultado;
     }
-
     public function getPregunta($idUsuario) {
 
         $sqlTotalPreguntas = "SELECT COUNT(*) FROM preguntas";
@@ -70,7 +81,6 @@ class PartidaModel
         $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
         $stmt->execute();
         $preguntasRespondidas = $stmt->fetchColumn();
-
 
         if ($preguntasRespondidas >= $totalPreguntas) {
             $sqlReset = "DELETE FROM usuarios_preguntas WHERE id_usuario = :idUsuario";
@@ -182,6 +192,47 @@ class PartidaModel
         $pregunta = $stmt->fetch(PDO::FETCH_ASSOC);
         return $pregunta;
     }
+    private function actualizarEstadisticasPregunta($idPregunta, $esCorrecta) {
+        $sqlUpdate = "UPDATE preguntas SET veces_respondida = veces_respondida + 1 WHERE id_pregunta = :idPregunta";
+        $stmt = $this->conn->prepare($sqlUpdate);
+        $stmt->bindParam(':idPregunta', $idPregunta, PDO::PARAM_INT);
+        $stmt->execute();
 
+        if ($esCorrecta) {
+            $sqlUpdateCorrectas = "UPDATE preguntas SET veces_respondida_correctamente = veces_respondida_correctamente + 1 WHERE id_pregunta = :idPregunta";
+            $stmt = $this->conn->prepare($sqlUpdateCorrectas);
+            $stmt->bindParam(':idPregunta', $idPregunta, PDO::PARAM_INT);
+            $stmt->execute();
+        }
 
+        $this->actualizarDificultad($idPregunta);
+    }
+
+    private function actualizarDificultad($idPregunta) {
+        $sql = "SELECT veces_respondida, veces_respondida_correctamente FROM preguntas WHERE id_pregunta = :idPregunta";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindParam(':idPregunta', $idPregunta, PDO::PARAM_INT);
+        $stmt->execute();
+        $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($data && $data['veces_respondida'] > 0) {
+            $vecesRespondida = $data['veces_respondida'];
+            $vecesRespondidaCorrectamente = $data['veces_respondida_correctamente'];
+
+            $porcentajeCorrectas = ($vecesRespondidaCorrectamente / $vecesRespondida) * 100;
+
+            $nivelDificultad = 'Medio';
+            if ($porcentajeCorrectas > 70) {
+                $nivelDificultad = 'Facil';
+            } elseif ($porcentajeCorrectas < 30) {
+                $nivelDificultad = 'Dificil';
+            }
+
+            $sqlUpdateDificultad = "UPDATE preguntas SET nivel_dificultad = :nivelDificultad WHERE id_pregunta = :idPregunta";
+            $stmt = $this->conn->prepare($sqlUpdateDificultad);
+            $stmt->bindParam(':nivelDificultad', $nivelDificultad, PDO::PARAM_STR);
+            $stmt->bindParam(':idPregunta', $idPregunta, PDO::PARAM_INT);
+            $stmt->execute();
+        }
+    }
 }

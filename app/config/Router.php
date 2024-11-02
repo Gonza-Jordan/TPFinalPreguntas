@@ -42,7 +42,6 @@ class Router {
         if (isset($_SESSION['user_id'])) {
             $controller->mostrarPerfil($_SESSION['user_id']);
         } else {
-            // Redirigir al login si no hay sesión
             header('Location: /TPFinalPreguntas/app/index.php?page=auth&action=show');
             exit();
         }
@@ -57,11 +56,20 @@ class Router {
     private function executeMethodFromController($controller, $method) {
         $validMethod = method_exists($controller, $method) ? $method : $this->defaultMethod;
         $reflection = new ReflectionMethod($controller, $validMethod);
+        $numParams = $reflection->getNumberOfParameters();
 
-        if ($reflection->getNumberOfParameters() > 0) {
-            call_user_func(array($controller, $validMethod), null);
-        } else {
-            call_user_func(array($controller, $validMethod));
+        switch ($numParams) {
+            case 1:
+                call_user_func(array($controller, $validMethod), null);
+                break;
+            case 2:
+                call_user_func(array($controller, $validMethod), null, null);
+                break;
+            case 3:
+                call_user_func(array($controller, $validMethod), null, null, null);
+                break;
+            default:
+                call_user_func(array($controller, $validMethod));
         }
     }
 }
