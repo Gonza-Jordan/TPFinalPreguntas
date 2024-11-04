@@ -16,7 +16,7 @@ class RankingController {
     }
 
     public function show() {
-        $this->mustache->show('logIn');
+        $this->mustache->show('ranking');
     }
     
 
