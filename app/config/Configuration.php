@@ -89,7 +89,7 @@ class Configuration
 
     public function getRankingController()
     {
-        return new RankingController($this->getPresenter(), $this->getRankingModel());
+        return new RankingController($this->getPresenter(), $this->getUsuarioModel(), $this->getRankingModel());
     }
 
     public function getRankingModel()
