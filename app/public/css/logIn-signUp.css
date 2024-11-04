@@ -5,6 +5,7 @@ body {
     align-items: center;
     margin: 0;
 }
+
 .container {
     background-color: #fff;
     padding: 20px;
@@ -13,18 +14,16 @@ body {
     max-width: 600px;
     width: 100%;
 }
+
 .map-placeholder {
     position: relative;
     width: 100%;
-    height: 300px; /* Cambia el tamaño según lo necesites */
+    height: 300px;
     overflow: hidden;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    border: 1px solid #ddd; /* Para visualizar mejor los límites */
     margin-bottom: 1rem;
     border: 1px solid #dee2e6;
     border-radius: 0.375rem;
+    box-sizing: border-box;
 }
 
 #map {
@@ -34,30 +33,25 @@ body {
     width: 100%;
     height: 100%;
     border-radius: 5px;
-    box-sizing: border-box;
 }
 
-/* Asegurarse que los tiles se ajusten correctamente */
 .leaflet-container {
     background: #fff;
     width: 100%;
     height: 100%;
 }
 
-/* Ajustes responsivos */
 @media (max-width: 768px) {
     .map-placeholder {
-        height: 250px;  /* Altura más pequeña en móviles */
+        height: 250px; 
     }
 }
 
-/* Estilos para el marcador de ubicación seleccionada */
 .selected-location-marker {
     color: #dc3545;
     font-size: 24px;
 }
 
-/* Estilos para el popup del mapa */
 .leaflet-popup-content {
     margin: 8px;
     font-size: 14px;
