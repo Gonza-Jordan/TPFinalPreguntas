@@ -2,25 +2,13 @@
 class UsuarioModel {
     private $conn;
     private $table_name = "usuarios";
-
-    public $id;
-    public $nombre_completo;
-    public $anio_nacimiento;
-    public $sexo;
-    public $pais;
-    public $ciudad;
-    public $email;
-    public $contrasenia;
-    public $nombre_usuario;
-    public $foto_perfil;
-    public $token_activacion;
-
+    
     public function __construct($db) {
         $this->conn = $db;
     }
 
     // Registrar nuevo usuario
-    public function registrar() {
+    public function registrar($nombre_completo, $anio_nacimiento, $sexo, $pais, $ciudad, $email, $contrasenia, $nombre_usuario, $foto_perfil, $token_activacion) {
         $query = "INSERT INTO " . $this->table_name . "
             SET
                 nombre_completo = :nombre_completo,
@@ -38,28 +26,28 @@ class UsuarioModel {
         $stmt = $this->conn->prepare($query);
 
         // Sanitizar datos
-        $this->nombre_completo = htmlspecialchars(strip_tags($this->nombre_completo));
-        $this->anio_nacimiento = htmlspecialchars(strip_tags($this->anio_nacimiento));
-        $this->sexo = htmlspecialchars(strip_tags($this->sexo));
-        $this->pais = htmlspecialchars(strip_tags($this->pais));
-        $this->ciudad = htmlspecialchars(strip_tags($this->ciudad));
-        $this->email = htmlspecialchars(strip_tags($this->email));
-        $this->nombre_usuario = htmlspecialchars(strip_tags($this->nombre_usuario));
+        $nombre_completo = htmlspecialchars(strip_tags($nombre_completo));
+        $anio_nacimiento = htmlspecialchars(strip_tags($anio_nacimiento));
+        $sexo = htmlspecialchars(strip_tags($sexo));
+        $pais = htmlspecialchars(strip_tags($pais));
+        $ciudad = htmlspecialchars(strip_tags($ciudad));
+        $email = htmlspecialchars(strip_tags($email));
+        $nombre_usuario = htmlspecialchars(strip_tags($nombre_usuario));
 
         // Encriptar la contraseña
-        $contrasenia_hash = password_hash($this->contrasenia, PASSWORD_BCRYPT);  // Cambiar aquí
+        $contrasenia_hash = password_hash($contrasenia, PASSWORD_BCRYPT);
 
         // Vincular parámetros
-        $stmt->bindParam(":nombre_completo", $this->nombre_completo);
-        $stmt->bindParam(":anio_nacimiento", $this->anio_nacimiento);
-        $stmt->bindParam(":sexo", $this->sexo);
-        $stmt->bindParam(":pais", $this->pais);
-        $stmt->bindParam(":ciudad", $this->ciudad);
-        $stmt->bindParam(":email", $this->email);
-        $stmt->bindParam(":contrasenia", $contrasenia_hash);  // Cambiar aquí a 'contrasenia'
-        $stmt->bindParam(":nombre_usuario", $this->nombre_usuario);
-        $stmt->bindParam(":foto_perfil", $this->foto_perfil);
-        $stmt->bindParam(":token_activacion", $this->token_activacion);
+        $stmt->bindParam(":nombre_completo", $nombre_completo);
+        $stmt->bindParam(":anio_nacimiento", $anio_nacimiento);
+        $stmt->bindParam(":sexo", $sexo);
+        $stmt->bindParam(":pais", $pais);
+        $stmt->bindParam(":ciudad", $ciudad);
+        $stmt->bindParam(":email", $email);
+        $stmt->bindParam(":contrasenia", $contrasenia_hash);
+        $stmt->bindParam(":nombre_usuario", $nombre_usuario);
+        $stmt->bindParam(":foto_perfil", $foto_perfil);
+        $stmt->bindParam(":token_activacion", $token_activacion);
 
         // Ejecutar la consulta
         if ($stmt->execute()) {
@@ -67,6 +55,7 @@ class UsuarioModel {
         }
         return false;
     }
+    
     // Verificar si el email ya está registrado
     public function emailExiste() {
         $query = "SELECT id_usuario FROM " . $this->table_name . " WHERE email = ? LIMIT 0,1";
