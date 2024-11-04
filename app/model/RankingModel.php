@@ -12,17 +12,15 @@ class RankingModel {
         $query = "SELECT id_usuario, nombre_usuario, puntaje_total
               FROM " . $this->table_usuarios . "
               ORDER BY puntaje_total DESC
-              LIMIT :limite";
+              LIMIT " . intval($limite);
 
         $stmt = $this->conn->prepare($query);
-
-        $stmt->bindParam(':limite', $limite, PDO::PARAM_INT);
-
 
         $stmt->execute();
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
     public function obtenerPosicionUsuario($id_usuario) {
         $query = "SELECT COUNT(*) + 1 AS posicion

@@ -5,32 +5,42 @@ require_once __DIR__ . '/../helper/TemplateEngine.php';
 require_once __DIR__ . '/../helper/SessionHelper.php';
 
 class RankingController {
-    private $mustache;
-    private $usuarioModel;
-    private $rankingModel;
+    private $presenter;
+    private $model;
     
-    public function __construct($mustache, $usuarioModel, $rankingModel) {
-        $this->mustache = $mustache;
-        $this->usuarioModel = $usuarioModel;
-        $this->rankingModel = $rankingModel;
+    public function __construct($presenter, $model) {
+        $this->presenter = $presenter;
+        $this->model = $model;
     }
 
     public function show() {
-        $this->mustache->show('ranking');
+        $this->presenter->show('ranking');
     }
     
     public function mostrarRanking() {
         SessionHelper::verificarSesion();
 
-        $usuarios = $this->rankingModel->obtenerRanking(10);
-        $rankingPorPais = $this->rankingModel->obtenerRankingPorPais();
-        $rankingPorCiudad = $this->rankingModel->obtenerRankingPorCiudad();
+        $usuarios = $this->model->obtenerRanking(10);
+        $rankingPorPais = $this->model->obtenerRankingPorPais();
+        $rankingPorCiudad = $this->model->obtenerRankingPorCiudad();
 
         if ($usuarios) {
             foreach ($usuarios as $index => &$usuario) {
                 $usuario['posicion'] = $index + 1;
             }
         }
+        if ($rankingPorPais) {
+            foreach ($rankingPorPais as $index => &$usuario) {
+                $usuario['posicion'] = $index + 1;
+            }
+        }
+
+        if ($rankingPorCiudad) {
+            foreach ($rankingPorCiudad as $index => &$usuario) {
+                $usuario['posicion'] = $index + 1;
+            }
+        }
+
 
         $data = [
             'usuarios' => $usuarios,
@@ -38,6 +48,6 @@ class RankingController {
             'rankingPorCiudad' => $rankingPorCiudad,
         ];
 
-        $this->mustache->show('ranking', $data);
+        $this->presenter->show('ranking', $data);
     }
 }
