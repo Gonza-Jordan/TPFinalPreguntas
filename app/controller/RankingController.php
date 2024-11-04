@@ -26,14 +26,10 @@ class RankingController {
         $rankingPorPais = $this->rankingModel->obtenerRankingPorPais();
         $rankingPorCiudad = $this->rankingModel->obtenerRankingPorCiudad();
 
-        // Inicializar el mensaje
-        $mensaje = 'No hay usuarios en el ranking.';
-
         if ($usuarios) {
             foreach ($usuarios as $index => &$usuario) {
                 $usuario['posicion'] = $index + 1;
             }
-            $mensaje = ''; // Reiniciar mensaje si hay usuarios
         }
 
         // Preparar los datos para el presenter
@@ -41,7 +37,6 @@ class RankingController {
             'usuarios' => $usuarios,
             'rankingPorPais' => $rankingPorPais,
             'rankingPorCiudad' => $rankingPorCiudad,
-            'mensaje' => $mensaje
         ];
 
         // Llamar al presenter con la vista y los datos
