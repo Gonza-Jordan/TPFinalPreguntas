@@ -151,3 +151,12 @@ CREATE TABLE partidas (
                           puntos_sumados INT DEFAULT 0,
                           estado VARCHAR(20)
 );
+
+--tabla ranking
+CREATE TABLE Ranking (
+                          id_ranking INT AUTO_INCREMENT PRIMARY KEY,
+                          id_usuario INT,
+                          puntaje_total INT,
+                          posicion INT,
+                          FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
+);
