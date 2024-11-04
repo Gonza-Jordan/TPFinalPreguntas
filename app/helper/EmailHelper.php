@@ -17,7 +17,7 @@ class EmailHelper
             $mail->Host = 'smtp.gmail.com';
             $mail->SMTPAuth = true;
             $mail->Username = 'brian67.bk@gmail.com'; // Tu correo de Gmail
-            $mail->Password = 'rzws dyww xbyr xzuf'; // La contraseña de aplicación
+            $mail->Password = 'fyxj rkyt qfjd ppuc'; // La contraseña de aplicación
             $mail->SMTPSecure = 'tls';  // Usar 'tls'
             $mail->Port = 587;
 

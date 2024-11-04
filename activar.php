@@ -15,12 +15,9 @@ if (empty($token)) {
 $db = (new Database())->getConnection();
 $usuarioModel = new UsuarioModel($db);
 
-// Verificar y activar la cuenta
 if ($usuarioModel->activarCuenta($token)) {
-    header('Location: login.php?mensaje=activacion_exito');
-    exit();
-} else {
-    header('Location: error.php?mensaje=token_invalido');
+    header('Location: /TPFinalPreguntas/app/index.php?page=home&message=activacion_exito');
     exit();
 }
+
 ?>
