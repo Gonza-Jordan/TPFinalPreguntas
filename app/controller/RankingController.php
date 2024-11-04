@@ -40,6 +40,6 @@ class RankingController {
         ];
 
         // Llamar al presenter con la vista y los datos
-        $this->presenter->show('ranking', $data);
+        $this->mustache->show('ranking', $data);
     }
 }
