@@ -27,6 +27,11 @@
             <td>{{puntaje_total}}</td>
         </tr>
     {{/usuarios}}
+    {{^usuarios}}
+        <tr>
+            <td colspan="3">No hay usuarios en el ranking.</td>
+        </tr>
+    {{/usuarios}}
     </tbody>
 </table>
 
@@ -47,6 +52,11 @@
             <td>{{puntaje_total}}</td>
         </tr>
     {{/rankingPorPais}}
+    {{^rankingPorPais}}
+        <tr>
+            <td colspan="3">No hay usuarios en el ranking por país.</td>
+        </tr>
+    {{/rankingPorPais}}
     </tbody>
 </table>
 
@@ -65,6 +75,11 @@
             <td>{{posicion}}</td>
             <td>{{nombre_usuario}}</td>
             <td>{{puntaje_total}}</td>
+        </tr>
+    {{/rankingPorCiudad}}
+    {{^rankingPorCiudad}}
+        <tr>
+            <td colspan="3">No hay usuarios en el ranking por ciudad.</td>
         </tr>
     {{/rankingPorCiudad}}
     </tbody>
