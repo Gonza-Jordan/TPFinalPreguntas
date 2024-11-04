@@ -19,7 +19,6 @@ class RankingController {
         $this->mustache->show('ranking');
     }
     
-
     public function mostrarRanking() {
         SessionHelper::verificarSesion();
 
@@ -27,19 +26,25 @@ class RankingController {
         $rankingPorPais = $this->rankingModel->obtenerRankingPorPais();
         $rankingPorCiudad = $this->rankingModel->obtenerRankingPorCiudad();
 
-        if (!$usuarios) {
-            echo TemplateEngine::render(__DIR__ . '/../view/ranking.mustache', ['usuarios' => [], 'mensaje' => 'No hay usuarios en el ranking.']);
-            return;
+        // Inicializar el mensaje
+        $mensaje = 'No hay usuarios en el ranking.';
+
+        if ($usuarios) {
+            foreach ($usuarios as $index => &$usuario) {
+                $usuario['posicion'] = $index + 1;
+            }
+            $mensaje = ''; // Reiniciar mensaje si hay usuarios
         }
 
-        foreach ($usuarios as $index => &$usuario) {
-            $usuario['posicion'] = $index + 1;
-        }
-
-        echo TemplateEngine::render(__DIR__ . '/../view/ranking.mustache', [
+        // Preparar los datos para el presenter
+        $data = [
             'usuarios' => $usuarios,
             'rankingPorPais' => $rankingPorPais,
-            'rankingPorCiudad' => $rankingPorCiudad
-        ]);
+            'rankingPorCiudad' => $rankingPorCiudad,
+            'mensaje' => $mensaje
+        ];
+
+        // Llamar al presenter con la vista y los datos
+        $this->presenter->show('ranking', $data);
     }
 }
