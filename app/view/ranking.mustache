@@ -9,7 +9,9 @@
 </head>
 <body>
 <h1>Ranking de Jugadores</h1>
-<table>
+
+<h2>Ranking General</h2>
+<table class="table">
     <thead>
     <tr>
         <th>Posición</th>
@@ -25,6 +27,46 @@
             <td>{{puntaje_total}}</td>
         </tr>
     {{/usuarios}}
+    </tbody>
+</table>
+
+<h2>Ranking por País</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Posición</th>
+        <th>Nombre de Usuario</th>
+        <th>Puntaje Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#rankingPorPais}}
+        <tr>
+            <td>{{posicion}}</td>
+            <td>{{nombre_usuario}}</td>
+            <td>{{puntaje_total}}</td>
+        </tr>
+    {{/rankingPorPais}}
+    </tbody>
+</table>
+
+<h2>Ranking por Ciudad</h2>
+<table class="table">
+    <thead>
+    <tr>
+        <th>Posición</th>
+        <th>Nombre de Usuario</th>
+        <th>Puntaje Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    {{#rankingPorCiudad}}
+        <tr>
+            <td>{{posicion}}</td>
+            <td>{{nombre_usuario}}</td>
+            <td>{{puntaje_total}}</td>
+        </tr>
+    {{/rankingPorCiudad}}
     </tbody>
 </table>
 
