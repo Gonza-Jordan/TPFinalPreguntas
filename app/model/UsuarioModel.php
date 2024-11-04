@@ -160,4 +160,13 @@ class UsuarioModel {
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function obtenerRankingUsuarios() {
+        $query = "SELECT id_usuario, nombre_usuario, puntaje_total 
+              FROM usuarios 
+              ORDER BY puntaje_total DESC";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
