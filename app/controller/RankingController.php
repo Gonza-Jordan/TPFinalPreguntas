@@ -22,7 +22,7 @@ class RankingController {
     public function mostrarRanking() {
         SessionHelper::verificarSesion();
 
-        $usuarios = $this->usuarioModel->obtenerRankingUsuarios();
+        $usuarios = $this->rankingModel->obtenerRanking(10);
         $rankingPorPais = $this->rankingModel->obtenerRankingPorPais();
         $rankingPorCiudad = $this->rankingModel->obtenerRankingPorCiudad();
 
@@ -32,14 +32,12 @@ class RankingController {
             }
         }
 
-        // Preparar los datos para el presenter
         $data = [
             'usuarios' => $usuarios,
             'rankingPorPais' => $rankingPorPais,
             'rankingPorCiudad' => $rankingPorCiudad,
         ];
 
-        // Llamar al presenter con la vista y los datos
         $this->mustache->show('ranking', $data);
     }
 }
