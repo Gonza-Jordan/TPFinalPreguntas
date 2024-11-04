@@ -9,10 +9,11 @@ class RankingModel {
     }
 
     public function obtenerRanking($limite = 10) {
-        $query = "SELECT id_usuario, nombre_usuario, puntaje_total
-                  FROM " . $this->table_usuarios . "
-                  ORDER BY puntaje_total DESC
-                  LIMIT :limite";
+        $query = "SELECT u.id_usuario, u.nombre_usuario, u.puntaje_total, r.posicion
+              FROM " . $this->table_usuarios . " u
+              JOIN ranking r ON u.id_usuario = r.id_usuario
+              ORDER BY r.posicion ASC
+              LIMIT :limite";
 
         $stmt = $this->conn->prepare($query);
 

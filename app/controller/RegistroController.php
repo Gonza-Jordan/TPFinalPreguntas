@@ -21,22 +21,22 @@ class RegistroController {
         $errores = $this->validarDatos($datos);
 
         if (empty($errores)) {
-            // Registrar usuario sin la foto
-            $this->usuarioModel->nombre_completo = $datos['nombre_completo'];
-            $this->usuarioModel->anio_nacimiento = $datos['anio_nacimiento'];
-            $this->usuarioModel->sexo = $datos['sexo'];
-            $this->usuarioModel->pais = $datos['pais'];
-            $this->usuarioModel->ciudad = $datos['ciudad'];
-            $this->usuarioModel->email = $datos['email'];
-            $this->usuarioModel->contrasenia = $datos['contrasenia'];
-            $this->usuarioModel->nombre_usuario = $datos['nombre_usuario'];
-
             // Generar el token de activación
             $token = bin2hex(random_bytes(16)); // Genera un token de 32 caracteres
-            $this->usuarioModel->token_activacion = $token;
 
             // Registrar usuario
-            if ($this->usuarioModel->registrar()) {
+            if ($this->usuarioModel->registrar(
+                $datos['nombre_completo'],
+                $datos['anio_nacimiento'],
+                $datos['sexo'],
+                $datos['pais'],
+                $datos['ciudad'],
+                $datos['email'],
+                $datos['contrasenia'],
+                $datos['nombre_usuario'],
+                null, // Para foto_perfil, que se puede procesar después
+                $token
+            )) {
                 // Obtener el ID del usuario registrado
                 $id_usuario = $this->usuarioModel->getLastInsertedId();
 
@@ -129,3 +129,4 @@ class RegistroController {
         return false;
     }
 }
+

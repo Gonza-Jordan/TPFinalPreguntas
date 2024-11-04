@@ -26,11 +26,6 @@ class RankingController {
         $rankingPorPais = $this->rankingModel->obtenerRankingPorPais();
         $rankingPorCiudad = $this->rankingModel->obtenerRankingPorCiudad();
 
-        if ($usuarios) {
-            foreach ($usuarios as $index => &$usuario) {
-                $usuario['posicion'] = $index + 1;
-            }
-        }
 
         $data = [
             'usuarios' => $usuarios,
