@@ -5,24 +5,24 @@ require_once __DIR__ . '/../helper/TemplateEngine.php';
 require_once __DIR__ . '/../helper/SessionHelper.php';
 
 class RankingController {
-    private $presenter;
-    private $model;
+    private $mustache;
+    private $RankingModel;
     
-    public function __construct($presenter, $model) {
-        $this->presenter = $presenter;
-        $this->model = $model;
+    public function __construct($mustache, $RankingModel) {
+        $this->mustache = $mustache;
+        $this->RankingModel = $RankingModel;
     }
 
     public function show() {
-        $this->presenter->show('ranking');
+        $this->mustache->show('ranking');
     }
     
     public function mostrarRanking() {
         SessionHelper::verificarSesion();
 
-        $usuarios = $this->model->obtenerRanking(10);
-        $rankingPorPais = $this->model->obtenerRankingPorPais();
-        $rankingPorCiudad = $this->model->obtenerRankingPorCiudad();
+        $usuarios = $this->RankingModel->obtenerRanking(10);
+        $rankingPorPais = $this->RankingModel->obtenerRankingPorPais();
+        $rankingPorCiudad = $this->RankingModel->obtenerRankingPorCiudad();
 
         if ($usuarios) {
             foreach ($usuarios as $index => &$usuario) {
@@ -48,6 +48,6 @@ class RankingController {
             'rankingPorCiudad' => $rankingPorCiudad,
         ];
 
-        $this->presenter->show('ranking', $data);
+        $this->mustache->show('ranking', $data);
     }
 }
