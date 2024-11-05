@@ -9,7 +9,7 @@ body {
     padding: 2rem;
 }
 .container {
-    margin-top: 2rem;
+    margin-top: 1rem;
     background-color: #fff;
     padding: 20px;
     border-radius: 10px;
