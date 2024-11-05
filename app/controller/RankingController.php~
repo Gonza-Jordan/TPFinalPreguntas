@@ -39,7 +39,7 @@ class RankingController {
     public function verPerfilJugador() {
         SessionHelper::verificarSesion();
 
-        $idUsuario = $_GET['id'];
+        $idUsuario = $_GET['$id'];
 
         $usuario = $this->usuarioModel->obtenerUsuarioPorId($idUsuario);
         $partidas = $this->partidaModel->obtenerPartidasPorUsuario($idUsuario);

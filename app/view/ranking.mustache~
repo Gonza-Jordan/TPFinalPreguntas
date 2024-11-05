@@ -24,7 +24,7 @@
         <tr>
             <td>{{posicion}}</td>
             <td>
-                <a href="Ranking/verPerfilJugador?id={{id_usuario}}">
+                <a href="ranking/verPerfilJugador?id={{id_usuario}}">
                 {{nombre_usuario}}
                 </a>
 
