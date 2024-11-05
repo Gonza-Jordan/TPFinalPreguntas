@@ -2,11 +2,10 @@
 
 class PartidaController
 {
-
     private $presenter;
     private $model;
 
-    public function __construct($presenter, $model){
+    public function __construct($presenter, $model) {
         $this->presenter = $presenter;
         $this->model = $model;
     }
@@ -32,8 +31,7 @@ class PartidaController
         $this->presenter->show('crearPartida', $partida);
     }
 
-    public function crearPartida()
-    {
+    public function crearPartida() {
         SessionHelper::verificarSesion();
         $idUsuario = $_SESSION['user_id'];
 
@@ -74,6 +72,7 @@ class PartidaController
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['respuesta'])) {
             $respuestaSeleccionada = $_POST['respuesta'];
 
+            // Llama a la función del modelo para verificar y actualizar estadísticas
             $resultado = $this->model->verificarRespuesta($idUsuario, $respuestaSeleccionada, $idPartida);
 
             if ($resultado['esCorrecta']) {
@@ -88,12 +87,12 @@ class PartidaController
         }
     }
 
-    public function siguientePregunta($idUsuario, $idPartida){
+    public function siguientePregunta($idUsuario, $idPartida) {
         $partida = $this->model->siguientePregunta($idUsuario, $idPartida);
         $this->show($partida);
     }
 
-    public function finalizarPartida($idUsuario, $idPartida, $opcionCorrecta){
+    public function finalizarPartida($idUsuario, $idPartida, $opcionCorrecta) {
         $ultimaPregunta = $this->model->entregarUltimaPregunta($idUsuario, $idPartida);
         $respuestaCorrecta = $this->model->finalizarPartida($idPartida, $opcionCorrecta);
 
@@ -103,49 +102,4 @@ class PartidaController
 
         $this->show($data);
     }
-    private function actualizarEstadisticasPregunta($idPregunta, $esCorrecta) {
-        $sqlUpdate = "UPDATE preguntas SET veces_respondida = veces_respondida + 1 WHERE id_pregunta = :idPregunta";
-        $stmt = $this->conn->prepare($sqlUpdate);
-        $stmt->bindParam(':idPregunta', $idPregunta, PDO::PARAM_INT);
-        $stmt->execute();
-
-        if ($esCorrecta) {
-            $sqlUpdateCorrectas = "UPDATE preguntas SET veces_respondida_correctamente = veces_respondida_correctamente + 1 WHERE id_pregunta = :idPregunta";
-            $stmt = $this->conn->prepare($sqlUpdateCorrectas);
-            $stmt->bindParam(':idPregunta', $idPregunta, PDO::PARAM_INT);
-            $stmt->execute();
-        }
-
-        $this->actualizarDificultad($idPregunta);
-    }
-
-    private function actualizarDificultad($idPregunta) {
-        $sql = "SELECT veces_respondida, veces_respondida_correctamente FROM preguntas WHERE id_pregunta = :idPregunta";
-        $stmt = $this->conn->prepare($sql);
-        $stmt->bindParam(':idPregunta', $idPregunta, PDO::PARAM_INT);
-        $stmt->execute();
-        $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($data && $data['veces_respondida'] > 0) {
-            $vecesRespondida = $data['veces_respondida'];
-            $vecesRespondidaCorrectamente = $data['veces_respondida_correctamente'];
-
-            $porcentajeCorrectas = ($vecesRespondidaCorrectamente / $vecesRespondida) * 100;
-
-            $nivelDificultad = 'Medio';
-            if ($porcentajeCorrectas > 70) {
-                $nivelDificultad = 'Facil';
-            } elseif ($porcentajeCorrectas < 30) {
-                $nivelDificultad = 'Dificil';
-            }
-
-            $sqlUpdateDificultad = "UPDATE preguntas SET nivel_dificultad = :nivelDificultad WHERE id_pregunta = :idPregunta";
-            $stmt = $this->conn->prepare($sqlUpdateDificultad);
-            $stmt->bindParam(':nivelDificultad', $nivelDificultad, PDO::PARAM_STR);
-            $stmt->bindParam(':idPregunta', $idPregunta, PDO::PARAM_INT);
-            $stmt->execute();
-        }
-    }
-
-
 }
