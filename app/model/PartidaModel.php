@@ -271,4 +271,13 @@ class PartidaModel
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function obtenerPartidasPorUsuario($idUsuario)
+    {
+        $query = "SELECT * FROM  partidas WHERE id_usuario = :id_usuario";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_usuario', $idUsuario);
+        $stmt->execute();
+
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
 }

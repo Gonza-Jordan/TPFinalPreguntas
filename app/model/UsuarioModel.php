@@ -149,13 +149,12 @@ class UsuarioModel {
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function obtenerRankingUsuarios() {
-        $query = "SELECT id_usuario, nombre_usuario, puntaje_total 
-              FROM usuarios 
-              ORDER BY puntaje_total DESC";
-        $stmt = $this->db->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    private function generarCodigoQR($idUsuario) {
+        $urlPerfil = "http://tusitio.com/perfil.php?id=" . $idUsuario;
+        $filePath = "path_donde_guardar_qr/qr_$idUsuario.png";
+        QRcode::png($urlPerfil, $filePath);
+        return $filePath;
     }
+
 
 }

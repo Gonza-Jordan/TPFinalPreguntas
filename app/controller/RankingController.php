@@ -8,10 +8,12 @@ class RankingController {
     private $mustache;
     private $rankingModel;
     private $usuarioModel;
+    private $partidaModel;
 
-    public function __construct($mustache, $usuarioModel, $rankingModel) {
+    public function __construct($mustache, $usuarioModel, $partidaModel,$rankingModel) {
         $this->mustache = $mustache;
         $this->usuarioModel = $usuarioModel;
+        $this->partidaModel = $partidaModel;
         $this->rankingModel = $rankingModel;
     }
 
@@ -34,4 +36,21 @@ class RankingController {
 
         $this->mustache->show('ranking', $data);
     }
+    public function verPerfilJugador($idUsuario) {
+        SessionHelper::verificarSesion();
+
+        $usuario = $this->usuarioModel->obtenerUsuarioPorId($idUsuario);
+        $partidas = $this->partidaModel->obtenerPartidasPorUsuario($idUsuario);
+
+        if ($usuario) {
+           // $usuario['qrCode'] = $this->generarCodigoQR($idUsuario); // Generar el QR para su perfil
+            echo $this->mustache->show('verPerfilJugador', [
+                'usuario' => $usuario,
+                'partidas' => $partidas,
+            ]);
+        } else {
+            echo "Usuario no encontrado";
+        }
+    }
+
 }

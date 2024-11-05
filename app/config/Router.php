@@ -15,13 +15,16 @@ class Router {
         return new AuthController($this->getMustache(), $this->getUserModel());
     }
 
-    public function route($controllerName, $methodName)
+    public function route($controllerName, $methodName, $id = null)
     {
         if ($controllerName === 'perfil') {
             $this->routeToPerfilController($methodName);
             return;
         }
-
+        if ($controllerName === 'ranking' && $methodName === 'verPerfilJugador') {
+            $this->routeToPerfilJugador($id);
+            return;
+        }
         // Continuar con la lógica original
         $controller = $this->getControllerFrom($controllerName);
 
@@ -46,7 +49,16 @@ class Router {
             exit();
         }
     }
+    private function routeToPerfilJugador($id) {
+        $controller = $this->configuration->getRankingController();
 
+        if ($id) {
+            $controller->verPerfilJugador($id);
+        } else {
+            header('Location: /TPFinalPreguntas/app/index.php?page=auth&action=show');
+            exit();
+        }
+    }
     private function getControllerFrom($module) {
         $controllerName = 'get' . ucfirst($module) . 'Controller';
         $validController = method_exists($this->configuration, $controllerName) ? $controllerName : $this->defaultController;

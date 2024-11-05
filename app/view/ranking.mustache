@@ -23,7 +23,12 @@
     {{#usuarios}}
         <tr>
             <td>{{posicion}}</td>
-            <td>{{nombre_usuario}}</td>
+            <td>
+                <a href="/TPFinalPreguntas/app/index.php?page=ranking&method=verPerfilJugador&id={{id_usuario}}">
+                {{nombre_usuario}}
+                </a>
+
+            </td>
             <td>{{puntaje_total}}</td>
         </tr>
     {{/usuarios}}
