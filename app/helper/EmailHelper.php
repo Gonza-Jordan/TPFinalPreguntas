@@ -1,28 +1,34 @@
 <?php
 
 require_once __DIR__ . '/../../vendor/autoload.php';  // Usar el autoload de Composer
+use Dotenv\Dotenv;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
 class EmailHelper
 {
+    public function __construct() {
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
+        $dotenv->load();
+    }
     public function enviarCorreoActivacion($email, $token)
     {
+
         $mail = new PHPMailer(true);  // 'true' para excepciones
 
         try {
             // Configuración del servidor SMTP
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = $_ENV['SMTP_HOST'];
             $mail->SMTPAuth = true;
-            $mail->Username = 'brian67.bk@gmail.com'; // Tu correo de Gmail
-            $mail->Password = 'fyxj rkyt qfjd ppuc'; // La contraseña de aplicación
-            $mail->SMTPSecure = 'tls';  // Usar 'tls'
-            $mail->Port = 587;
+            $mail->Username = $_ENV['SMTP_USER'];
+            $mail->Password = $_ENV['SMTP_PASSWORD'];
+            $mail->SMTPSecure = 'tls';
+            $mail->Port = $_ENV['SMTP_PORT'];
 
             // Remitente y destinatario
-            $mail->setFrom('brian67.bk@gmail.com', 'Tu Proyecto');
+            $mail->setFrom($_ENV['SMTP_USER'], $_ENV['SMTP_FROM_NAME']);
             $mail->addAddress($email);
 
             // Contenido del correo

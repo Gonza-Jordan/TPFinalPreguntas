@@ -16,6 +16,13 @@
         <?php echo $mensaje; ?>
     </div>
     <?php endif; ?>
+    {{#alert_success}}
+        <div class="alert alert-success">{{alert_success}}</div>
+    {{/alert_success}}
+
+    {{#alert_error}}
+        <div class="alert alert-danger">{{alert_error}}</div>
+    {{/alert_error}}
 
     <form action="/TPFinalPreguntas/app/auth/login" method="POST">
         <div class="mb-3">
