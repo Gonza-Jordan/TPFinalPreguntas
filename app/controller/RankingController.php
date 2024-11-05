@@ -6,41 +6,25 @@ require_once __DIR__ . '/../helper/SessionHelper.php';
 
 class RankingController {
     private $mustache;
-    private $RankingModel;
-    
-    public function __construct($mustache, $RankingModel) {
+    private $rankingModel;
+    private $usuarioModel;
+
+    public function __construct($mustache, $usuarioModel, $rankingModel) {
         $this->mustache = $mustache;
-        $this->RankingModel = $RankingModel;
+        $this->usuarioModel = $usuarioModel;
+        $this->rankingModel = $rankingModel;
     }
 
     public function show() {
-        $this->mustache->show('ranking');
-    }
-    
-    public function mostrarRanking() {
         SessionHelper::verificarSesion();
 
-        $usuarios = $this->RankingModel->obtenerRanking(10);
-        $rankingPorPais = $this->RankingModel->obtenerRankingPorPais();
-        $rankingPorCiudad = $this->RankingModel->obtenerRankingPorCiudad();
+        // Actualizar la tabla Ranking antes de mostrarla
+        $this->rankingModel->actualizarRanking();
 
-        if ($usuarios) {
-            foreach ($usuarios as $index => &$usuario) {
-                $usuario['posicion'] = $index + 1;
-            }
-        }
-        if ($rankingPorPais) {
-            foreach ($rankingPorPais as $index => &$usuario) {
-                $usuario['posicion'] = $index + 1;
-            }
-        }
-
-        if ($rankingPorCiudad) {
-            foreach ($rankingPorCiudad as $index => &$usuario) {
-                $usuario['posicion'] = $index + 1;
-            }
-        }
-
+        // Obtener el ranking actualizado
+        $usuarios = $this->rankingModel->obtenerRanking(10);
+        $rankingPorPais = $this->rankingModel->obtenerRankingPorPais();
+        $rankingPorCiudad = $this->rankingModel->obtenerRankingPorCiudad();
 
         $data = [
             'usuarios' => $usuarios,
