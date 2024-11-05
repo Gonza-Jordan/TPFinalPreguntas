@@ -9,7 +9,17 @@ class AuthController {
     }
 
     public function show() {
-        $this->mustache->show('logIn');
+
+        $mensaje = isset($_GET['mensaje']) ? $_GET['mensaje'] : null;
+
+        $data = [];
+        if ($mensaje === 'activacion_exito') {
+            $data['alert_success'] = 'Tu cuenta ha sido activada con éxito. Ahora puedes iniciar sesión.';
+        } elseif ($mensaje === 'token_invalido') {
+            $data['alert_error'] = 'El enlace de activación no es válido o ha expirado.';
+        }
+
+        $this->mustache->show('logIn', $data);
     }
 
     public function login() {
@@ -27,8 +37,10 @@ class AuthController {
                 header('Location: /TPFinalPreguntas/app/index.php?page=home&action=show');
                 exit();
             } else {
-                $errorHTML = '<div class="alert alert-danger">Usuario o contraseña incorrectos</div>';
-                $this->mustache->show('logIn', ['errorHTML' => $errorHTML]);
+                $data = [
+                    'errorHTML' => '<div class="alert alert-danger">Usuario o contraseña incorrectos</div>'
+                ];
+                $this->mustache->show('logIn', $data);
             }
         }
     }

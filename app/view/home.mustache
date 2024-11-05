@@ -18,20 +18,12 @@
         </a>
     </header>
 
-    <!-- Mostrar mensaje de activación si está disponible -->
-    {{#activacion_message}}
-        <div class="alert alert-success" role="alert">
-            {{activacion_message}}
-        </div>
-    {{/activacion_message}}
-
     <section class="buttons">
         <a href="historial" class="button">Historial de partidas</a>
         <a href="ranking" class="button">Ranking</a>
         <a href="crearPregunta" class="button">Crear nueva pregunta</a>
         <a href="partida/crearPartida" class="button">Nueva partida</a>
 
-        <!-- Botón de Cerrar Sesión -->
         <form action="/TPFinalPreguntas/app/index.php?page=auth&action=logout" method="POST">
             <button type="submit" class="button logout-button">Cerrar sesión</button>
         </form>
