@@ -9,41 +9,38 @@
 </head>
 
 <body>
-<header>
-    <nav>
-        <a href="inicio.mustache">Inicio</a>
-        <a href="historial.mustache">Historial</a>
-        <a href="ranking.mustache">Ranking</a>
-        <a href="crearPregunta.mustache">Crear Pregunta</a>
-    </nav>
+<div class="home-container">
+    <header class="text-center">
+        <nav class="nav-links mb-4">
+            <a href="inicio.mustache">Inicio</a>
+            <a href="historial.mustache">Historial</a>
+            <a href="ranking.mustache">Ranking</a>
+        </nav>
 
-    <div class="user-info">
-        <!-- Foto de perfil al lado del nombre -->
-        <img src="/TPFinalPreguntas/app/public/perfiles/{{foto_perfil}}" alt="Perfil" id="perfil-icon">
-        <h1 style="margin: 0;">Hola, {{nombre_usuario}}!</h1>
-    </div>
-
-    <div class="user-info">
-        <p style="margin: 0;">Mi puntaje: <strong>{{puntaje_total}}</strong></p>
-        <!-- Botón de cerrar sesión al lado del puntaje -->
-        <form action="/TPFinalPreguntas/app/index.php?page=auth&action=logout" method="POST" style="margin: 0;">
-            <button type="submit" class="logout-button">Cerrar sesión</button>
-        </form>
-    </div>
-</header>
-
-<main class="home-view">
-    <section class="buttons">
-        <a href="historial" class="button">Historial de partidas</a>
-        <a href="ranking" class="button">Ranking</a>
-        <a href="crearPregunta" class="button">Crear nueva pregunta</a>
-        <a href="partida/crearPartida" class="button">Nueva partida</a>
-
+        <div class="user-info text-center">
+            <!-- Foto de perfil al lado del nombre, que enlaza al perfil del usuario -->
+            <a href="/TPFinalPreguntas/app/index.php?page=perfil&action=mostrar&id={{user_id}}">
+            <img src="/TPFinalPreguntas/app/public/perfiles/{{foto_perfil}}" alt="Perfil" id="perfil-icon">
+            </a>
+            <h1 class="mt-2">Hola, {{nombre_usuario}}!</h1>
+            <p>Mi puntaje: <strong>{{puntaje_total}}</strong></p>
+        </div>
         <form action="/TPFinalPreguntas/app/index.php?page=auth&action=logout" method="POST">
-            <button type="submit" class="button logout-button">Cerrar sesión</button>
+            <button type="submit" class="btn btn-danger logout-button">Cerrar sesión</button>
         </form>
-    </section>
-</main>
+    </header>
+
+    <main class="home-view">
+        <section class="buttons">
+            <a href="historial" class="button">Historial de partidas</a>
+            <a href="ranking" class="button">Ranking</a>
+            {{#esEditor}}
+                <a href="/TPFinalPreguntas/app/index.php?page=pregunta&action=crear" class="button">Crear nueva pregunta</a>
+            {{/esEditor}}
+            <a href="partida/crearPartida" class="button">Nueva partida</a>
+        </section>
+    </main>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>

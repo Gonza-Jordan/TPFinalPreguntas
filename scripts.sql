@@ -156,3 +156,7 @@ CREATE TABLE Ranking (
                           posicion INT,
                           FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
 );
+
+--rol editor/admin
+ALTER TABLE usuarios
+    MODIFY COLUMN tipo_usuario ENUM('jugador', 'editor', 'administrador') DEFAULT 'jugador';

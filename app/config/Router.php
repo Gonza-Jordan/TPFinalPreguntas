@@ -15,17 +15,22 @@ class Router {
         return new AuthController($this->getMustache(), $this->getUserModel());
     }
 
-    public function route($controllerName, $methodName, $id = null)
-    {
+    public function route($controllerName, $methodName, $id = null) {
         if ($controllerName === 'perfil') {
             $this->routeToPerfilController($methodName);
             return;
         }
+
         if ($controllerName === 'ranking' && $methodName === 'verPerfilJugador') {
             $this->routeToPerfilJugador($id);
             return;
         }
-        // Continuar con la lógica original
+
+        if ($controllerName === 'pregunta' && ($methodName === 'crear' || $methodName === 'editar')) {
+            $this->routeToPreguntaController($methodName, $id);
+            return;
+        }
+
         $controller = $this->getControllerFrom($controllerName);
 
         if (empty($methodName)) {
@@ -49,6 +54,7 @@ class Router {
             exit();
         }
     }
+
     private function routeToPerfilJugador($id) {
         $controller = $this->configuration->getRankingController();
 
@@ -59,26 +65,34 @@ class Router {
             exit();
         }
     }
+
+    private function routeToPreguntaController($methodName, $id) {
+        if (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'editor') {
+            $controller = $this->configuration->getPreguntaController();
+            if (empty($methodName)) {
+                $methodName = 'listar';
+            }
+            $this->executeMethodFromController($controller, $methodName, $id);
+        } else {
+            echo '<div class="alert alert-danger">No tienes permisos para acceder a esta sección.</div>';
+            exit();
+        }
+    }
+
     private function getControllerFrom($module) {
         $controllerName = 'get' . ucfirst($module) . 'Controller';
         $validController = method_exists($this->configuration, $controllerName) ? $controllerName : $this->defaultController;
         return call_user_func(array($this->configuration, $validController));
     }
 
-    private function executeMethodFromController($controller, $method) {
+    private function executeMethodFromController($controller, $method, $id = null) {
         $validMethod = method_exists($controller, $method) ? $method : $this->defaultMethod;
         $reflection = new ReflectionMethod($controller, $validMethod);
         $numParams = $reflection->getNumberOfParameters();
 
         switch ($numParams) {
             case 1:
-                call_user_func(array($controller, $validMethod), null);
-                break;
-            case 2:
-                call_user_func(array($controller, $validMethod), null, null);
-                break;
-            case 3:
-                call_user_func(array($controller, $validMethod), null, null, null);
+                call_user_func(array($controller, $validMethod), $id);
                 break;
             default:
                 call_user_func(array($controller, $validMethod));

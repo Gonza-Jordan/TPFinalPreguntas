@@ -156,5 +156,20 @@ class UsuarioModel {
         return $filePath;
     }
 
+    public function esEditor($id_usuario) {
+        $query = "SELECT tipo_usuario FROM usuarios WHERE id_usuario = :id_usuario";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute(['id_usuario' => $id_usuario]);
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resultado['tipo_usuario'] === 'editor';
+    }
 
+    // Método para verificar si el usuario es administrador
+    public function esAdministrador($id_usuario) {
+        $query = "SELECT tipo_usuario FROM usuarios WHERE id_usuario = :id_usuario";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute(['id_usuario' => $id_usuario]);
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resultado['tipo_usuario'] === 'administrador';
+    }
 }

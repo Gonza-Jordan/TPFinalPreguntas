@@ -65,24 +65,6 @@
     <a href="/TPFinalPreguntas/app/index.php?page=auth&action=show">
         <button class="logout-button">Cerrar sesión</button>
     </a>
-
-    <!-- Panel de administrador -->
-    {{#is_admin}}
-        <a href="/TPFinalPreguntas/app/index.php?page=administrador">
-            <div class="admin-panel">
-                <button class="admin-button">Panel de administrador</button>
-            </div>
-        </a>
-    {{/is_admin}}
-
-    <!-- Panel de editor -->
-    {{#is_editor}}
-        <a href="/TPFinalPreguntas/app/index.php?page=editor">
-            <div class="admin-panel">
-                <button class="admin-button">Panel de editor</button>
-            </div>
-        </a>
-    {{/is_editor}}
 </div>
 
 <script>

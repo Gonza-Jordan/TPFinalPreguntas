@@ -5,7 +5,7 @@ class HomeController {
     private $presenter;
     private $model;
 
-    public function __construct($presenter, $model){
+    public function __construct($presenter, $model) {
         $this->presenter = $presenter;
         $this->model = $model;
     }
@@ -18,10 +18,12 @@ class HomeController {
 
         $id_usuario = $_SESSION['user_id'];
         $usuario = $this->model->obtenerUsuarioPorId($id_usuario);
-        
+
         if (!isset($usuario['puntaje_total'])) {
             $usuario['puntaje_total'] = 0;
         }
+
+        $usuario['esEditor'] = ($usuario['tipo_usuario'] === 'editor');
 
         $this->presenter->show('home', $usuario);
     }

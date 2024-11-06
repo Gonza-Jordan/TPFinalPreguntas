@@ -9,32 +9,36 @@
     <link rel="stylesheet" href="../public/css/crearPregunta-Partida.css">
 </head>
 <body>
-    <div class="container">
+<div class="container">
+    {{#esEditor}}
         <div class="game-container">
             <h1 class="h3 mb-4">Crear pregunta</h1>
-            
-            <form>
+
+            <form method="POST" action="/TPFinalPreguntas/app/index.php?page=pregunta&action=crear">
                 <div class="mb-3">
                     <label for="category" class="form-label">Categoría</label>
                     <select class="form-select" id="category" name="category">
-                        <option selected>Cultura</option>
-                        <!-- Añade más opciones según sea necesario -->
+                        <option value="Cultura" selected>Cultura</option>
+                        <option value="Historia">Historia</option>
+                        <option value="Ciencia">Ciencia</option>
+                        <option value="Deportes">Deportes</option>
+                        <option value="Entretenimiento">Entretenimiento</option>
                     </select>
                 </div>
                 <div class="mb-3">
                     <label for="newQuestion" class="form-label">Nueva pregunta</label>
-                    <textarea class="form-control" id="newQuestion" name="newQuestion" rows="3"></textarea>
+                    <textarea class="form-control" id="newQuestion" name="newQuestion" rows="3" required></textarea>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Opciones</label>
-                    <input type="text" class="form-control mb-2" name="optionA" placeholder="Opción A">
-                    <input type="text" class="form-control mb-2" name="optionB" placeholder="Opción B">
-                    <input type="text" class="form-control mb-2" name="optionC" placeholder="Opción C">
-                    <input type="text" class="form-control mb-2" name="optionD" placeholder="Opción D">
+                    <input type="text" class="form-control mb-2" name="optionA" placeholder="Opción A" required>
+                    <input type="text" class="form-control mb-2" name="optionB" placeholder="Opción B" required>
+                    <input type="text" class="form-control mb-2" name="optionC" placeholder="Opción C" required>
+                    <input type="text" class="form-control mb-2" name="optionD" placeholder="Opción D" required>
                 </div>
                 <div class="mb-3">
                     <label for="correctOption" class="form-label">Opción correcta</label>
-                    <select class="form-select" id="correctOption" name="correctOption">
+                    <select class="form-select" id="correctOption" name="correctOption" required>
                         <option value="A">Opción A</option>
                         <option value="B">Opción B</option>
                         <option value="C">Opción C</option>
@@ -44,8 +48,13 @@
                 <button type="submit" class="btn btn-primary continue-btn">Continuar</button>
             </form>
         </div>
-    </div>
+    {{/esEditor}}
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    {{^esEditor}}
+        <div class="alert alert-danger mt-4">No tienes permisos para acceder a esta sección.</div>
+    {{/esEditor}}
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

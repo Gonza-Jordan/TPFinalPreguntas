@@ -11,6 +11,7 @@ include_once('controller/AuthController.php');
 include_once('controller/HomeController.php');
 include_once('controller/PerfilController.php');  // Agregado el controlador de perfil
 include_once('controller/UsuarioController.php'); // Agregado el controlador de usuario
+include_once('controller/PreguntaController.php');
 include_once ('controller/RegistroController.php');
 include_once ('controller/PartidaController.php');
 include_once ('controller/RankingController.php');
@@ -20,6 +21,7 @@ include_once ('controller/EditorController.php');
 include_once('model/UsuarioModel.php');
 include_once('model/HomeModel.php');
 include_once ('model/PartidaModel.php');
+include_once ('model/PreguntaModel.php');
 include_once ('model/RankingModel.php');
 include_once ('model/EditorModel.php');
 
@@ -108,5 +110,9 @@ class Configuration
     {
         return new EditorModel($this->getDatabase());
     }
-
+    public function getPreguntaController() {
+        $db = $this->getDatabase();
+        $preguntaModel = new PreguntaModel($db);
+        return new PreguntaController($preguntaModel, $this->getPresenter()); // Pasa el presenter también
+    }
 }
