@@ -1,22 +1,22 @@
 <?php
 
 class Database {
-    private $host = 'localhost';
-    private $db_name = 'tpfinalpreguntas';
-    private $username = 'root';
-    private $password = '';
-    private $conn;
+    private static $host = 'localhost';
+    private static $db_name = 'tpfinalpreguntas';
+    private static $username = 'root';
+    private static $password = '';
+    private static $conn;
 
-    public function getConnection() {
-        $this->conn = null;
+    public static function getConnection() {
+        self::$conn = null;
 
         try {
-            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
-            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch(PDOException $exception) {
+            self::$conn = new PDO("mysql:host=" . self::$host . ";dbname=" . self::$db_name, self::$username, self::$password);
+            self::$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $exception) {
             echo "Error de conexión: " . $exception->getMessage();
         }
 
-        return $this->conn;
+        return self::$conn;
     }
 }

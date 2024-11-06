@@ -15,13 +15,16 @@ class Router {
         return new AuthController($this->getMustache(), $this->getUserModel());
     }
 
-    public function route($controllerName, $methodName)
+    public function route($controllerName, $methodName, $id = null)
     {
         if ($controllerName === 'perfil') {
             $this->routeToPerfilController($methodName);
             return;
         }
-
+        if ($controllerName === 'ranking' && $methodName === 'verPerfilJugador') {
+            $this->routeToPerfilJugador($id);
+            return;
+        }
         // Continuar con la lógica original
         $controller = $this->getControllerFrom($controllerName);
 
@@ -42,12 +45,20 @@ class Router {
         if (isset($_SESSION['user_id'])) {
             $controller->mostrarPerfil($_SESSION['user_id']);
         } else {
-            // Redirigir al login si no hay sesión
             header('Location: /TPFinalPreguntas/app/index.php?page=auth&action=show');
             exit();
         }
     }
+    private function routeToPerfilJugador($id) {
+        $controller = $this->configuration->getRankingController();
 
+        if ($id) {
+            $controller->verPerfilJugador($id);
+        } else {
+            header('Location: /TPFinalPreguntas/app/index.php?page=auth&action=show');
+            exit();
+        }
+    }
     private function getControllerFrom($module) {
         $controllerName = 'get' . ucfirst($module) . 'Controller';
         $validController = method_exists($this->configuration, $controllerName) ? $controllerName : $this->defaultController;
@@ -56,6 +67,21 @@ class Router {
 
     private function executeMethodFromController($controller, $method) {
         $validMethod = method_exists($controller, $method) ? $method : $this->defaultMethod;
-        call_user_func(array($controller, $validMethod));
+        $reflection = new ReflectionMethod($controller, $validMethod);
+        $numParams = $reflection->getNumberOfParameters();
+
+        switch ($numParams) {
+            case 1:
+                call_user_func(array($controller, $validMethod), null);
+                break;
+            case 2:
+                call_user_func(array($controller, $validMethod), null, null);
+                break;
+            case 3:
+                call_user_func(array($controller, $validMethod), null, null, null);
+                break;
+            default:
+                call_user_func(array($controller, $validMethod));
+        }
     }
 }

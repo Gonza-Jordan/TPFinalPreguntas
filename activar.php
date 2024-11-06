@@ -7,20 +7,20 @@ $token = htmlspecialchars($_GET['token'] ?? '');
 
 // Verificar si el token está vacío
 if (empty($token)) {
-    header('Location: error.php?mensaje=token_faltante');
+    header('Location: /TPFinalPreguntas/app/index.php?page=auth&action=show&mensaje=token_faltante');
     exit();
 }
+
 $db = Database::getConnection();
 $usuarioModel = new UsuarioModel($db);
 
 // Verificar y activar la cuenta
 if ($usuarioModel->activarCuenta($token)) {
-    header('Location: login.php?mensaje=activacion_exito');
+    // Redirigir al login con un mensaje de éxito
+    header('Location: /TPFinalPreguntas/app/index.php?page=auth&action=show&mensaje=activacion_exito');
     exit();
 } else {
-    header('Location: error.php?mensaje=token_invalido');
+    // Redirigir al login con un mensaje de error
+    header('Location: /TPFinalPreguntas/app/index.php?page=auth&action=show&mensaje=token_invalido');
     exit();
 }
-?>
-
-// Cualquier reques va por el index y va al controller que corresponda, mover a Registro o Usuario

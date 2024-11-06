@@ -1,116 +1,36 @@
-/* Estilos generales para el cuerpo */
 body {
-    background-color: #e9ecef;
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-}
-
-/* Estilos para el header */
-.main-header {
+    background-color: #f4f4f4;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    background-color: #007bff;
-    padding: 10px 20px;
-    color: white;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-}
-
-.header-left {
-    display: flex;
-    align-items: center;
-}
-
-.logo {
-    font-size: 24px;
-    font-weight: bold;
-    margin-right: 20px;
-}
-
-.nav-links {
-    display: flex;
-    gap: 15px;
-}
-
-.nav-links a {
-    text-decoration: none;
-    color: white;
-    font-size: 16px;
-    padding: 8px 15px;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.nav-links a:hover {
-    background-color: #0056b3;
-}
-
-/* Estilos para la información del usuario */
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.user-info span {
-    font-size: 16px;
-    color: white;
-}
-
-.perfil-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
-
-/* Botón de Cerrar Sesión */
-.logout-form {
+    height: 100vh;
     margin: 0;
 }
 
-.logout-button {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background-color 0.3s;
-}
-
-.logout-button:hover {
-    background-color: #c82333;
-}
-
-/* Estilos para el contenedor principal */
 .home-view {
     background-color: #fff;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     max-width: 600px;
     width: 100%;
-    margin: 80px auto; /* Ajustar el margen para evitar superposición con el header */
-    text-align: center;
 }
 
-/* Estilos para los botones */
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#perfil-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
 .buttons {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
 }
 
 .button {
@@ -126,4 +46,14 @@ body {
 
 .button:hover {
     background-color: #0056b3;
+}
+
+.logout-button {
+    margin-top: 20px;
+    background-color: #dc3545;
+    color: white;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
 }

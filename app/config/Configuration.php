@@ -13,11 +13,15 @@ include_once('controller/PerfilController.php');  // Agregado el controlador de 
 include_once('controller/UsuarioController.php'); // Agregado el controlador de usuario
 include_once ('controller/RegistroController.php');
 include_once ('controller/PartidaController.php');
+include_once ('controller/RankingController.php');
+include_once ('controller/EditorController.php');
 
 // Modelos
 include_once('model/UsuarioModel.php');
 include_once('model/HomeModel.php');
 include_once ('model/PartidaModel.php');
+include_once ('model/RankingModel.php');
+include_once ('model/EditorModel.php');
 
 class Configuration
 {
@@ -83,6 +87,26 @@ class Configuration
     public function getPartidaModel()
     {
         return new PartidaModel($this->getDatabase());
+    }
+
+    public function getRankingController()
+    {
+        return new RankingController($this->getPresenter(),$this->getUserModel(), $this->getPartidaModel(), $this->getRankingModel());
+    }
+
+    public function getRankingModel()
+    {
+        return new RankingModel($this->getDatabase());
+    }
+
+    public function getEditorController()
+    {
+        return new EditorController($this->getPresenter(), $this->getEditorModel());
+    }
+
+    public function getEditorModel()
+    {
+        return new EditorModel($this->getDatabase());
     }
 
 }

@@ -1,37 +1,43 @@
-
 <?php
+
+require_once __DIR__ . '/../../vendor/autoload.php';  // Usar el autoload de Composer
+use Dotenv\Dotenv;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
-require 'PHPMailer/src/Exception.php';
-
 class EmailHelper
 {
+    public function __construct() {
+        $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');
+        $dotenv->load();
+    }
     public function enviarCorreoActivacion($email, $token)
     {
-        $mail = new PHPMailer(true);
+
+        $mail = new PHPMailer(true);  // 'true' para excepciones
 
         try {
+            // Configuración del servidor SMTP
             $mail->isSMTP();
-            $mail->Host = 'smtp.gmail.com';
+            $mail->Host = $_ENV['SMTP_HOST'];
             $mail->SMTPAuth = true;
-            $mail->Username = 'brian67.bk@gmail.com';
-            $mail->Password = 'btkk btrq slqb jnbp';
+            $mail->Username = $_ENV['SMTP_USER'];
+            $mail->Password = $_ENV['SMTP_PASSWORD'];
             $mail->SMTPSecure = 'tls';
-            $mail->Port = 587;
+            $mail->Port = $_ENV['SMTP_PORT'];
 
             // Remitente y destinatario
-            $mail->setFrom('brian67.bk@gmail.com', 'Tu Proyecto');
+            $mail->setFrom($_ENV['SMTP_USER'], $_ENV['SMTP_FROM_NAME']);
             $mail->addAddress($email);
 
             // Contenido del correo
             $mail->isHTML(true);
             $mail->Subject = 'Activación de cuenta';
             $mail->Body = "Haz clic en el siguiente enlace para activar tu cuenta: ";
-            $mail->Body .= "<a href='http://localhost/Pregunta2/TPFinalPreguntas/activar.php?token=$token'>Activar Cuenta</a>";
+            $mail->Body .= "<a href='http://localhost/TPFinalPreguntas/activar.php?token=$token'>Activar Cuenta</a>";
+
+            // Enviar el correo
             $mail->send();
             return true;
         } catch (Exception $e) {
@@ -40,5 +46,3 @@ class EmailHelper
         }
     }
 }
-
-
