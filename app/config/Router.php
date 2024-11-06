@@ -30,6 +30,10 @@ class Router {
             $this->routeToPreguntaController($methodName, $id);
             return;
         }
+        if ($controllerName === 'pregunta' && ($methodName === 'rechazarPregunta' || $methodName === 'aprobarPregunta')) {
+            $controller = $this->getControllerFrom($controllerName);
+            $controller->$methodName($id);
+        }
 
         $controller = $this->getControllerFrom($controllerName);
 
@@ -66,19 +70,19 @@ class Router {
         }
     }
 
-    private function routeToPreguntaController($methodName, $id) {
+    private function routeToPreguntaController($methodName, $id = null) {
         if (isset($_SESSION['tipo_usuario']) && $_SESSION['tipo_usuario'] === 'editor') {
             $controller = $this->configuration->getPreguntaController();
-            if (empty($methodName)) {
-                $methodName = 'listar';
+
+            if ($methodName === 'aprobarPregunta' || $methodName === 'rechazarPregunta' || $methodName === 'revisarSugerencias') {
+                $controller->$methodName($id); // Aquí debería pasar correctamente el $id
+            } else {
+                $this->executeMethodFromController($controller, $methodName, $id);
             }
-            $this->executeMethodFromController($controller, $methodName, $id);
         } else {
-            echo '<div class="alert alert-danger">No tienes permisos para acceder a esta sección.</div>';
             exit();
         }
     }
-
     private function getControllerFrom($module) {
         $controllerName = 'get' . ucfirst($module) . 'Controller';
         $validController = method_exists($this->configuration, $controllerName) ? $controllerName : $this->defaultController;
@@ -92,10 +96,11 @@ class Router {
 
         switch ($numParams) {
             case 1:
-                call_user_func(array($controller, $validMethod), $id);
+                call_user_func(array($controller, $validMethod), $id); // Pasa $id aquí
                 break;
             default:
                 call_user_func(array($controller, $validMethod));
         }
     }
+
 }

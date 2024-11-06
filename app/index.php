@@ -9,6 +9,7 @@ $router = $configuration->getRouter();
 
 $page = $_GET['page'] ?? 'home';
 $action = $_GET['action'] ?? 'show';
+$id = $_GET['id'] ?? null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $database = new Database();
@@ -25,4 +26,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-$router->route($page, $action);
+$router->route($page, $action, $id);

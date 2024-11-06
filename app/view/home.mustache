@@ -33,9 +33,16 @@
         <section class="buttons">
             <a href="historial" class="button">Historial de partidas</a>
             <a href="ranking" class="button">Ranking</a>
+
             {{#esEditor}}
                 <a href="/TPFinalPreguntas/app/index.php?page=pregunta&action=crear" class="button">Crear nueva pregunta</a>
+                <a href="/TPFinalPreguntas/app/index.php?page=pregunta&action=revisarSugerencias" class="btn btn-warning mt-3">Revisar preguntas sugeridas</a>
             {{/esEditor}}
+
+            {{#esJugador}}
+                <a href="/TPFinalPreguntas/app/index.php?page=pregunta&action=sugerir" class="button">Sugerir nueva pregunta</a>
+            {{/esJugador}}
+
             <a href="partida/crearPartida" class="button">Nueva partida</a>
         </section>
     </main>

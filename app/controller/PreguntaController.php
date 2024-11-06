@@ -49,4 +49,57 @@ class PreguntaController {
         }
     }
 
+    public function sugerir() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $categoria = $_POST['category'];
+            $contenido = $_POST['suggestedQuestion'];
+            $opcionA = $_POST['optionA'];
+            $opcionB = $_POST['optionB'];
+            $opcionC = $_POST['optionC'];
+            $opcionD = $_POST['optionD'];
+            $respuestaCorrecta = $_POST['correctOption'];
+            $creadaPor = $_SESSION['user_id'];
+
+            $this->preguntaModel->guardarPreguntaSugerida($categoria, $contenido, $opcionA, $opcionB, $opcionC, $opcionD, $respuestaCorrecta, $creadaPor);
+
+            // Redirigir a una página de confirmación o a la página principal
+            header("Location: /TPFinalPreguntas/app/index.php?page=home&action=show&mensaje=sugerencia_enviada");
+            exit();
+        } else {
+            $this->presenter->show('sugerirPregunta');
+        }
+    }
+    public function listarPreguntasSugeridas() {
+        $preguntas = $this->preguntaModel->obtenerPreguntasSugeridasPendientes();
+        $this->presenter->show('preguntasSugeridas', ['preguntas' => $preguntas]);
+    }
+
+    public function aprobarPregunta($idPregunta) {
+        if ($this->preguntaModel->aprobarPreguntaSugerida($idPregunta)) {
+            header("Location: /TPFinalPreguntas/app/index.php?page=pregunta&action=revisarSugerencias&mensaje=aprobada");
+        } else {
+            header("Location: /TPFinalPreguntas/app/index.php?page=pregunta&action=revisarSugerencias&mensaje=error");
+        }
+        exit();
+    }
+
+    public function rechazarPregunta($idPregunta) {
+        if (is_null($idPregunta)) {
+            echo "Error: ID de la pregunta es nulo";
+            exit;
+        }
+
+        if ($this->preguntaModel->rechazarPreguntaSugerida($idPregunta)) {
+            echo "<script>alert('Pregunta rechazada correctamente'); window.location.href = '/TPFinalPreguntas/app/index.php?page=pregunta&action=revisarSugerencias&mensaje=rechazada';</script>";
+        } else {
+            echo "<script>alert('Error al rechazar la pregunta'); window.location.href = '/TPFinalPreguntas/app/index.php?page=pregunta&action=revisarSugerencias&mensaje=error';</script>";
+        }
+        exit();
+    }
+
+    public function revisarSugerencias() {
+        $preguntasSugeridas = $this->preguntaModel->obtenerPreguntasSugeridasConUsuario();
+        $this->presenter->show('revisarSugerencias', ['preguntasSugeridas' => $preguntasSugeridas]);
+    }
+
 }

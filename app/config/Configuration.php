@@ -57,9 +57,11 @@ class Configuration
         return $db->getConnection();
     }
 
-    public function getHomeController()
-    {
-        return new HomeController($this->getPresenter(), $this->getHomeModel());
+    public function getHomeController() {
+        $presenter = $this->getPresenter();
+        $usuarioModel = $this->getUserModel();
+        $preguntaModel = $this->getPreguntaModel(); // Asegúrate de que este método existe y devuelve una instancia de PreguntaModel
+        return new HomeController($presenter, $usuarioModel, $preguntaModel);
     }
 
     public function getHomeModel()
@@ -114,5 +116,8 @@ class Configuration
         $db = $this->getDatabase();
         $preguntaModel = new PreguntaModel($db);
         return new PreguntaController($preguntaModel, $this->getPresenter()); // Pasa el presenter también
+    }
+    public function getPreguntaModel() {
+        return new PreguntaModel($this->getDatabase());
     }
 }

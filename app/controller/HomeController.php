@@ -4,10 +4,12 @@ require_once __DIR__ . '/../helper/SessionHelper.php';
 class HomeController {
     private $presenter;
     private $model;
+    private $preguntaModel;
 
-    public function __construct($presenter, $model) {
+    public function __construct($presenter, $model, $preguntaModel){
         $this->presenter = $presenter;
         $this->model = $model;
+        $this->preguntaModel = $preguntaModel;
     }
 
     public function show() {
@@ -23,8 +25,23 @@ class HomeController {
             $usuario['puntaje_total'] = 0;
         }
 
-        $usuario['esEditor'] = ($usuario['tipo_usuario'] === 'editor');
+        $esEditor = ($usuario['tipo_usuario'] === 'editor');
+        $esJugador = ($usuario['tipo_usuario'] === 'jugador');
 
-        $this->presenter->show('home', $usuario);
+        $data = [
+            'nombre_usuario' => $usuario['nombre_usuario'],
+            'foto_perfil' => $usuario['foto_perfil'],
+            'puntaje_total' => $usuario['puntaje_total'],
+            'user_id' => $usuario['id_usuario'],
+            'esEditor' => $esEditor,
+            'esJugador' => $esJugador
+        ];
+
+        if ($esEditor) {
+            $preguntasSugeridas = $this->preguntaModel->obtenerPreguntasSugeridasPendientes();
+            $data['preguntasSugeridas'] = $preguntasSugeridas;
+        }
+
+        $this->presenter->show('home', $data);
     }
 }

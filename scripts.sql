@@ -160,3 +160,20 @@ CREATE TABLE Ranking (
 --rol editor/admin
 ALTER TABLE usuarios
     MODIFY COLUMN tipo_usuario ENUM('jugador', 'editor', 'administrador') DEFAULT 'jugador';
+
+--Pregunta sugerida
+CREATE TABLE preguntas_sugeridas (
+                                     id_pregunta INT AUTO_INCREMENT PRIMARY KEY,
+                                     contenido TEXT NOT NULL,
+                                     categoria VARCHAR(100) NOT NULL,
+                                     nivel_dificultad VARCHAR(50) DEFAULT 'facil',
+                                     opcion_a TEXT NOT NULL,
+                                     opcion_b TEXT NOT NULL,
+                                     opcion_c TEXT NOT NULL,
+                                     opcion_d TEXT NOT NULL,
+                                     respuesta_correcta CHAR(1) NOT NULL,
+                                     creada_por INT NOT NULL,
+                                     estado ENUM('Pendiente', 'Aprobada', 'Rechazada') DEFAULT 'Pendiente',
+                                     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                                     FOREIGN KEY (creada_por) REFERENCES usuarios(id_usuario)
+);

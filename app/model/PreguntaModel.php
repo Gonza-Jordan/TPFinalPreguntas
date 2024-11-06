@@ -73,4 +73,94 @@ class PreguntaModel {
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         return $stmt->execute();
     }
+
+    public function guardarPreguntaSugerida($categoria, $contenido, $opcionA, $opcionB, $opcionC, $opcionD, $respuestaCorrecta, $creadaPor) {
+        $query = "INSERT INTO preguntas_sugeridas (contenido, categoria, nivel_dificultad, opcion_a, opcion_b, opcion_c, opcion_d, respuesta_correcta, creada_por, estado) 
+                  VALUES (:contenido, :categoria, 'facil', :opcionA, :opcionB, :opcionC, :opcionD, :respuestaCorrecta, :creadaPor, 'Pendiente')";
+
+        $stmt = $this->conn->prepare($query);
+
+        // Vincular parámetros
+        $stmt->bindParam(':contenido', $contenido);
+        $stmt->bindParam(':categoria', $categoria);
+        $stmt->bindParam(':opcionA', $opcionA);
+        $stmt->bindParam(':opcionB', $opcionB);
+        $stmt->bindParam(':opcionC', $opcionC);
+        $stmt->bindParam(':opcionD', $opcionD);
+        $stmt->bindParam(':respuestaCorrecta', $respuestaCorrecta);
+        $stmt->bindParam(':creadaPor', $creadaPor);
+
+        return $stmt->execute();
+    }
+
+    public function obtenerPreguntasSugeridasPendientes() {
+        $query = "SELECT * FROM preguntas_sugeridas WHERE estado = 'Pendiente'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function aprobarPreguntaSugerida($idPregunta) {
+        // Obtener los detalles de la pregunta sugerida
+        $query = "SELECT * FROM preguntas_sugeridas WHERE id_pregunta = :idPregunta";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':idPregunta', $idPregunta);
+        $stmt->execute();
+        $pregunta = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($pregunta) {
+            // Insertar en la tabla principal de preguntas
+            $insertQuery = "INSERT INTO preguntas (contenido, categoria, nivel_dificultad, opcion_a, opcion_b, opcion_c, opcion_d, respuesta_correcta, creada_por, fecha_creacion) 
+                        VALUES (:contenido, :categoria, :nivel_dificultad, :opcionA, :opcionB, :opcionC, :opcionD, :respuestaCorrecta, :creadaPor, NOW())";
+            $insertStmt = $this->conn->prepare($insertQuery);
+            $insertStmt->bindParam(':contenido', $pregunta['contenido']);
+            $insertStmt->bindParam(':categoria', $pregunta['categoria']);
+            $insertStmt->bindParam(':nivel_dificultad', $pregunta['nivel_dificultad']);
+            $insertStmt->bindParam(':opcionA', $pregunta['opcion_a']);
+            $insertStmt->bindParam(':opcionB', $pregunta['opcion_b']);
+            $insertStmt->bindParam(':opcionC', $pregunta['opcion_c']);
+            $insertStmt->bindParam(':opcionD', $pregunta['opcion_d']);
+            $insertStmt->bindParam(':respuestaCorrecta', $pregunta['respuesta_correcta']);
+            $insertStmt->bindParam(':creadaPor', $pregunta['creada_por']);
+            $insertStmt->execute();
+
+            $updateQuery = "UPDATE preguntas_sugeridas SET estado = 'Aprobada' WHERE id_pregunta = :idPregunta";
+            $updateStmt = $this->conn->prepare($updateQuery);
+            $updateStmt->bindParam(':idPregunta', $idPregunta);
+            return $updateStmt->execute();
+        }
+
+        return false;
+    }
+
+    public function rechazarPreguntaSugerida($id) {
+        // Verificar la conexión
+        if ($this->conn == null) {
+            echo "Error: No hay conexión a la base de datos.";
+            return false;
+        }
+
+        $query = "UPDATE preguntas_sugeridas SET estado = 'Rechazada' WHERE id_pregunta = :id";
+        $stmt = $this->conn->prepare($query);
+
+        if ($stmt->execute()) {
+            echo "Consulta ejecutada correctamente.<br>";
+            return true;
+        } else {
+            echo "Error al ejecutar la consulta SQL: ";
+            print_r($stmt->errorInfo());
+            return false;
+        }
+    }
+
+    public function obtenerPreguntasSugeridasConUsuario() {
+        $query = "SELECT ps.*, u.nombre_usuario 
+              FROM preguntas_sugeridas ps 
+              JOIN usuarios u ON ps.creada_por = u.id_usuario 
+              WHERE ps.estado = 'Pendiente'";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }
