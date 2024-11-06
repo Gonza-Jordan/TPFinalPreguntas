@@ -9,8 +9,8 @@ include_once('Database.php');
 // Controladores
 include_once('controller/AuthController.php');
 include_once('controller/HomeController.php');
-include_once('controller/PerfilController.php');  // Agregado el controlador de perfil
-include_once('controller/UsuarioController.php'); // Agregado el controlador de usuario
+include_once('controller/PerfilController.php');
+include_once('controller/UsuarioController.php');
 include_once('controller/PreguntaController.php');
 include_once ('controller/RegistroController.php');
 include_once ('controller/PartidaController.php');
