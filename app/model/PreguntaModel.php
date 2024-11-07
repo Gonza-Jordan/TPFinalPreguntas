@@ -187,27 +187,41 @@ class PreguntaModel {
         $pregunta = $stmt->fetch(PDO::FETCH_ASSOC);
 
         //Agregar pregunta a tabla de reportes
-        $query = "INSERT INTO preguntas_reportadas (id_pregunta, contenido, categoria, nivel_dificultad, opcion_a, opcion_b, opcion_c, opcion_d, respuesta_correcta, creada_por, estado, fecha_creacion) VALUES (:idPregunta, :contenido, :categoria, :nivel_dificultad, :opcionA, :opcionB, :opcionC, :opcionD, :respuestaCorrecta, :creadaPor, 'Reportada', :fechaCreacion)";
+        $query = "INSERT INTO preguntas_reportadas (id_pregunta, estado) VALUES (:idPregunta, 'Reportada')";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':idPregunta', $idPregunta);
-        $stmt->bindParam(':contenido', $pregunta['contenido']);
-        $stmt->bindParam(':categoria', $pregunta['categoria']);
-        $stmt->bindParam(':nivel_dificultad', $pregunta['nivel_dificultad']);
-        $stmt->bindParam(':opcionA', $pregunta['opcion_a']);
-        $stmt->bindParam(':opcionB', $pregunta['opcion_b']);
-        $stmt->bindParam(':opcionC', $pregunta['opcion_c']);
-        $stmt->bindParam(':opcionD', $pregunta['opcion_d']);
-        $stmt->bindParam(':respuestaCorrecta', $pregunta['respuesta_correcta']);
-        $stmt->bindParam(':creadaPor', $pregunta['creada_por']);
-        $stmt->bindParam(':fechaCreacion', $pregunta['fecha_creacion']);
         $stmt->execute();
     }
 
     public function obtenerPreguntasReportadas() {
-        $query = "SELECT * FROM preguntas_reportadas";
+        $query = "SELECT * FROM preguntas_reportadas pr JOIN preguntas p ON pr.id_pregunta = p.id_pregunta WHERE pr.estado = 'Reportada'";
         $stmt = $this->conn->prepare($query);
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function habilitarPreguntaReportada($idPregunta) {
+        $query = "UPDATE preguntas_reportadas SET estado = 'Aprobada' WHERE id_pregunta = :idPregunta";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':idPregunta', $idPregunta);
+        $stmt->execute();
+
+        $query = "UPDATE preguntas SET estado_aprobacion = 'Aprobada' WHERE id_pregunta = :idPregunta";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':idPregunta', $idPregunta);
+        return $stmt->execute();
+    }
+
+    public function deshabilitarPreguntaReportada($idPregunta) {
+        $query = "UPDATE preguntas_reportadas SET estado = 'Deshabilitada' WHERE id_pregunta = :idPregunta";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':idPregunta', $idPregunta);
+        $stmt->execute();
+
+        $query = "UPDATE preguntas SET estado_aprobacion = 'Deshabilitada' WHERE id_pregunta = :idPregunta";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':idPregunta', $idPregunta);
+        return $stmt->execute();
     }
 
 }

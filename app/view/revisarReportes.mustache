@@ -36,8 +36,8 @@
                 <td>{{respuesta_correcta}}</td>
                 <td>{{comentario}}</td>
                 <td>
-                    <a href="/TPFinalPreguntas/app/index.php?page=pregunta&action=aprobarPregunta&id={{id_pregunta}}" class="btn btn-success">Aprobar</a>
-                    <a href="/TPFinalPreguntas/app/index.php?page=pregunta&action=rechazarPregunta&id={{id_pregunta}}" class="btn btn-danger">Rechazar</a>
+                    <a href="pregunta/habilitarPreguntaReportada?id={{id_pregunta}}" class="btn btn-success">Habilitar</a>
+                    <a href="pregunta/deshabilitarPreguntaReportada?id={{id_pregunta}}" class="btn btn-danger">Deshabilitar</a>
                 </td>
             </tr>
         {{/preguntasReportadas}}

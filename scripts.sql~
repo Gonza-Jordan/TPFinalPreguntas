@@ -181,20 +181,11 @@ CREATE TABLE preguntas_sugeridas (
 --Pregunta reportada
 CREATE TABLE preguntas_reportadas (
                                      id_pregunta INT AUTO_INCREMENT PRIMARY KEY,
-                                     contenido TEXT NOT NULL,
-                                     categoria VARCHAR(100) NOT NULL,
-                                     nivel_dificultad VARCHAR(50) DEFAULT 'facil',
-                                     opcion_a TEXT NOT NULL,
-                                     opcion_b TEXT NOT NULL,
-                                     opcion_c TEXT NOT NULL,
-                                     opcion_d TEXT NOT NULL,
-                                     respuesta_correcta CHAR(1) NOT NULL,
-                                     creada_por INT NOT NULL,
-                                     estado ENUM('Pendiente', 'Aprobada', 'Rechazada') DEFAULT 'Pendiente',
-                                     fecha_creacion TIMESTAMP,
+                                     estado ENUM('Reportada', 'Aprobada', 'Deshabilitada') DEFAULT 'Reportada',
                                      comentario TEXT
 );
 
+-Estado Reportada
 ALTER TABLE preguntas
-    MODIFY estado_aprobacion ENUM('Aprobada', 'No Aprobada', 'Rechazada', 'En Revisión', 'Reportada') NOT NULL DEFAULT 'En Revisión';
+MODIFY estado_aprobacion ENUM('Aprobada', 'No Aprobada', 'Rechazada', 'En Revisión', 'Reportada') NOT NULL DEFAULT 'En Revisión';
 
