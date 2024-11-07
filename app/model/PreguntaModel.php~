@@ -203,11 +203,4 @@ class PreguntaModel {
         $stmt->execute();
     }
 
-    public function obtenerPreguntasReportadas() {
-        $query = "SELECT * FROM preguntas_reportadas";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
 }

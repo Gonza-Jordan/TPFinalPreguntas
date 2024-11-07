@@ -97,7 +97,6 @@ class PartidaModel
             FROM usuarios_preguntas up
             WHERE up.id_usuario = :idUsuario
         )
-        AND p.estado_aprobacion = 'Aprobada'
         ORDER BY RAND()
         LIMIT 1
     ";

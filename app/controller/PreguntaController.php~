@@ -113,7 +113,7 @@ class PreguntaController {
 
     public function revisarReportes(){
         $preguntasReportadas = $this->preguntaModel->obtenerPreguntasReportadas();
-        $this->presenter->show('revisarReportes', ['preguntasReportadas' => $preguntasReportadas]);
+        $this->presenter->show('revisarReportes', ['preguntasReportadas' => preguntasReportadas]);
     }
 
 }
