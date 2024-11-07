@@ -202,7 +202,7 @@ class PreguntaModel {
     }
 
     public function habilitarPreguntaReportada($idPregunta) {
-        $query = "DELETE FROM preguntas_reportadas WHERE id_pregunta = :idPregunta";
+        $query = "UPDATE preguntas_reportadas SET estado = 'Aprobada' WHERE id_pregunta = :idPregunta";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':idPregunta', $idPregunta);
         $stmt->execute();

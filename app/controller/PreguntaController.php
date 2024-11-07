@@ -104,7 +104,8 @@ class PreguntaController {
 
     public function reportarPregunta(){
         $idPartida = $_SESSION['id_partida'];
-        $this->preguntaModel->reportarPregunta($idPartida);
+        $comentario = $_POST['comentario'];
+        $this->preguntaModel->reportarPregunta($idPartida, $comentario);
 
         // Redirigir a una página de confirmación o a la página principal
         header("Location: /TPFinalPreguntas/app/index.php?page=home&action=show&mensaje=reporte_enviado");
@@ -118,22 +119,12 @@ class PreguntaController {
 
     public function habilitarPreguntaReportada($idPregunta) {
         $idPregunta = $_GET['id'];
-        if ($this->preguntaModel->habilitarPreguntaReportada($idPregunta)) {
-            header("Location: /TPFinalPreguntas/app/index.php?page=pregunta&action=revisarReportes&mensaje=aprobada");
-        } else {
-            header("Location: /TPFinalPreguntas/app/index.php?page=pregunta&action=revisarReportes&mensaje=error");
-        }
-        exit();
+        $this->preguntaModel->habilitarPreguntaReportada($idPregunta);
     }
 
     public function deshabilitarPreguntaReportada($idPregunta) {
         $idPregunta = $_GET['id'];
-        if ($this->preguntaModel->deshabilitarPreguntaReportada($idPregunta)) {
-            header("Location: /TPFinalPreguntas/app/index.php?page=pregunta&action=revisarReportes&mensaje=deshabilitada");
-        } else {
-            header("Location: /TPFinalPreguntas/app/index.php?page=pregunta&action=revisarReportes&mensaje=error");
-        }
-        exit();
+        $this->preguntaModel->deshabilitarPreguntaReportada($idPregunta);
     }
 
 
