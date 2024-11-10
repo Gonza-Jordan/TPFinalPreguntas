@@ -1,0 +1,57 @@
+.header-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #007bff;
+    padding: 10px 20px;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-links a:hover {
+    color: #cce4ff;
+}
+
+.user-greeting {
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.logout-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#perfil-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.logout-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+}

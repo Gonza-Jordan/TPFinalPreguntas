@@ -4,6 +4,9 @@ body {
     background-color: #f8f8f8;
     margin: 0;
     padding: 0;
+    background: url('/TPFinalPreguntas/app/public/img/fondo_home.jpg') no-repeat center center fixed;
+    background-size: cover;
+    background-color: #f8f9fa;
 }
 
 .perfil, .perfil-jugador {
@@ -115,19 +118,19 @@ textarea {
 }
 
 .logout-button {
-    background-color: #d9534f; /* Color rojo */
-    color: white; /* Texto blanco */
-    padding: 10px; /* Espaciado interno */
-    border: none; /* Sin borde */
-    border-radius: 4px; /* Bordes redondeados */
-    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-    margin-top: 20px; /* Margen superior */
-    width: 100%; /* Ancho completo */
-    text-align: center; /* Alinea el texto al centro */
+    background-color: #d9534f;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 20px;
+    width: 100%;
+    text-align: center;
 }
 
 .logout-button:hover {
-    background-color: #c9302c; /* Color más oscuro al pasar el mouse */
+    background-color: #c9302c;
 }
 
 .admin-panel {
@@ -244,16 +247,16 @@ p.tipo-usuario {
     background-color: #31b0d5;
 }
 .btn-primary {
-    background-color: #5bc0de; /* Color azul */
-    color: white; /* Texto blanco */
-    padding: 10px; /* Espaciado interno */
-    border: none; /* Sin borde */
-    border-radius: 4px; /* Bordes redondeados */
-    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-    width: 100%; /* Ancho completo */
-    text-align: center; /* Alinea el texto al centro */
+    background-color: #5bc0de;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
 }
 
 .btn-primary:hover {
-    background-color: #31b0d5; /* Color más oscuro al pasar el mouse */
+    background-color: #31b0d5;
 }
