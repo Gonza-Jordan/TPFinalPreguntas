@@ -109,23 +109,23 @@ body {
     background-color: #c82333;
 }
 .content-wrapper {
-    background-color: rgba(255, 255, 255, 0.9); /* Fondo blanco semi-transparente */
+    background-color: rgba(255, 255, 255, 0.9);
     border-radius: 15px;
     padding: 20px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Sombra para destacar */
-    margin: 20px auto; /* Espacio alrededor */
-    max-width: 1200px; /* Aumenta el ancho máximo del contenido */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    max-width: 1200px;
 }
 .banner-container {
     width: 100%;
     display: flex;
     justify-content: center;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .banner-wide {
-    width: 30%; /* Ajusta este porcentaje según el tamaño deseado */
-    max-width: 1000px; /* Ajusta este valor según sea necesario */
+    width: 23%;
+    max-width: 500px;
     border-radius: 15px;
 }
 
