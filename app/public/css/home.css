@@ -13,20 +13,20 @@ body {
 }
 
 .home-container {
-    max-width: 500px;
+    max-width: 700px;
     width: 100%;
-    margin-top: 20px;
     text-align: center;
 }
 
 .home-view {
     background-color: #fff;
-    padding: 20px;
+    padding: 10px;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
     flex-direction: column;
     align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
 }
 
 .header-container {
@@ -81,12 +81,11 @@ body {
 
 .buttons {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .button {
-    padding: 12px;
     border-radius: 8px;
     background-color: #007bff;
     color: white;
@@ -98,6 +97,16 @@ body {
 
 .button:hover {
     background-color: #0056b3;
+}
+
+.btn-warning {
+    font-size: 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.btn-warning:hover {
+    background-color: #d39e00;
 }
 
 .logout-button {
