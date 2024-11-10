@@ -4,6 +4,9 @@ body {
     justify-content: center;
     align-items: center;
     margin: 0;
+    background: url('/TPFinalPreguntas/app/public/img/fondo_home.jpg') no-repeat center center fixed;
+    background-size: cover;
+    background-color: #f8f9fa;
 }
 
 .container {

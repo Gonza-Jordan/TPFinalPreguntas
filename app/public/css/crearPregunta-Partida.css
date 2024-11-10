@@ -1,6 +1,9 @@
 /* shared-styles.css */
 body {
     background-color: #f8f9fa;
+    background: url('/TPFinalPreguntas/app/public/img/fondo_home.jpg') no-repeat center center fixed;
+    background-size: cover;
+    background-color: #f8f9fa;
 }
 .game-container {
     max-width: 500px;
