@@ -37,15 +37,15 @@ class RankingController {
 
         $this->mustache->show('ranking', $data);
     }
+
     public function verPerfilJugador() {
         SessionHelper::verificarSesion();
 
         $idUsuario = $_GET['id'];
-
         $usuario = $this->usuarioModel->obtenerUsuarioPorId($idUsuario);
         $partidas = $this->partidaModel->obtenerPartidasPorUsuario($idUsuario);
+
         if ($usuario) {
-           // $usuario['qrCode'] = $this->generarCodigoQR($idUsuario); // Generar el QR para su perfil
 
             $qrCodeUrl = "http://localhost:8080/perfil/id/$idUsuario";
             $qrCode = QRCodeHelper::generateQRCode($qrCodeUrl);
@@ -59,5 +59,6 @@ class RankingController {
             echo "Usuario no encontrado";
         }
     }
+
 
 }
