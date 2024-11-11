@@ -10,10 +10,25 @@ class PreguntaController {
     }
 
     public function listar() {
-        $preguntas = $this->preguntaModel->obtenerTodas(); // Suponiendo que este método existe y obtiene todas las preguntas
-        $this->presenter->show('listarPreguntas', ['preguntas' => $preguntas]);
-    }
+        $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+        $preguntasPorPagina = 5; // Número de preguntas por página
+        $totalPreguntas = $this->preguntaModel->contarTotalPreguntas(); // Método que cuente el total de preguntas
+        $totalPaginas = ceil($totalPreguntas / $preguntasPorPagina);
 
+        $offset = ($pagina - 1) * $preguntasPorPagina;
+        $preguntas = $this->preguntaModel->obtenerPreguntasPaginadas($preguntasPorPagina, $offset); // Método que obtenga preguntas con paginado
+
+        $prevPage = $pagina > 1 ? $pagina - 1 : null;
+        $nextPage = $pagina < $totalPaginas ? $pagina + 1 : null;
+
+        $this->presenter->show('listarPreguntas', [
+            'preguntas' => $preguntas,
+            'paginaActual' => $pagina,
+            'totalPaginas' => $totalPaginas,
+            'prevPage' => $prevPage,
+            'nextPage' => $nextPage
+        ]);
+    }
     public function crear() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $categoria = $_POST['category'];
@@ -126,7 +141,4 @@ class PreguntaController {
         $idPregunta = $_GET['id'];
         $this->preguntaModel->deshabilitarPreguntaReportada($idPregunta);
     }
-
-
-
 }

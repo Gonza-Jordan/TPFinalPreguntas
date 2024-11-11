@@ -225,4 +225,20 @@ class PreguntaModel {
         return $stmt->execute();
     }
 
+    public function contarTotalPreguntas() {
+        $sql = "SELECT COUNT(*) as total FROM preguntas";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        $fila = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $fila['total'];
+    }
+    public function obtenerPreguntasPaginadas($limite, $offset) {
+        $sql = "SELECT * FROM preguntas LIMIT :limite OFFSET :offset";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->bindValue(':limite', $limite, PDO::PARAM_INT);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

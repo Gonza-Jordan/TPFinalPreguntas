@@ -30,9 +30,16 @@ class Router {
             $this->routeToPreguntaController($methodName, $id);
             return;
         }
+
         if ($controllerName === 'pregunta' && ($methodName === 'rechazarPregunta' || $methodName === 'aprobarPregunta')) {
             $controller = $this->getControllerFrom($controllerName);
             $controller->$methodName($id);
+        }
+
+        if ($controllerName === 'pregunta' && $methodName === 'listar') {
+            $controller = $this->getControllerFrom($controllerName);
+            $controller->listar();
+            return;
         }
 
         $controller = $this->getControllerFrom($controllerName);
@@ -75,7 +82,7 @@ class Router {
             $controller = $this->configuration->getPreguntaController();
 
             if ($methodName === 'aprobarPregunta' || $methodName === 'rechazarPregunta' || $methodName === 'revisarSugerencias') {
-                $controller->$methodName($id); // Aquí debería pasar correctamente el $id
+                $controller->$methodName($id);
             } else {
                 $this->executeMethodFromController($controller, $methodName, $id);
             }
@@ -96,11 +103,15 @@ class Router {
 
         switch ($numParams) {
             case 1:
-                call_user_func(array($controller, $validMethod), $id); // Pasa $id aquí
+                call_user_func(array($controller, $validMethod), $id);
                 break;
             default:
                 call_user_func(array($controller, $validMethod));
         }
     }
 
+    public function listarPreguntas() {
+        $data = $this->preguntaModel->getPreguntas();
+        $this->presenter->show('listarPreguntas', ['preguntas' => $data]);
+    }
 }
