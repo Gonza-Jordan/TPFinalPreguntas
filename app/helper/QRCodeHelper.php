@@ -1,25 +1,30 @@
 <?php
 
-class QRCodeHelper
-{
-    public static function generateQRCode(string $url): string
-    {
-        // Verificar si la URL cumple con el patrón esperado
-        $pattern = '/^http:\/\/localhost:8080\/perfil\/id\/(\d+)$/';
-        if (!preg_match($pattern, $url, $matches)) {
-            throw new \InvalidArgumentException('La URL proporcionada no cumple con el patrón esperado.');
+require_once __DIR__ . '/../../vendor/autoload.php';
+
+use chillerlan\QRCode\QRCode;
+use chillerlan\QRCode\QROptions;
+
+class QRCodeHelper {
+    public static function generateQRCode(string $url): string {
+        $options = new QROptions([
+            'outputType' => QRCode::OUTPUT_IMAGE_PNG,
+            'eccLevel' => QRCode::ECC_L,
+            'scale' => 5,
+        ]);
+
+        $qrcode = new QRCode($options);
+        $outputDir = __DIR__ . '/../../public/qrcodes';
+        $outputPath = $outputDir . '/qr-code.png';
+
+        // Verifica si la carpeta existe, si no, la crea
+        if (!is_dir($outputDir)) {
+            mkdir($outputDir, 0777, true);
         }
 
-        // Obtener el ID del usuario a partir de la URL
-        $userId = $matches[1];
+        // Genera el código QR
+        $qrcode->render($url, $outputPath);
 
-        // Generar el código QR
-        $qrCode = \QRCode::text("http://localhost:8080/perfil/$userId")
-            ->setSize(5)
-            ->setMargin(2)
-            ->setOutfile('qr-code.png')
-            ->save();
-
-        return $qrCode;
+        return '/TPFinalPreguntas/public/qrcodes/qr-code.png';
     }
 }
