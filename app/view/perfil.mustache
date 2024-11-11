@@ -20,8 +20,13 @@
         </div>
     </header>
 
-    <div class="imagen-perfil">
-        <img src="/TPFinalPreguntas/app/public/perfiles/{{foto_perfil}}" alt="Foto de perfil" class="foto-perfil">
+    <div class="imagen-perfil-contenedor">
+        <div class="imagen-perfil">
+            <img src="/TPFinalPreguntas/app/public/perfiles/{{foto_perfil}}" alt="Foto de perfil" class="foto-perfil">
+        </div>
+        <div class="qr-perfil">
+            <img src="<?= $qrCode ?>" alt="Código QR del perfil" class="qr-codigo">
+        </div>
     </div>
 
     <div class="cambiar-imagen">
@@ -65,7 +70,6 @@
     <a href="/TPFinalPreguntas/app/index.php?page=auth&action=show">
         <button class="logout-button">Cerrar sesión</button>
     </a>
-</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {

@@ -3,6 +3,7 @@ require_once __DIR__ . '/../model/UsuarioModel.php';
 require_once __DIR__ . '/../model/RankingModel.php';
 require_once __DIR__ . '/../helper/TemplateEngine.php';
 require_once __DIR__ . '/../helper/SessionHelper.php';
+require_once __DIR__ . '/../helper/QRCodeHelper.php';
 
 class RankingController {
     private $mustache;
@@ -45,9 +46,14 @@ class RankingController {
         $partidas = $this->partidaModel->obtenerPartidasPorUsuario($idUsuario);
         if ($usuario) {
            // $usuario['qrCode'] = $this->generarCodigoQR($idUsuario); // Generar el QR para su perfil
+
+            $qrCodeUrl = "http://localhost:8080/perfil/id/$idUsuario";
+            $qrCode = QRCodeHelper::generateQRCode($qrCodeUrl);
+
             $this->mustache->show('verPerfilJugador', [
                 'usuario' => $usuario,
                 'partidas' => $partidas,
+                'qrCode' => $qrCode
             ]);
         } else {
             echo "Usuario no encontrado";

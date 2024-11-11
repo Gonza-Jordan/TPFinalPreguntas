@@ -257,3 +257,26 @@ p.tipo-usuario {
 .btn-primary:hover {
     background-color: #31b0d5; /* Color más oscuro al pasar el mouse */
 }
+
+/* Contenedor para la imagen de perfil y el QR */
+.imagen-perfil-contenedor {
+    display: flex; /* Establece que los elementos hijos se alineen horizontalmente */
+    align-items: center; /* Alinea verticalmente los elementos al centro */
+    gap: 20px; /* Espacio entre la foto de perfil y el QR */
+}
+
+/* Estilo de la foto de perfil */
+.foto-perfil {
+    width: 100px; /* Ajusta el tamaño según sea necesario */
+    height: 100px; /* Ajusta el tamaño según sea necesario */
+    border-radius: 50%; /* Hace que la imagen sea redonda */
+    object-fit: cover; /* Hace que la imagen se ajuste sin deformarse */
+}
+
+/* Estilo del código QR */
+.qr-codigo {
+    width: 80px; /* Ajusta el tamaño del QR */
+    height: 80px; /* Ajusta el tamaño del QR */
+    border-radius: 5px; /* Opción opcional: agrega bordes redondeados al QR */
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Opción opcional: sombra para el QR */
+}
