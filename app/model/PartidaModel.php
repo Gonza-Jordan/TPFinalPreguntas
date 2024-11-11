@@ -272,14 +272,13 @@ class PartidaModel
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
-    public function obtenerPartidasPorUsuario($idUsuario)
-    {
-        $query = "SELECT * FROM  partidas WHERE id_usuario = :id_usuario";
+    public function obtenerPartidasPorUsuario($idUsuario) {
+        $query = "SELECT * FROM partidas WHERE id_usuario = :id_usuario ORDER BY fecha DESC";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(':id_usuario', $idUsuario);
+        $stmt->bindParam(':id_usuario', $idUsuario, PDO::PARAM_INT);
         $stmt->execute();
 
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Devuelve todas las partidas como un array
     }
 
 }

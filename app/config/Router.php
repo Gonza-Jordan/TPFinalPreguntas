@@ -41,6 +41,12 @@ class Router {
             $controller->listar();
             return;
         }
+        if ($controllerName === 'historial' && $methodName === 'listar') {
+            $controller = $this->configuration->getHistorialController();
+            $controller->listar();
+            return;
+        }
+
 
         $controller = $this->getControllerFrom($controllerName);
 
