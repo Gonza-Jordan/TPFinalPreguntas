@@ -127,18 +127,32 @@ class PreguntaController {
         exit();
     }
 
-    public function revisarReportes(){
+    public function revisarReportes() {
         $preguntasReportadas = $this->preguntaModel->obtenerPreguntasReportadas();
         $this->presenter->show('revisarReportes', ['preguntasReportadas' => $preguntasReportadas]);
     }
 
     public function habilitarPreguntaReportada($idPregunta) {
         $idPregunta = $_GET['id'];
-        $this->preguntaModel->habilitarPreguntaReportada($idPregunta);
+        if ($this->preguntaModel->habilitarPreguntaReportada($idPregunta)) {
+            $_SESSION['mensaje'] = "Pregunta habilitada correctamente.";
+        } else {
+            $_SESSION['mensaje'] = "Error al habilitar la pregunta.";
+        }
+
+        header("Location: /TPFinalPreguntas/app/index.php?page=pregunta&action=revisarReportes");
+        exit();
     }
 
     public function deshabilitarPreguntaReportada($idPregunta) {
         $idPregunta = $_GET['id'];
-        $this->preguntaModel->deshabilitarPreguntaReportada($idPregunta);
+        if ($this->preguntaModel->deshabilitarPreguntaReportada($idPregunta)) {
+            $_SESSION['mensaje'] = "Pregunta deshabilitada correctamente.";
+        } else {
+            $_SESSION['mensaje'] = "Error al deshabilitar la pregunta.";
+        }
+
+        header("Location: /TPFinalPreguntas/app/index.php?page=pregunta&action=revisarReportes");
+        exit();
     }
 }
