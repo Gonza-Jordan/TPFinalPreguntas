@@ -136,14 +136,9 @@ class PreguntaModel {
     }
 
     public function rechazarPreguntaSugerida($id) {
-        // Verificar la conexión
-        if ($this->conn == null) {
-            echo "Error: No hay conexión a la base de datos.";
-            return false;
-        }
-
         $query = "UPDATE preguntas_sugeridas SET estado = 'Rechazada' WHERE id_pregunta = :id";
         $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
         if ($stmt->execute()) {
             echo "Consulta ejecutada correctamente.<br>";

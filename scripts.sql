@@ -178,12 +178,31 @@ CREATE TABLE preguntas_sugeridas (
                                      FOREIGN KEY (creada_por) REFERENCES usuarios(id_usuario)
 );
 
+--insert de ejemplo
+INSERT INTO preguntas_sugeridas (contenido, categoria, nivel_dificultad, opcion_a, opcion_b, opcion_c, opcion_d, respuesta_correcta, creada_por, estado)
+VALUES
+    ('¿Cuál es la capital de Francia?', 'Geografía', 'facil', 'Madrid', 'París', 'Roma', 'Berlín', 'B', 1, 'Pendiente'),
+
+    ('¿Quién pintó La última cena?', 'Arte', 'medio', 'Miguel Ángel', 'Leonardo da Vinci', 'Rafael', 'Donatello', 'B', 2, 'Pendiente'),
+
+    ('¿Cuál es el gas más abundante en la atmósfera terrestre?', 'Ciencia', 'dificil', 'Oxígeno', 'Nitrógeno', 'Dióxido de Carbono', 'Hidrógeno', 'B', 3, 'Pendiente');
+
+
 --Pregunta reportada
 CREATE TABLE preguntas_reportadas (
                                      id_pregunta INT AUTO_INCREMENT PRIMARY KEY,
                                      estado ENUM('Reportada', 'Aprobada', 'Deshabilitada') DEFAULT 'Reportada',
                                      comentario TEXT
 );
+--insert de ejemplo
+INSERT INTO preguntas_reportadas (estado, comentario)
+VALUES
+    ('Reportada', 'La respuesta parece ser incorrecta'),
+
+    ('Reportada', 'La pregunta fue revisada y es correcta'),
+
+    ('Reportada', 'La pregunta fue deshabilitada por contenido inadecuado');
+
 
 --Estado Reportada
 ALTER TABLE preguntas
