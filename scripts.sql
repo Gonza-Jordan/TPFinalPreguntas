@@ -185,7 +185,7 @@ CREATE TABLE preguntas_reportadas (
                                      comentario TEXT
 );
 
--Estado Reportada
+--Estado Reportada
 ALTER TABLE preguntas
 MODIFY estado_aprobacion ENUM('Aprobada', 'Rechazada', 'En Revisión', 'Reportada', 'Deshabilitada') NOT NULL DEFAULT 'En Revisión';
 

@@ -1,6 +1,7 @@
 <?php
 
-require_once __DIR__ . '/../../vendor/autoload.php';  // Usar el autoload de Composer
+require_once __DIR__ . '/../../vendor/autoload.php';
+
 use Dotenv\Dotenv;
 
 use PHPMailer\PHPMailer\PHPMailer;
