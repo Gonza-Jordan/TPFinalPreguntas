@@ -53,7 +53,7 @@ class RankingController {
             $this->mustache->show('verPerfilJugador', [
                 'usuario' => $usuario,
                 'partidas' => $partidas,
-                'qrCode' => $qrCode
+                'qrCode' => $qrCode,
             ]);
         } else {
             echo "Usuario no encontrado";
