@@ -31,7 +31,6 @@
                     <a href="Ranking/verPerfilJugador?id={{id_usuario}}">
                     {{nombre_usuario}}
                     </a>
-
                 </td>
                 <td>{{puntaje_total}}</td>
             </tr>
@@ -52,20 +51,22 @@
         <tr>
             <th>Posición</th>
             <th>Nombre de Usuario</th>
-            <th>Puntaje Total</th>
+            <th>Mejor Puntaje</th> 
+            <th>Partidas Jugadas</th> 
         </tr>
         </thead>
         <tbody>
         {{#rankingPorPais}}
             <tr>
-                <td>{{posicion}}</td>
+                <td>{{posicion_pais}}</td>
                 <td>{{nombre_usuario}}</td>
-                <td>{{puntaje_total}}</td>
+                <td>{{mejor_puntaje}}</td>
+                <td>{{partidas_jugadas}}</td>
             </tr>
         {{/rankingPorPais}}
         {{^rankingPorPais}}
             <tr>
-                <td colspan="3">No hay usuarios en el ranking por país.</td>
+                <td colspan="4">No hay usuarios en el ranking por país.</td>
             </tr>
         {{/rankingPorPais}}
         </tbody>
@@ -79,20 +80,22 @@
         <tr>
             <th>Posición</th>
             <th>Nombre de Usuario</th>
-            <th>Puntaje Total</th>
+            <th>Mejor Puntaje</th>
+            <th>Partidas Jugadas</th>
         </tr>
         </thead>
         <tbody>
         {{#rankingPorCiudad}}
             <tr>
-                <td>{{posicion}}</td>
+                <td>{{posicion_ciudad}}</td>
                 <td>{{nombre_usuario}}</td>
-                <td>{{puntaje_total}}</td>
+                <td>{{mejor_puntaje}}</td>
+                <td>{{partidas_jugadas}}</td>
             </tr>
         {{/rankingPorCiudad}}
         {{^rankingPorCiudad}}
             <tr>
-                <td colspan="3">No hay usuarios en el ranking por ciudad.</td>
+                <td colspan="4">No hay usuarios en el ranking por ciudad.</td>
             </tr>
         {{/rankingPorCiudad}}
         </tbody>

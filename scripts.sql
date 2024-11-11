@@ -149,12 +149,12 @@ CREATE TABLE partidas (
 );
 
 --tabla ranking
-CREATE TABLE Ranking (
+CREATE TABLE ranking (
                           id_ranking INT AUTO_INCREMENT PRIMARY KEY,
                           id_usuario INT,
                           puntaje_total INT,
                           posicion INT,
-                          FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario)
+                          FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 );
 
 --rol editor/admin

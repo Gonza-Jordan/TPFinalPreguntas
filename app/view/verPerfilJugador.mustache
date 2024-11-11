@@ -20,7 +20,9 @@
         <li>{{.}}</li>
     {{/partidas}}
 </ul>
-<button class="qr-button">QR</button>
+{{#qrCode}}
+<img src="{{qrCode}}" alt="Código QR del perfil">
+{{/qrCode}}
 <div id="mapa"></div>
 {{> footer}}
 </body>
