@@ -12,6 +12,12 @@ class Router {
     }
 
     public function route($controllerName, $methodName, $id = null) {
+        // Rutas sin autenticación
+        if ($controllerName === 'auth' && in_array($methodName, ['show', 'login', 'logout'])) {
+            $controller = $this->configuration->getAuthController();
+            $controller->$methodName();
+            return;
+        }
 
         if ($controllerName === 'registro' && $methodName === 'registrar') {
             $controller = $this->configuration->getRegistroController();
@@ -19,26 +25,14 @@ class Router {
             return;
         }
 
-        if ($controllerName === 'perfil') {
-            $this->routeToPerfilController($methodName);
-            return;
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /TPFinalPreguntas/auth/show');
+            exit();
         }
 
-        if ($controllerName === 'ranking' && $methodName === 'verPerfilJugador') {
-            $this->routeToPerfilJugador($id);
-            return;
-        }
-
-
-        if ($controllerName === 'pregunta' && in_array($methodName, ['crear', 'editar'])) {
-            $this->routeToPreguntaController($methodName, $id);
-            return;
-        }
-
-        if ($controllerName === 'pregunta' && in_array($methodName, ['rechazarPregunta', 'aprobarPregunta'])) {
-            $controller = $this->getControllerFrom($controllerName);
-            $controller->$methodName($id);
-            return;
+        if ($controllerName === 'pregunta' && $_SESSION['tipo_usuario'] !== 'editor') {
+            header('Location: /TPFinalPreguntas/home/show');
+            exit();
         }
 
         $controller = $this->getControllerFrom($controllerName);
@@ -46,6 +40,34 @@ class Router {
             $methodName = $this->defaultMethod;
         }
         $this->executeMethodFromController($controller, $methodName, $id);
+    }
+
+    private function validarAcceso($controllerName, $methodName) {
+        $permisos = [
+            'editor' => [
+                'pregunta' => ['crear', 'editar', 'revisarSugerencias', 'rechazarPregunta', 'aprobarPregunta', 'listarPreguntas'],
+                'ranking' => ['show']
+            ],
+            'jugador' => [
+                'pregunta' => ['sugerir'],
+                'ranking' => ['show']
+            ],
+        ];
+
+        if ($controllerName === 'auth' && in_array($methodName, ['show', 'login', 'logout'])) {
+            return true;
+        }
+        if ($controllerName === 'registro' && $methodName === 'registrar') {
+            return true;
+        }
+
+        $rolUsuario = $_SESSION['tipo_usuario'] ?? null;
+
+        if ($rolUsuario && isset($permisos[$rolUsuario][$controllerName])) {
+            return in_array($methodName, $permisos[$rolUsuario][$controllerName]);
+        }
+
+        return false;
     }
 
     private function routeToPerfilController($methodName) {
@@ -79,6 +101,7 @@ class Router {
             $controller = $this->configuration->getPreguntaController();
             $this->executeMethodFromController($controller, $methodName, $id);
         } else {
+            header('Location: /TPFinalPreguntas/auth/show');
             exit();
         }
     }
@@ -101,10 +124,5 @@ class Router {
             default:
                 call_user_func([$controller, $validMethod]);
         }
-    }
-
-    public function listarPreguntas() {
-        $data = $this->preguntaModel->getPreguntas();
-        $this->presenter->show('listarPreguntas', ['preguntas' => $data]);
     }
 }

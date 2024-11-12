@@ -15,11 +15,19 @@ class MustachePresenter {
     }
 
     public function show($contentFile, $data = array()) {
-        $data['nombre_usuario'] = $_SESSION['nombre_usuario'] ?? 'Invitado';
-        $data['foto_perfil'] = $_SESSION['foto_perfil'] ?? 'default.png';
+        if (isset($_SESSION['nombre_usuario'])) {
+            $data['nombre_usuario'] = $_SESSION['nombre_usuario'];
+        } else {
+            $data['nombre_usuario'] = 'Invitado';
+        }
+
+        if (isset($_SESSION['foto_perfil'])) {
+            $data['foto_perfil'] = $_SESSION['foto_perfil'] ?? 'default.png';
+        }
 
         echo $this->generateHtml($this->partialsPathLoader . '/' . $contentFile . ".mustache", $data);
     }
+
 
     public function generateHtml($contentFile, $data = array()) {
         $contentAsString = file_get_contents($contentFile);

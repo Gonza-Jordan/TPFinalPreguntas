@@ -4,6 +4,9 @@ class AuthController {
     private $userModel;
 
     public function __construct($mustache, $userModel) {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
         $this->mustache = $mustache;
         $this->userModel = $userModel;
     }
@@ -30,9 +33,9 @@ class AuthController {
 
             if ($user && password_verify($password, $user['contraseña'])) {
                 $_SESSION['user_id'] = $user['id_usuario'];
-                $_SESSION['tipo_usuario'] = $user['tipo_usuario'];
                 $_SESSION['nombre_usuario'] = $user['nombre_usuario'];
-                $_SESSION['foto_perfil'] = $user['foto_perfil'];
+                $_SESSION['foto_perfil'] = $user['foto_perfil'] ?? 'default.jpg';
+                $_SESSION['tipo_usuario'] = $user['tipo_usuario'];
 
                 header('Location: /TPFinalPreguntas/home/show');
                 exit();
@@ -44,6 +47,7 @@ class AuthController {
             }
         }
     }
+
     public function registro() {
         $this->mustache->show('SignUp');
     }
