@@ -11,12 +11,12 @@ class PreguntaController {
 
     public function listar() {
         $pagina = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-        $preguntasPorPagina = 5; // Número de preguntas por página
-        $totalPreguntas = $this->preguntaModel->contarTotalPreguntas(); // Método que cuente el total de preguntas
+        $preguntasPorPagina = 5;
+        $totalPreguntas = $this->preguntaModel->contarTotalPreguntas();
         $totalPaginas = ceil($totalPreguntas / $preguntasPorPagina);
 
         $offset = ($pagina - 1) * $preguntasPorPagina;
-        $preguntas = $this->preguntaModel->obtenerPreguntasPaginadas($preguntasPorPagina, $offset); // Método que obtenga preguntas con paginado
+        $preguntas = $this->preguntaModel->obtenerPreguntasPaginadas($preguntasPorPagina, $offset);
 
         $prevPage = $pagina > 1 ? $pagina - 1 : null;
         $nextPage = $pagina < $totalPaginas ? $pagina + 1 : null;
@@ -40,11 +40,11 @@ class PreguntaController {
             $respuesta_correcta = $_POST['correctOption'];
             $this->preguntaModel->guardarPregunta($categoria, $pregunta, $opcionA, $opcionB, $opcionC, $opcionD, $respuesta_correcta);
 
-            header("Location: /TPFinalPreguntas/app/index.php?page=pregunta&action=listar");
+            header("Location: /TPFinalPreguntas/pregunta/listar");
             exit();
         } else {
             $data = [
-                'esEditor' => ($_SESSION['tipo_usuario'] === 'editor') // Verifica si el usuario es editor
+                'esEditor' => ($_SESSION['tipo_usuario'] === 'editor')
             ];
             $this->presenter->show('crearPregunta', $data);
         }
@@ -56,7 +56,7 @@ class PreguntaController {
             $opciones = $_POST['opciones'];
             $respuesta_correcta = $_POST['respuesta_correcta'];
             $this->preguntaModel->actualizarPregunta($id, $pregunta, $opciones, $respuesta_correcta);
-            header('Location: /TPFinalPreguntas/app/index.php?page=pregunta&action=listar');
+            header('Location: /TPFinalPreguntas/pregunta/listar');
             exit();
         } else {
             $pregunta = $this->preguntaModel->obtenerPorId($id);
@@ -77,8 +77,7 @@ class PreguntaController {
 
             $this->preguntaModel->guardarPreguntaSugerida($categoria, $contenido, $opcionA, $opcionB, $opcionC, $opcionD, $respuestaCorrecta, $creadaPor);
 
-            // Redirigir a una página de confirmación o a la página principal
-            header("Location: /TPFinalPreguntas/app/index.php?page=home&action=show&mensaje=sugerencia_enviada");
+            header("Location: /TPFinalPreguntas/home/show&mensaje=sugerencia_enviada");
             exit();
         } else {
             $this->presenter->show('sugerirPregunta');
@@ -91,9 +90,9 @@ class PreguntaController {
 
     public function aprobarPregunta($idPregunta) {
         if ($this->preguntaModel->aprobarPreguntaSugerida($idPregunta)) {
-            header("Location: /TPFinalPreguntas/app/index.php?page=pregunta&action=revisarSugerencias&mensaje=aprobada");
+            header("Location: /TPFinalPreguntas/pregunta/revisarSugerencias&mensaje=aprobada");
         } else {
-            header("Location: /TPFinalPreguntas/app/index.php?page=pregunta&action=revisarSugerencias&mensaje=error");
+            header("Location: /TPFinalPreguntas/app/pregunta/revisarSugerencias&mensaje=error");
         }
         exit();
     }
@@ -105,9 +104,9 @@ class PreguntaController {
         }
 
         if ($this->preguntaModel->rechazarPreguntaSugerida($idPregunta)) {
-            echo "<script>alert('Pregunta rechazada correctamente'); window.location.href = '/TPFinalPreguntas/app/index.php?page=pregunta&action=revisarSugerencias&mensaje=rechazada';</script>";
+            echo "<script>alert('Pregunta rechazada correctamente'); window.location.href = '/TPFinalPreguntas/pregunta/revisarSugerencias&mensaje=rechazada';</script>";
         } else {
-            echo "<script>alert('Error al rechazar la pregunta'); window.location.href = '/TPFinalPreguntas/app/index.php?page=pregunta&action=revisarSugerencias&mensaje=error';</script>";
+            echo "<script>alert('Error al rechazar la pregunta'); window.location.href = '/TPFinalPreguntas/index.php/pregunta/revisarSugerencias&mensaje=error';</script>";
         }
         exit();
     }
@@ -122,8 +121,7 @@ class PreguntaController {
         $comentario = $_POST['comentario'];
         $this->preguntaModel->reportarPregunta($idPartida, $comentario);
 
-        // Redirigir a una página de confirmación o a la página principal
-        header("Location: /TPFinalPreguntas/app/index.php?page=home&action=show&mensaje=reporte_enviado");
+        header("Location: /TPFinalPreguntas/home/show&mensaje=reporte_enviado");
         exit();
     }
 
@@ -140,7 +138,7 @@ class PreguntaController {
             $_SESSION['mensaje'] = "Error al habilitar la pregunta.";
         }
 
-        header("Location: /TPFinalPreguntas/app/index.php?page=pregunta&action=revisarReportes");
+        header("Location: /TPFinalPreguntas/pregunta/revisarReportes");
         exit();
     }
 
@@ -152,7 +150,7 @@ class PreguntaController {
             $_SESSION['mensaje'] = "Error al deshabilitar la pregunta.";
         }
 
-        header("Location: /TPFinalPreguntas/app/index.php?page=pregunta&action=revisarReportes");
+        header("Location: /TPFinalPreguntas/pregunta/revisarReportes");
         exit();
     }
 }

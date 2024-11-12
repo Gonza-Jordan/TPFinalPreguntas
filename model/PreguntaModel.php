@@ -10,7 +10,7 @@ class PreguntaModel {
 
     public function guardarPregunta($categoria, $contenido, $opcionA, $opcionB, $opcionC, $opcionD, $respuestaCorrecta) {
         $query = "INSERT INTO preguntas (contenido, categoria, nivel_dificultad, opcion_a, opcion_b, opcion_c, opcion_d, respuesta_correcta, estado_aprobacion, fecha_creacion) 
-              VALUES (:contenido, :categoria, 'facil', :opcionA, :opcionB, :opcionC, :opcionD, :respuestaCorrecta, 'En Revisión', NOW())";
+              VALUES (:contenido, :categoria, 'facil', :opcionA, :opcionB, :opcionC, :opcionD, :respuestaCorrecta, 'Aprobada', NOW())";
 
         $stmt = $this->conn->prepare($query);
 
