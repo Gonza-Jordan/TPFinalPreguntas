@@ -8,6 +8,8 @@ class PartidaController
     public function __construct($presenter, $model) {
         $this->presenter = $presenter;
         $this->model = $model;
+
+        SessionHelper::verificarSesion();
     }
 
     public function show($partida = null) {

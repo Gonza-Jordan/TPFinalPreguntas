@@ -9,7 +9,7 @@ Options -Indexes
     RewriteBase /TPFinalPreguntas/
 
     # Excluir la carpeta public de la reescritura
-    RewriteRule ^(app/public)($|/) - [L,NC]
+    RewriteRule ^(public)($|/) - [L,NC]
 
     # Enrutamiento para controlador/acción
     RewriteCond %{REQUEST_FILENAME} !-f

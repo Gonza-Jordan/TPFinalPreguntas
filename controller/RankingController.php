@@ -16,6 +16,8 @@ class RankingController {
         $this->usuarioModel = $usuarioModel;
         $this->partidaModel = $partidaModel;
         $this->rankingModel = $rankingModel;
+
+        SessionHelper::verificarSesion();
     }
 
     public function show() {
@@ -27,10 +29,13 @@ class RankingController {
         $rankingPorPais = $this->rankingModel->obtenerRankingPorPais();
         $rankingPorCiudad = $this->rankingModel->obtenerRankingPorCiudad();
 
+        // Asegúrate de pasar nombre_usuario y foto_perfil a la vista
         $data = [
             'usuarios' => $usuarios,
             'rankingPorPais' => $rankingPorPais,
             'rankingPorCiudad' => $rankingPorCiudad,
+            'nombre_usuario' => $_SESSION['nombre_usuario'] ?? 'Invitado', // Valor por defecto si no existe en la sesión
+            'foto_perfil' => $_SESSION['foto_perfil'] ?? 'default.png' // Imagen por defecto si no existe en la sesión
         ];
 
         $this->mustache->show('ranking', $data);

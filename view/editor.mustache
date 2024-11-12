@@ -57,10 +57,10 @@
                 <td>{{idPregunta}}</td>
                 <td>{{textoPregunta}}</td>
                 <td>
-                    <a href="/TPFinalPreguntas/app/index.php?page=editor&action=aprobarReportada&id={{id}}">
+                    <a href="/TPFinalPreguntas/editor/aprobarReportada&id={{id}}">
                     <button class="aprobar-btn" data-id="{{idPregunta}}">Aprobar</button>
                     </a>
-                    <a href="/TPFinalPreguntas/app/index.php?page=editor&action=eliminarPregunta&id={{id}}">
+                    <a href="/TPFinalPreguntas/editor/eliminarPregunta&id={{id}}">
                     <button class="eliminar-btn" data-id="{{idPregunta}}">Dar de baja</button>
                     </a>
                 </td>
@@ -84,10 +84,10 @@
                 <td>{{idPregunta}}</td>
                 <td>{{textoPregunta}}</td>
                 <td>
-                    <a href="/TPFinalPreguntas/app/index.php?page=editor&action=aprobarSugerida&id={{id}}">
+                    <a href="/TPFinalPreguntas/editor/aprobarSugerida&id={{id}}">
                     <button class="aprobar-btn" data-id="{{idPregunta}}">Aprobar</button>
                     </a>
-                    <a href="/TPFinalPreguntas/app/index.php?page=editor&action=rechazarSugerida&id={{id}}">
+                    <a href="/TPFinalPreguntas/editor/rechazarSugerida&id={{id}}">
                     <button class="modificar-btn" data-id="{{idPregunta}}">Modificar</button>
                     </a>
 
@@ -118,8 +118,8 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data.success) {
-                                row.style.backgroundColor = '#d4edda'; // Cambia el color de la fila a verde claro
-                                setTimeout(() => row.remove(), 1000); // Remueve la fila tras un segundo
+                                row.style.backgroundColor = '#d4edda';
+                                setTimeout(() => row.remove(), 1000);
                             } else {
                                 alert('Hubo un error al realizar la acción.');
                             }

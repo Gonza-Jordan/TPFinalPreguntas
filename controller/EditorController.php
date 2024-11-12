@@ -8,6 +8,8 @@ class EditorController
     public function __construct($presenter, $model) {
         $this->presenter = $presenter;
         $this->model = $model;
+
+        SessionHelper::verificarSesion();
     }
 
     public function mostrarPanelEditor() {
@@ -22,22 +24,22 @@ class EditorController
 
     public function aprobarReportada($id) {
         $this->model->aprobarPreguntaReportada($id);
-        header('Location: /TPFinalPreguntas/app/index.php?page=editor');
+        header('Location: /TPFinalPreguntas/editor');
     }
 
     public function deshabilitarReportada($id) {
         $this->model->deshabilitarPreguntaReportada($id);
-        header('Location: /TPFinalPreguntas/app/index.php?page=editor');
+        header('Location: /TPFinalPreguntas/editor');
     }
 
     public function aprobarSugerida($id) {
         $this->model->aprobarPreguntaSugerida($id);
-        header('Location: /TPFinalPreguntas/app/index.php?page=editor');
+        header('Location: /TPFinalPreguntas/editor');
     }
 
     public function rechazarSugerida($id) {
         $this->model->rechazarPreguntaSugerida($id);
-        header('Location: /TPFinalPreguntas/app/index.php?page=editor');
+        header('Location: /TPFinalPreguntas/editor');
     }
 }
 

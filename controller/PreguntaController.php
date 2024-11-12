@@ -7,6 +7,8 @@ class PreguntaController {
     public function __construct($preguntaModel, $presenter) {
         $this->preguntaModel = $preguntaModel;
         $this->presenter = $presenter;
+
+        SessionHelper::verificarSesion();
     }
 
     public function listar() {
@@ -92,7 +94,7 @@ class PreguntaController {
         if ($this->preguntaModel->aprobarPreguntaSugerida($idPregunta)) {
             header("Location: /TPFinalPreguntas/pregunta/revisarSugerencias&mensaje=aprobada");
         } else {
-            header("Location: /TPFinalPreguntas/app/pregunta/revisarSugerencias&mensaje=error");
+            header("Location: /TPFinalPreguntas/pregunta/revisarSugerencias&mensaje=error");
         }
         exit();
     }

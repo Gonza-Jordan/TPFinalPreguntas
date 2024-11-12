@@ -14,7 +14,7 @@
 
 <div class="perfil">
     <header>
-        <a class="back-button" href="/TPFinalPreguntas/app/index.php?page=home&action=show">⟵</a>
+        <a class="back-button" href="/TPFinalPreguntas/home/show">⟵</a>
         <h1>{{nombre_usuario}}</h1>
         <p class="tipo-usuario"><strong>Tipo de usuario:</strong> {{tipo_usuario}}</p>
         <div class="icons">
@@ -24,7 +24,7 @@
     </header>
 
     <div class="imagen-perfil">
-        <img src="/TPFinalPreguntas/app/public/perfiles/{{foto_perfil}}" alt="Foto de perfil" class="foto-perfil">
+        <img src="/TPFinalPreguntas/public/perfiles/{{foto_perfil}}" alt="Foto de perfil" class="foto-perfil">
     </div>
 
     <div class="cambiar-imagen">
@@ -65,7 +65,7 @@
         <button type="submit" class="btn btn-primary">Actualizar</button>
     </form>
 
-    <a href="/TPFinalPreguntas/app/index.php?page=auth&action=show">
+    <a href="/TPFinalPreguntas/app/auth/show">
         <button class="logout-button">Cerrar sesión</button>
     </a>
 </div>
@@ -86,7 +86,7 @@
             let formData = new FormData(this);
             let xhr = new XMLHttpRequest();
 
-            xhr.open("POST", "/TPFinalPreguntas/app/index.php?page=actualizarFoto", true);
+            xhr.open("POST", "/TPFinalPreguntas/actualizarFoto", true);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4) {
                     let response = JSON.parse(xhr.responseText);
@@ -106,7 +106,7 @@
             let formData = new FormData(this);
             let xhr = new XMLHttpRequest();
 
-            xhr.open("POST", "/TPFinalPreguntas/app/index.php?page=actualizarPerfil", true);
+            xhr.open("POST", "/TPFinalPreguntas/actualizarPerfil", true);
             xhr.onreadystatechange = function() {
                 if (xhr.readyState === 4 && xhr.status === 200) {
                     Swal.fire('Perfil actualizado exitosamente.');

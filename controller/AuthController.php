@@ -31,8 +31,9 @@ class AuthController {
             if ($user && password_verify($password, $user['contraseña'])) {
                 $_SESSION['user_id'] = $user['id_usuario'];
                 $_SESSION['tipo_usuario'] = $user['tipo_usuario'];
+                $_SESSION['nombre_usuario'] = $user['nombre_usuario'];
+                $_SESSION['foto_perfil'] = $user['foto_perfil'];
 
-                // Redireccionar al home
                 header('Location: /TPFinalPreguntas/home/show');
                 exit();
             } else {

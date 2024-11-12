@@ -8,6 +8,8 @@ class PerfilController {
 
     public function __construct($db) {
         $this->usuarioModel = new UsuarioModel($db);
+
+        SessionHelper::verificarSesion();
     }
 
     public function mostrarPerfil($id_usuario) {
