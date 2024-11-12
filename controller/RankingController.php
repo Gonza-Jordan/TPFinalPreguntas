@@ -21,10 +21,8 @@ class RankingController {
     public function show() {
         SessionHelper::verificarSesion();
 
-        // Actualizar la tabla Ranking antes de mostrarla
         $this->rankingModel->actualizarRanking();
 
-        // Obtener el ranking actualizado
         $usuarios = $this->rankingModel->obtenerRanking(10);
         $rankingPorPais = $this->rankingModel->obtenerRankingPorPais();
         $rankingPorCiudad = $this->rankingModel->obtenerRankingPorCiudad();

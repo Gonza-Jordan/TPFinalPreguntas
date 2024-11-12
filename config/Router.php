@@ -29,6 +29,7 @@ class Router {
             return;
         }
 
+
         if ($controllerName === 'pregunta' && in_array($methodName, ['crear', 'editar'])) {
             $this->routeToPreguntaController($methodName, $id);
             return;
