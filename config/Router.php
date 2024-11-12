@@ -40,7 +40,6 @@ class Router {
             return;
         }
 
-        // Ruta genérica para todos los controladores
         $controller = $this->getControllerFrom($controllerName);
         if (empty($methodName)) {
             $methodName = $this->defaultMethod;

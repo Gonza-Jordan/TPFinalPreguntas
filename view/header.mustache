@@ -8,10 +8,10 @@
     <h1 class="user-greeting">Bienvenido {{nombre_usuario}}!</h1>
 
     <div class="logout-container">
-        <a href="/TPFinalPreguntas/app/index.php?page=perfil&action=mostrar&id={{user_id}}">
-        <img src="/TPFinalPreguntas/app/public/perfiles/{{foto_perfil}}" alt="Perfil" id="perfil-icon">
+        <a href="/TPFinalPreguntas/index.php?page=perfil&action=mostrar&id={{user_id}}">
+        <img src="/TPFinalPreguntas/public/perfiles/{{foto_perfil}}" alt="Perfil" id="perfil-icon">
         </a>
-        <form action="/TPFinalPreguntas/app/index.php?page=auth&action=logout" method="POST">
+        <form action="/TPFinalPreguntas/index.php?page=auth&action=logout" method="POST">
             <button type="submit" class="btn btn-danger logout-button">Cerrar sesión</button>
         </form>
     </div>

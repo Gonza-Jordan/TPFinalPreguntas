@@ -1,6 +1,6 @@
 
 <?php
-require_once __DIR__ . '/vendor/autoload.php';  // Usar el autoload de Composer
+require_once __DIR__ . '/vendor/autoload.php';
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -12,7 +12,7 @@ try {
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
     $mail->Username = 'tuchanguitocompras@gmail.com';
-    $mail->Password = 'kiya oeqf rtvz dbnp';  // La contraseña de aplicación generada
+    $mail->Password = 'kiya oeqf rtvz dbnp';
     $mail->SMTPSecure = 'tls';
     $mail->Port = 587;
 

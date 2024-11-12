@@ -21,10 +21,8 @@ class RegistroController {
         $errores = $this->validarDatos($datos);
 
         if (empty($errores)) {
-            // Generar el token de activación
-            $token = bin2hex(random_bytes(16)); // Genera un token de 32 caracteres
+            $token = bin2hex(random_bytes(16));
 
-            // Registrar usuario
             if ($this->usuarioModel->registrar(
                 $datos['nombre_completo'],
                 $datos['anio_nacimiento'],
@@ -34,39 +32,33 @@ class RegistroController {
                 $datos['email'],
                 $datos['contrasenia'],
                 $datos['nombre_usuario'],
-                null, // Para foto_perfil, que se puede procesar después
+                null,
                 $token
             )) {
-                // Obtener el ID del usuario registrado
                 $id_usuario = $this->usuarioModel->getLastInsertedId();
 
-                // Procesar la foto de perfil usando el ID del usuario
                 $foto_perfil = $this->procesarFotoPerfil($archivos, $id_usuario);
                 if ($foto_perfil !== false) {
                     $this->usuarioModel->actualizarFoto($id_usuario, $foto_perfil);
                 }
 
-                // Enviar correo de activación
                 $emailHelper = new EmailHelper();
                 $enviado = $emailHelper->enviarCorreoActivacion($datos['email'], $token);
 
                 if ($enviado) {
-                    // Redirigir con éxito
-                    header('Location: /TPFinalPreguntas/app/index.php?page=registro&status=success');
+                    header('Location: /TPFinalPreguntas/registro/show?status=success');
                     exit();
                 } else {
-                    // Redirigir con error de envío de correo
-                    header('Location: /TPFinalPreguntas/app/index.php?page=registro&status=error_envio_correo');
+                    header('Location: /TPFinalPreguntas/registro/show?status=error_envio_correo');
                     exit();
                 }
             } else {
-                // Redirigir con error de registro
-                header('Location: /TPFinalPreguntas/app/index.php?page=registro&status=error_registro');
+                header('Location: /TPFinalPreguntas/registro/show?status=error_registro');
                 exit();
             }
         } else {
             $errores_texto = urlencode(implode(', ', $errores));
-            header("Location: /TPFinalPreguntas/app/index.php?page=registro&status=error_validacion&errors=$errores_texto");
+            header("Location: /TPFinalPreguntas/registro/show?status=error_validacion&errors=$errores_texto");
             exit();
         }
     }
