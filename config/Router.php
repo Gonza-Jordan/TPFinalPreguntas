@@ -12,7 +12,13 @@ class Router {
     }
 
     public function route($controllerName, $methodName, $id = null) {
-        // Rutas específicas por controlador
+
+        if ($controllerName === 'registro' && $methodName === 'registrar') {
+            $controller = $this->configuration->getRegistroController();
+            $controller->registrar();
+            return;
+        }
+
         if ($controllerName === 'perfil') {
             $this->routeToPerfilController($methodName);
             return;

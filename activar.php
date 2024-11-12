@@ -1,6 +1,6 @@
 <?php
-require_once 'app/config/Database.php';
-require_once 'app/model/UsuarioModel.php';
+require_once __DIR__ . '/config/Database.php';
+require_once __DIR__ . '/model/UsuarioModel.php';
 
 // Obtener el token de la URL y sanitizarlo
 $token = htmlspecialchars($_GET['token'] ?? '');

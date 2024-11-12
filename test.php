@@ -11,8 +11,8 @@ try {
     $mail->isSMTP();
     $mail->Host = 'smtp.gmail.com';
     $mail->SMTPAuth = true;
-    $mail->Username = 'brian67.bk@gmail.com';
-    $mail->Password = 'rzws dyww xbyr xzuf';  // La contraseña de aplicación generada
+    $mail->Username = 'tuchanguitocompras@gmail.com';
+    $mail->Password = 'kiya oeqf rtvz dbnp';  // La contraseña de aplicación generada
     $mail->SMTPSecure = 'tls';
     $mail->Port = 587;
 

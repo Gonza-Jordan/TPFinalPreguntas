@@ -78,8 +78,7 @@ class Configuration
         return new PerfilController($this->getDatabase());
     }
 
-    public function getRegistroController()
-    {
+    public function getRegistroController() {
         return new RegistroController($this->getPresenter(), $this->getDatabase());
     }
 

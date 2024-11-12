@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
             timerProgressBar: true,
             allowOutsideClick: false
         }).then((result) => {
-            window.location.href = 'http://localhost/TPFinalPreguntas//auth/show';
+            window.location.href = 'http://localhost/TPFinalPreguntas/auth/show';
         });
     } else if (status === 'error_imagen') {
         Swal.fire({
