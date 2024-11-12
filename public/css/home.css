@@ -1,0 +1,141 @@
+body {
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: url('/TPFinalPreguntas/public/img/fondo_home.jpg') no-repeat center center fixed;
+    background-size: cover;
+    background-color: #f8f9fa;
+}
+
+.home-container {
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+}
+
+.home-view {
+    background-color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    align-items: center;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.header-container {
+    width: 100%; /* Ocupa todo el ancho de la pantalla */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #007bff;
+    padding: 10px 20px;
+    border-radius: 0;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-links a:hover {
+    color: #cce4ff;
+}
+
+.user-greeting {
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.logout-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#perfil-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.button {
+    border-radius: 8px;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+.btn-warning {
+    font-size: 16px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+}
+
+.btn-warning:hover {
+    background-color: #d39e00;
+}
+
+.logout-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+}
+.content-wrapper {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    margin: 20px auto;
+    max-width: 1200px;
+}
+.banner-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5px;
+}
+
+.banner-wide {
+    width: 23%;
+    max-width: 500px;
+    border-radius: 15px;
+}
+
+

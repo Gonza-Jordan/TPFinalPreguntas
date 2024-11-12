@@ -1,0 +1,143 @@
+body {
+    background-color: #f4f4f4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 2rem;
+    background: url('/TPFinalPreguntas/public/img/fondo_home.jpg') no-repeat center center fixed;
+    background-size: cover;
+    background-color: #f8f9fa;
+}
+.container {
+    margin-top: 2rem;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+}
+.item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #dee2e6;
+}
+.item:hover {
+    background-color: #e9ecef;
+}
+
+/****************************** Ranking */
+.posicion {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #28a745;
+}
+.jugador {
+    font-size: 1.2rem;
+}
+.puntaje {
+    font-weight: bold;
+}
+
+/****************************** Historial */
+.pregunta {
+    font-size: 1.2rem;
+    padding: .5rem 0;
+}
+.categoria {
+    font-size: 0.85rem;
+    color: #666;
+}
+.puntos {
+    font-weight: bold;
+}
+.resultado {
+    display: flex;
+    align-items: center;
+}
+.resultado .icono {
+    margin-left: 10px;
+}
+.icono-correcto {
+    color: green;
+}
+.icono-incorrecto {
+    color: red;
+}
+.header-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #007bff;
+    padding: 10px 20px;
+    color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.nav-links a:hover {
+    color: #cce4ff;
+}
+
+.user-greeting {
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+    color: white;
+    font-size: 1.5rem;
+}
+
+.logout-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#perfil-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.logout-button {
+    background-color: #dc3545;
+    color: white;
+}
+
+.logout-button:hover {
+    background-color: #c82333;
+}
+.footer-container {
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    font-size: 14px;
+    z-index: 1000;
+}
