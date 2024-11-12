@@ -43,6 +43,7 @@ class Router {
     }
 
     private function validarAcceso($controllerName, $methodName) {
+
         $permisos = [
             'editor' => [
                 'pregunta' => ['crear', 'editar', 'revisarSugerencias', 'rechazarPregunta', 'aprobarPregunta', 'listarPreguntas'],

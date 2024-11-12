@@ -16,7 +16,7 @@ class PartidaController
         SessionHelper::verificarSesion();
 
         if ($partida === null || !isset($partida['pregunta'])) {
-            header("Location: /TPFinalPreguntas/app/index.php");
+            header("Location: /TPFinalPreguntas/index.php");
             exit();
         }
 
