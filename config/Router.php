@@ -12,7 +12,6 @@ class Router {
     }
 
     public function route($controllerName, $methodName, $id = null) {
-        // Rutas sin autenticación
         if ($controllerName === 'auth' && in_array($methodName, ['show', 'login', 'logout'])) {
             $controller = $this->configuration->getAuthController();
             $controller->$methodName();
@@ -30,7 +29,17 @@ class Router {
             exit();
         }
 
-        if ($controllerName === 'pregunta' && $_SESSION['tipo_usuario'] !== 'editor') {
+        if ($controllerName === 'pregunta') {
+            if ($_SESSION['tipo_usuario'] === 'jugador' && $methodName !== 'sugerir') {
+                header('Location: /TPFinalPreguntas/home/show');
+                exit();
+            } elseif ($_SESSION['tipo_usuario'] !== 'editor' && $methodName !== 'sugerir') {
+                header('Location: /TPFinalPreguntas/home/show');
+                exit();
+            }
+        }
+
+        if ($controllerName === 'partida' && $methodName === 'crearPartida' && $_SESSION['tipo_usuario'] !== 'jugador') {
             header('Location: /TPFinalPreguntas/home/show');
             exit();
         }
