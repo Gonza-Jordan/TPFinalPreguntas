@@ -12,7 +12,14 @@ class Router {
     }
 
     public function route($controllerName, $methodName, $id = null) {
-        // Permitir acceso sin autenticación a las rutas de auth y registro
+        $urlPath = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+        $segments = explode('/', trim($urlPath, '/'));
+
+        $controllerName = $segments[1] ?? $this->defaultController;
+        $methodName = $segments[2] ?? $this->defaultMethod;
+
+        error_log("Routing: Controller = $controllerName, Method = $methodName");
+
         if ($controllerName === 'auth' && in_array($methodName, ['show', 'login', 'logout'])) {
             $controller = $this->configuration->getAuthController();
             $controller->$methodName();
@@ -45,13 +52,19 @@ class Router {
             exit();
         }
 
+        if ($controllerName === 'historial' && $methodName === 'show') {
+            error_log("Accediendo al método show en HistorialController");
+            $controller = $this->configuration->getHistorialController();
+            $controller->show();
+            return;
+        }
+
         $controller = $this->getControllerFrom($controllerName);
         if (empty($methodName)) {
             $methodName = $this->defaultMethod;
         }
         $this->executeMethodFromController($controller, $methodName, $id);
     }
-
 
     private function validarAcceso($controllerName, $methodName) {
 

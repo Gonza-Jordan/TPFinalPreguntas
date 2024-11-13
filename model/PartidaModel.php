@@ -281,5 +281,27 @@ class PartidaModel
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function obtenerHistorialPorUsuario($idUsuario) {
+        $query = "SELECT * FROM partidas WHERE id_usuario = :id_usuario ORDER BY horario_inicio DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_usuario', $idUsuario, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function obtenerPartidasPaginadas($offset, $limit) {
+        $query = "SELECT * FROM partidas ORDER BY horario_inicio DESC LIMIT :offset, :limit";
+        $stmt = $this->conn->prepare($query);  // Cambiado $this->db a $this->conn
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function contarTotalPartidas() {
+        $query = "SELECT COUNT(*) as total FROM partidas";
+        $stmt = $this->conn->query($query);  // Cambiado $this->db a $this->conn
+        $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $result['total'];
+    }
 
 }

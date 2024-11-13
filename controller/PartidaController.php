@@ -104,4 +104,5 @@ class PartidaController
 
         $this->show($data);
     }
+
 }
