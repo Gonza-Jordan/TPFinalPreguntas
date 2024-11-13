@@ -16,6 +16,9 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/chillerlan/php-qrcode" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/chillerlan/php-settings-container" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/php-qrcode/src" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mustache/bin" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mustache/src" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/mustache/test" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

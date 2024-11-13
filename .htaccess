@@ -1,0 +1,23 @@
+Options -Indexes
+
+<FilesMatch ".*\.(log|ini|htaccess)$">
+    deny from all
+</FilesMatch>
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /TPFinalPreguntas/
+
+    # Excluir la carpeta public de la reescritura
+    RewriteRule ^(public)($|/) - [L,NC]
+
+    # Enrutamiento para controlador/acción
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^([^/]+)/([^/]+)/?$ index.php?page=$1&action=$2 [L,QSA]
+
+    # Enrutamiento para controlador solo
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^([^/]+)$ index.php?page=$1 [L,QSA]
+</IfModule>

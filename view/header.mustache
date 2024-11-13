@@ -1,0 +1,18 @@
+<header class="header-container">
+    <nav class="nav-links">
+        <a href="/TPFinalPreguntas/home">Inicio</a>
+        <a href="/TPFinalPreguntas/historial">Historial</a>
+        <a href="/TPFinalPreguntas/ranking">Ranking</a>
+    </nav>
+
+    <h1 class="user-greeting">Bienvenido {{nombre_usuario}}!</h1>
+
+    <div class="logout-container">
+        <a href="/TPFinalPreguntas/perfil/mostrar&id={{user_id}}">
+        <img src="/TPFinalPreguntas/public/perfiles/{{foto_perfil}}" alt="Perfil" id="perfil-icon">
+        </a>
+        <form action="/TPFinalPreguntas/auth/logout" method="POST">
+            <button type="submit" class="btn btn-danger logout-button">Cerrar sesión</button>
+        </form>
+    </div>
+</header>
