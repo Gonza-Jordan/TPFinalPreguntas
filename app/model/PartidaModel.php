@@ -281,5 +281,13 @@ class PartidaModel
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
+    public function obtenerHistorialPorUsuario($idUsuario) {
+        $query = "SELECT * FROM partidas WHERE id_usuario = :id_usuario ORDER BY horario_inicio DESC";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':id_usuario', $idUsuario, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }

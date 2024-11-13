@@ -16,7 +16,7 @@ include_once ('controller/RegistroController.php');
 include_once ('controller/PartidaController.php');
 include_once ('controller/RankingController.php');
 include_once ('controller/EditorController.php');
-
+include_once ('controller/HistorialController.php');
 // Modelos
 include_once('model/UsuarioModel.php');
 include_once('model/HomeModel.php');
@@ -81,6 +81,9 @@ class Configuration
     public function getRegistroController()
     {
         return new RegistroController($this->getPresenter(), $this->getDatabase());
+    }
+    public function getHistorialController() {
+        return new HistorialController($this->getPartidaModel(), $this->getPresenter());
     }
 
     public function getPartidaController()
