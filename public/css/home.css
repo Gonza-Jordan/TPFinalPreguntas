@@ -109,6 +109,15 @@ body {
     background-color: #d39e00;
 }
 
+.jugar{
+    background-color: #49b543;
+    border-radius: 8px;
+}
+
+.jugar:hover {
+    background-color: #596c19;
+}
+
 .logout-button {
     background-color: #dc3545;
     color: white;
