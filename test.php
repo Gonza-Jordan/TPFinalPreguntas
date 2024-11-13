@@ -15,9 +15,17 @@ try {
     $mail->Password = 'czhm plgd bksp dtrc';
     $mail->SMTPSecure = 'tls';
     $mail->Port = 587;
+    $mail->SMTPOptions = array(
+        'ssl' => array(
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+            'allow_self_signed' => true
+        )
+    );
 
-    $mail->setFrom('brian67.bk@gmail.com', 'Tu Proyecto');
-    $mail->addAddress('destino@example.com');
+
+    $mail->setFrom('tuchanguitocompras@gmail.com', 'Tu Proyecto');
+    $mail->addAddress('gonzajordan23@hotmail.com');
 
     $mail->isHTML(true);
     $mail->Subject = 'Prueba de PHPMailer';
@@ -28,4 +36,3 @@ try {
 } catch (Exception $e) {
     echo 'Error al enviar el correo: ' . $mail->ErrorInfo;
 }
-?>
