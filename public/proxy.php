@@ -7,7 +7,7 @@ if (isset($_GET['lat']) && isset($_GET['lon'])) {
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $url);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_USERAGENT, 'MiAplicacion/1.0 (gonzajordan11@gmail.com)'); // Reemplaza con un email de contacto válido
+    curl_setopt($ch, CURLOPT_USERAGENT, 'MiAplicacion/1.0 (gonzajordan11@gmail.com)');
 
     $response = curl_exec($ch);
     curl_close($ch);

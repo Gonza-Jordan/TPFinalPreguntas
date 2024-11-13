@@ -12,15 +12,16 @@ class Router {
     }
 
     public function route($controllerName, $methodName, $id = null) {
+        // Permitir acceso sin autenticación a las rutas de auth y registro
         if ($controllerName === 'auth' && in_array($methodName, ['show', 'login', 'logout'])) {
             $controller = $this->configuration->getAuthController();
             $controller->$methodName();
             return;
         }
 
-        if ($controllerName === 'registro' && $methodName === 'registrar') {
+        if ($controllerName === 'registro' && in_array($methodName, ['show', 'registrar'])) {
             $controller = $this->configuration->getRegistroController();
-            $controller->registrar();
+            $controller->$methodName();
             return;
         }
 
@@ -50,6 +51,7 @@ class Router {
         }
         $this->executeMethodFromController($controller, $methodName, $id);
     }
+
 
     private function validarAcceso($controllerName, $methodName) {
 

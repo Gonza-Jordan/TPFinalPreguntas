@@ -27,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
         currentMarker = L.marker(latlng).addTo(map);
 
-        // Hacer la solicitud a nuestro proxy en lugar de la API de Nominatim
         fetch(`/TPFinalPreguntas/public/proxy.php?lat=${latlng.lat}&lon=${latlng.lng}`)
             .then(response => response.json())
             .then(data => {
