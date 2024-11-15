@@ -41,9 +41,9 @@ class PartidaModel
 
     public function verificarRespuesta($idUsuario, $respuestaSeleccionada, $idPartida) {
         $sql = "SELECT preguntas.id_pregunta, preguntas.respuesta_correcta 
-                FROM preguntas 
-                JOIN partidas ON preguntas.id_pregunta = partidas.id_pregunta
-                WHERE partidas.id_usuario = :idUsuario AND partidas.id_partida = :idPartida";
+            FROM preguntas 
+            JOIN partidas ON preguntas.id_pregunta = partidas.id_pregunta
+            WHERE partidas.id_usuario = :idUsuario AND partidas.id_partida = :idPartida";
         $stmt = $this->conn->prepare($sql);
         $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
         $stmt->bindParam(':idPartida', $idPartida, PDO::PARAM_INT);
@@ -55,6 +55,9 @@ class PartidaModel
             $esCorrecta = ($respuestaData['respuesta_correcta'] == $respuestaSeleccionada);
 
             $this->actualizarEstadisticasPregunta($idPregunta, $esCorrecta);
+
+            $usuarioModel = new UsuarioModel($this->conn);
+            $usuarioModel->actualizarEstadisticasUsuario($idUsuario, $esCorrecta);
 
             $resultado['esCorrecta'] = $esCorrecta;
             $resultado['opcionCorrecta'] = $respuestaData['respuesta_correcta'];

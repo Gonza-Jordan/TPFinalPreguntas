@@ -164,12 +164,52 @@ class UsuarioModel {
         return $resultado['tipo_usuario'] === 'editor';
     }
 
-    // Método para verificar si el usuario es administrador
     public function esAdministrador($id_usuario) {
         $query = "SELECT tipo_usuario FROM usuarios WHERE id_usuario = :id_usuario";
         $stmt = $this->db->prepare($query);
         $stmt->execute(['id_usuario' => $id_usuario]);
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
         return $resultado['tipo_usuario'] === 'administrador';
+    }
+
+    public function actualizarEstadisticasUsuario($idUsuario, $esCorrecta) {
+        $query = "UPDATE usuarios SET preguntas_respondidas_total = preguntas_respondidas_total + 1 WHERE id_usuario = :idUsuario";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+        $stmt->execute();
+
+        if ($esCorrecta) {
+            $query = "UPDATE usuarios SET preguntas_respondidas_correctas = preguntas_respondidas_correctas + 1 WHERE id_usuario = :idUsuario";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+            $stmt->execute();
+        }
+
+        $this->actualizarNivelJugador($idUsuario);
+    }
+
+    private function actualizarNivelJugador($idUsuario) {
+        $query = "SELECT preguntas_respondidas_total, preguntas_respondidas_correctas FROM usuarios WHERE id_usuario = :idUsuario";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+        $stmt->execute();
+        $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($usuario['preguntas_respondidas_total'] > 0) {
+            $porcentajeCorrectas = ($usuario['preguntas_respondidas_correctas'] / $usuario['preguntas_respondidas_total']) * 100;
+
+            $nivel = 'Medio';
+            if ($porcentajeCorrectas > 70) {
+                $nivel = 'Dificil';
+            } elseif ($porcentajeCorrectas < 30) {
+                $nivel = 'Facil';
+            }
+
+            $query = "UPDATE usuarios SET nivel_jugador = :nivel WHERE id_usuario = :idUsuario";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':nivel', $nivel);
+            $stmt->bindParam(':idUsuario', $idUsuario, PDO::PARAM_INT);
+            $stmt->execute();
+        }
     }
 }

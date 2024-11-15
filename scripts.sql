@@ -208,3 +208,8 @@ VALUES
 ALTER TABLE preguntas
 MODIFY estado_aprobacion ENUM('Aprobada', 'Rechazada', 'En Revisión', 'Reportada', 'Deshabilitada') NOT NULL DEFAULT 'En Revisión';
 
+--Nivel de jugador
+ALTER TABLE usuarios
+    ADD COLUMN preguntas_respondidas_total INT DEFAULT 0,
+ADD COLUMN preguntas_respondidas_correctas INT DEFAULT 0,
+ADD COLUMN nivel_jugador ENUM('Facil', 'Medio', 'Dificil') DEFAULT 'Medio';
