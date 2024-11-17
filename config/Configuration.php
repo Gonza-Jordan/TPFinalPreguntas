@@ -2,7 +2,7 @@
 
 include_once('Presenter.php');
 include_once('MustachePresenter.php');
-include_once('vendor/mustache/src/Mustache/Autoloader.php');
+include_once('vendor/mustache/mustache/src/Mustache/Autoloader.php');
 include_once('Router.php');
 include_once('Database.php');
 
@@ -123,5 +123,9 @@ class Configuration
     }
     public function getPreguntaModel() {
         return new PreguntaModel($this->getDatabase());
+    }
+    public function getAdminController()
+    {
+        return new AdminController($this->getPresenter(), $this->getUserModel(), $this->getPartidaModel(), $this->getPreguntaModel());
     }
 }

@@ -1,0 +1,57 @@
+<h1>Panel Administrativo</h1>
+
+<form method="get" action="/admin/dashboard">
+    <label for="filtro_tiempo">Filtrar por:</label>
+    <select id="filtro_tiempo" name="filtro_tiempo">
+        <option value="dia">Día</option>
+        <option value="semana">Semana</option>
+        <option value="mes">Mes</option>
+        <option value="anio">Año</option>
+    </select>
+    <button type="submit">Aplicar</button>
+</form>
+
+<h2>Estadísticas Generales</h2>
+<ul>
+    <li>Total de jugadores: {{cantidad_usuarios}}</li>
+    <li>Partidas jugadas: {{cantidad_partidas}}</li>
+    <li>Preguntas disponibles: {{cantidad_preguntas}}</li>
+    <li>Preguntas creadas: {{preguntas_creadas}}</li>
+</ul>
+
+<h2>Usuarios por País</h2>
+<canvas id="usuariosPorPais"></canvas>
+
+<h2>Usuarios por Sexo</h2>
+<canvas id="usuariosPorSexo"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const usuariosPorPais = {{usuarios_por_pais_json}};
+    const usuariosPorSexo = {{usuarios_por_sexo_json}};
+
+    new Chart(document.getElementById('usuariosPorPais'), {
+        type: 'bar',
+        data: {
+            labels: usuariosPorPais.map(u => u.pais),
+            datasets: [{
+                label: 'Usuarios por País',
+                data: usuariosPorPais.map(u => u.cantidad),
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+            }]
+        }
+    });
+
+    new Chart(document.getElementById('usuariosPorSexo'), {
+        type: 'pie',
+        data: {
+            labels: usuariosPorSexo.map(u => u.sexo),
+            datasets: [{
+                label: 'Usuarios por Sexo',
+                data: usuariosPorSexo.map(u => u.cantidad),
+                backgroundColor: ['#ff6384', '#36a2eb'],
+            }]
+        }
+    });
+</script>
+<button onclick="window.print()">Imprimir Reporte</button>
