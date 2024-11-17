@@ -306,5 +306,19 @@ class PartidaModel
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['total'];
     }
+    public function getCantidadPartidas()
+    {
+        $query = "SELECT COUNT(*) FROM partidas";
+        return $this->db->query($query)->fetchColumn();
+    }
+
+    public function getPorcentajeRespuestasPorUsuario()
+    {
+        $query = "SELECT usuario_id, 
+                     ROUND(SUM(respuestas_correctas)/SUM(respuestas_totales) * 100, 2) as porcentaje 
+              FROM partidas 
+              GROUP BY usuario_id";
+        return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }

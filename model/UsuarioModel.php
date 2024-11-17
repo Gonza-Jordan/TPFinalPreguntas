@@ -212,4 +212,46 @@ class UsuarioModel {
             $stmt->execute();
         }
     }
+    public function getCantidadUsuariosPorRango($rangoFechas)
+    {
+        $query = "SELECT COUNT(*) as count FROM users WHERE created_at BETWEEN :inicio AND :fin";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':inicio', $rangoFechas['inicio']);
+        $stmt->bindParam(':fin', $rangoFechas['fin']);
+        $stmt->execute();
+        return $stmt->fetchColumn();
+    }
+    public function getCantidadUsuarios()
+    {
+        $query = "SELECT COUNT(*) FROM usuarios";
+        return $this->db->query($query)->fetchColumn();
+    }
+
+
+
+    public function getUsuariosPorPais()
+    {
+        $query = "SELECT pais, COUNT(*) as cantidad FROM usuarios GROUP BY pais";
+        return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getUsuariosPorSexo()
+    {
+        $query = "SELECT sexo, COUNT(*) as cantidad FROM usuarios GROUP BY sexo";
+        return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getUsuariosPorGrupoEdad()
+    {
+        $query = "SELECT 
+                CASE 
+                    WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) < 18 THEN 'menores'
+                    WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) >= 65 THEN 'jubilados'
+                    ELSE 'medio'
+                END as grupo, COUNT(*) as cantidad 
+              FROM usuarios 
+              GROUP BY grupo";
+        return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
+    }
+
 }

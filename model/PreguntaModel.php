@@ -235,5 +235,19 @@ class PreguntaModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    public function getCantidadPreguntas()
+    {
+        $query = "SELECT COUNT(*) FROM preguntas";
+        return $this->db->query($query)->fetchColumn();
+    }
+
+    public function getPreguntasPorRango($rangoFechas)
+    {
+        $query = "SELECT COUNT(*) FROM preguntas WHERE horario_inicio BETWEEN :inicio AND :fin";
+        $stmt = $this->db->prepare($query);
+        $stmt->execute($rangoFechas);
+        return $stmt->fetchColumn();
+    }
+
 
 }
