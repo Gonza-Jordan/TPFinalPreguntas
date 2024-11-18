@@ -15,8 +15,9 @@ class AdminController
         $this->preguntaModel = $preguntaModel;
     }
 
-    public function showDashboard($filtro_tiempo = null, $usuarioId)
+    public function showDashboard($filtro_tiempo = null)
     {
+        $usuarioId = $_SESSION['user_id'] ?? null;
         $this->usuarioModel->esAdministrador($usuarioId);
         $rangoFechas = $this->obtenerRangoFechas($filtro_tiempo);
 

@@ -28,6 +28,7 @@ class HomeController {
 
         $esEditor = ($usuario['tipo_usuario'] === 'editor');
         $esJugador = ($usuario['tipo_usuario'] === 'jugador');
+        $esAdmin = ($usuario['tipo_usuario'] === 'administrador');
 
         $data = [
             'nombre_usuario' => $usuario['nombre_usuario'],
@@ -35,7 +36,8 @@ class HomeController {
             'puntaje_total' => $usuario['puntaje_total'],
             'user_id' => $usuario['id_usuario'],
             'esEditor' => $esEditor,
-            'esJugador' => $esJugador
+            'esJugador' => $esJugador,
+            'esAdmin' => $esAdmin
         ];
 
         if ($esEditor) {

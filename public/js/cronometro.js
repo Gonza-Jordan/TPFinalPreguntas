@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function () {
     let tiempoRestante = 15;
     const timerElement = document.getElementById("timer");
@@ -28,12 +27,18 @@ document.addEventListener("DOMContentLoaded", function () {
     if (resultado === "incorrecta") {
         const modalBody = document.getElementById("modal-body-text");
         modalBody.innerHTML = "La respuesta correcta era la opción: <strong>" + respuestaCorrecta + "</strong>";
-        const modal = new bootstrap.Modal(document.getElementById('respuestaIncorrectaModal'));
+        const modalElement = document.getElementById('respuestaIncorrectaModal');
+
+        const modal = new bootstrap.Modal(modalElement, {
+            backdrop: 'static',
+            keyboard: false
+        });
+
         modal.show();
     }
 
     document.getElementById('closeModal').addEventListener('click', function () {
-        window.location.href = '/TPFinalPreguntas/app';
+        window.location.href = '/TPFinalPreguntas';
     });
 });
 

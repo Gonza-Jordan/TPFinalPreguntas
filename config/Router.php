@@ -77,6 +77,10 @@ class Router {
                 'pregunta' => ['sugerir'],
                 'ranking' => ['show']
             ],
+            'administrador' => [
+                'admin' => ['showDashboard'],
+                'ranking' => ['show']
+            ],
         ];
 
         if ($controllerName === 'auth' && in_array($methodName, ['show', 'login', 'logout'])) {

@@ -309,7 +309,7 @@ class PartidaModel
     public function getCantidadPartidas()
     {
         $query = "SELECT COUNT(*) FROM partidas";
-        return $this->conn->query($query)->fetchColumn();
+        return $this->db->query($query)->fetchColumn();
     }
 
     public function getPorcentajeRespuestasPorUsuario()
