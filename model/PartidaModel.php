@@ -293,7 +293,7 @@ class PartidaModel
     }
     public function obtenerPartidasPaginadas($offset, $limit) {
         $query = "SELECT * FROM partidas ORDER BY horario_inicio DESC LIMIT :offset, :limit";
-        $stmt = $this->conn->prepare($query);  // Cambiado $this->db a $this->conn
+        $stmt = $this->conn->prepare($query);
         $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
         $stmt->execute();
@@ -302,19 +302,32 @@ class PartidaModel
 
     public function contarTotalPartidas() {
         $query = "SELECT COUNT(*) as total FROM partidas";
-        $stmt = $this->conn->query($query);  // Cambiado $this->db a $this->conn
+        $stmt = $this->conn->query($query);
         $result = $stmt->fetch(PDO::FETCH_ASSOC);
         return $result['total'];
     }
-    public function getCantidadPartidas()
+    public function getCantidadPartidas($fechas = null)
     {
-        $query = "SELECT COUNT(*) FROM partidas";
-        return $this->conn->query($query)->fetchColumn();
+        if ($fechas === null) {
+            $query = "SELECT COUNT(*) FROM partidas";
+            return $this->conn->query($query)->fetchColumn();
+        } else {
+            $query = "SELECT COUNT(*) 
+                  FROM partidas 
+                  WHERE horario_inicio BETWEEN :inicio AND :fin";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':inicio', $fechas['inicio']);
+            $stmt->bindParam(':fin', $fechas['fin']);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        }
     }
 
-    public function getPorcentajeRespuestasPorUsuario()
+
+    public function getPorcentajeRespuestasPorUsuario($fechas = null)
     {
-        $query = "
+        if ($fechas === null) {
+            $query = "
         SELECT u.id_usuario, 
                ROUND((u.preguntas_respondidas_correctas / u.preguntas_respondidas_total) * 100, 2) AS porcentaje,
                COALESCE(SUM(p.puntos_sumados), 0) AS puntos_totales
@@ -322,9 +335,24 @@ class PartidaModel
         LEFT JOIN partidas p ON u.id_usuario = p.id_usuario
         WHERE u.preguntas_respondidas_total > 0
         GROUP BY u.id_usuario, u.preguntas_respondidas_correctas, u.preguntas_respondidas_total";
-
-        return $this->conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
+            return $this->conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            $query = "
+        SELECT u.id_usuario, 
+               ROUND((u.preguntas_respondidas_correctas / u.preguntas_respondidas_total) * 100, 2) AS porcentaje,
+               COALESCE(SUM(p.puntos_sumados), 0) AS puntos_totales
+        FROM usuarios u
+        LEFT JOIN partidas p ON u.id_usuario = p.id_usuario AND p.horario_inicio BETWEEN :inicio AND :fin
+        WHERE u.preguntas_respondidas_total > 0
+        GROUP BY u.id_usuario, u.preguntas_respondidas_correctas, u.preguntas_respondidas_total";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':inicio', $fechas['inicio']);
+            $stmt->bindParam(':fin', $fechas['fin']);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
+
 
 
 }

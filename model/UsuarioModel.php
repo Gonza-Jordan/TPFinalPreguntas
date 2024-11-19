@@ -87,7 +87,6 @@ class UsuarioModel {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(':token_activacion', $token_activacion);
 
-        // Ejecutar la consulta
         if ($stmt->execute()) {
             return $stmt->rowCount() > 0; // Devuelve true si se actualizó alguna fila
         }
@@ -218,50 +217,90 @@ class UsuarioModel {
         }
     }
 
-    public function getCantidadUsuariosPorRango($rangoFechas)
+    public function getCantidadUsuarios($fechas = null)
     {
-        $inicio = $rangoFechas['inicio'];
-        $fin = $rangoFechas['fin'];
-
-        $query = $this->conn->prepare("SELECT COUNT(*) AS cantidad FROM usuarios WHERE fecha_creacion BETWEEN :inicio AND :fin");
-        $query->bindValue(':inicio', $inicio);
-        $query->bindValue(':fin', $fin);
-        $query->execute();
-
-        return $query->fetchColumn();
+        if ($fechas === null) {
+            $query = "SELECT COUNT(*) FROM usuarios";
+            return $this->conn->query($query)->fetchColumn();
+        } else {
+            $query = "SELECT COUNT(*) FROM usuarios WHERE fecha_creacion BETWEEN :inicio AND :fin";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':inicio', $fechas['inicio']);
+            $stmt->bindParam(':fin', $fechas['fin']);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        }
     }
 
-    public function getCantidadUsuarios()
+    public function getUsuariosPorPais($fechas = null)
     {
-        $query = "SELECT COUNT(*) FROM usuarios";
-        return $this->conn->query($query)->fetchColumn();
+        if ($fechas === null) {
+            $query = "SELECT pais, COUNT(*) as cantidad FROM usuarios GROUP BY pais";
+            return $this->conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            $query = "SELECT pais, COUNT(*) as cantidad 
+                  FROM usuarios 
+                  WHERE fecha_creacion BETWEEN :inicio AND :fin 
+                  GROUP BY pais";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':inicio', $fechas['inicio']);
+            $stmt->bindParam(':fin', $fechas['fin']);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
 
 
-
-    public function getUsuariosPorPais()
+    public function getUsuariosPorSexo($fechas = null)
     {
-        $query = "SELECT pais, COUNT(*) as cantidad FROM usuarios GROUP BY pais";
-        return $this->conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        if ($fechas === null) {
+            $query = "SELECT sexo, COUNT(*) as cantidad FROM usuarios GROUP BY sexo";
+            return $this->conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            $query = "SELECT sexo, COUNT(*) as cantidad 
+                  FROM usuarios 
+                  WHERE fecha_creacion BETWEEN :inicio AND :fin 
+                  GROUP BY sexo";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':inicio', $fechas['inicio']);
+            $stmt->bindParam(':fin', $fechas['fin']);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
 
-    public function getUsuariosPorSexo()
+
+    public function getUsuariosPorGrupoEdad($fechas = null)
     {
-        $query = "SELECT sexo, COUNT(*) as cantidad FROM usuarios GROUP BY sexo";
-        return $this->conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        if ($fechas === null) {
+            $query = "SELECT 
+                    CASE 
+                        WHEN TIMESTAMPDIFF(YEAR, anio_nacimiento, CURDATE()) < 18 THEN 'menores'
+                        WHEN TIMESTAMPDIFF(YEAR, anio_nacimiento, CURDATE()) >= 65 THEN 'jubilados'
+                        ELSE 'medio'
+                    END as grupo, 
+                    COUNT(*) as cantidad 
+                  FROM usuarios 
+                  GROUP BY grupo";
+            return $this->conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        } else {
+            $query = "SELECT 
+                    CASE 
+                        WHEN TIMESTAMPDIFF(YEAR, anio_nacimiento, CURDATE()) < 18 THEN 'menores'
+                        WHEN TIMESTAMPDIFF(YEAR, anio_nacimiento, CURDATE()) >= 65 THEN 'jubilados'
+                        ELSE 'medio'
+                    END as grupo, 
+                    COUNT(*) as cantidad 
+                  FROM usuarios 
+                  WHERE fecha_creacion BETWEEN :inicio AND :fin 
+                  GROUP BY grupo";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':inicio', $fechas['inicio']);
+            $stmt->bindParam(':fin', $fechas['fin']);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
     }
 
-    public function getUsuariosPorGrupoEdad()
-    {
-        $query = "SELECT 
-                CASE 
-                    WHEN TIMESTAMPDIFF(YEAR, anio_nacimiento, CURDATE()) < 18 THEN 'menores'
-                    WHEN TIMESTAMPDIFF(YEAR, anio_nacimiento, CURDATE()) >= 65 THEN 'jubilados'
-                    ELSE 'medio'
-                END as grupo, COUNT(*) as cantidad 
-              FROM usuarios 
-              GROUP BY grupo";
-        return $this->conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
-    }
 
 }

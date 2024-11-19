@@ -235,18 +235,21 @@ class PreguntaModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-    public function getCantidadPreguntas()
+    public function getCantidadPreguntas($fechas = null)
     {
-        $query = "SELECT COUNT(*) FROM preguntas";
-        return $this->conn->query($query)->fetchColumn();
-    }
-
-    public function getPreguntasPorRango($rangoFechas)
-    {
-        $query = "SELECT COUNT(*) FROM preguntas WHERE fecha_creacion BETWEEN :inicio AND :fin";
-        $stmt = $this->conn->prepare($query);
-        $stmt->execute($rangoFechas);
-        return $stmt->fetchColumn();
+        if ($fechas === null) {
+            $query = "SELECT COUNT(*) FROM preguntas";
+            return $this->conn->query($query)->fetchColumn();
+        } else {
+            $query = "SELECT COUNT(*) 
+                  FROM preguntas 
+                  WHERE fecha_creacion BETWEEN :inicio AND :fin";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':inicio', $fechas['inicio']);
+            $stmt->bindParam(':fin', $fechas['fin']);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        }
     }
 
 

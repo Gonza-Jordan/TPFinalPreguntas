@@ -18,23 +18,23 @@ class AdminController
         PDFHelper::init(__DIR__ . '/../view');
     }
 
-    public function show($filtro_tiempo = null)
+    public function show()
     {
 
         $usuarioId = $_SESSION['user_id'] ?? null;
         $this->usuarioModel->esAdministrador($usuarioId);
+
+        $filtro_tiempo = $_POST['filtro_tiempo'] ?? null;
         $rangoFechas = $this->obtenerRangoFechas($filtro_tiempo);
 
         $datos = [
-            'cantidad_usuarios' => $this->usuarioModel->getCantidadUsuarios(),
-            'cantidad_partidas' => $this->partidaModel->getCantidadPartidas(),
-            'cantidad_preguntas' => $this->preguntaModel->getCantidadPreguntas(),
-            'preguntas_creadas' => $this->preguntaModel->getPreguntasPorRango($rangoFechas),
-            'cantidad_usuarios_nuevos' => $this->usuarioModel->getCantidadUsuariosPorRango($rangoFechas),
-            'usuarios_por_pais' => $this->usuarioModel->getUsuariosPorPais(),
-            'usuarios_por_sexo' => $this->usuarioModel->getUsuariosPorSexo(),
-            'usuarios_por_grupo_edad' => $this->usuarioModel->getUsuariosPorGrupoEdad(),
-            'porcentaje_respuestas_correctas' => $this->partidaModel->getPorcentajeRespuestasPorUsuario(),
+            'cantidad_usuarios' => $this->usuarioModel->getCantidadUsuarios($rangoFechas),
+            'cantidad_partidas' => $this->partidaModel->getCantidadPartidas($rangoFechas),
+            'cantidad_preguntas' => $this->preguntaModel->getCantidadPreguntas($rangoFechas),
+            'usuarios_por_pais' => $this->usuarioModel->getUsuariosPorPais($rangoFechas),
+            'usuarios_por_sexo' => $this->usuarioModel->getUsuariosPorSexo($rangoFechas),
+            'usuarios_por_grupo_edad' => $this->usuarioModel->getUsuariosPorGrupoEdad($rangoFechas),
+            'porcentaje_respuestas_correctas' => $this->partidaModel->getPorcentajeRespuestasPorUsuario($rangoFechas),
             'filtro_tiempo' => $filtro_tiempo ?? 'todo'
             ];
 
@@ -51,15 +51,13 @@ class AdminController
 
 
         $datos = [
-            'cantidad_usuarios' => $this->usuarioModel->getCantidadUsuarios(),
-            'cantidad_partidas' => $this->partidaModel->getCantidadPartidas(),
-            'cantidad_preguntas' => $this->preguntaModel->getCantidadPreguntas(),
-            'preguntas_creadas' => $this->preguntaModel->getPreguntasPorRango($rangoFechas),
-            'cantidad_usuarios_nuevos' => $this->usuarioModel->getCantidadUsuariosPorRango($rangoFechas),
-            'usuarios_por_pais' => $this->usuarioModel->getUsuariosPorPais(),
-            'usuarios_por_sexo' => $this->usuarioModel->getUsuariosPorSexo(),
-            'usuarios_por_grupo_edad' => $this->usuarioModel->getUsuariosPorGrupoEdad(),
-            'porcentaje_respuestas_correctas' => $this->partidaModel->getPorcentajeRespuestasPorUsuario(),
+            'cantidad_usuarios' => $this->usuarioModel->getCantidadUsuarios($rangoFechas),
+            'cantidad_partidas' => $this->partidaModel->getCantidadPartidas($rangoFechas),
+            'cantidad_preguntas' => $this->preguntaModel->getCantidadPreguntas($rangoFechas),
+            'usuarios_por_pais' => $this->usuarioModel->getUsuariosPorPais($rangoFechas),
+            'usuarios_por_sexo' => $this->usuarioModel->getUsuariosPorSexo($rangoFechas),
+            'usuarios_por_grupo_edad' => $this->usuarioModel->getUsuariosPorGrupoEdad($rangoFechas),
+            'porcentaje_respuestas_correctas' => $this->partidaModel->getPorcentajeRespuestasPorUsuario($rangoFechas),
         ];
 
 
@@ -147,30 +145,34 @@ class AdminController
         return $porcentajes;
     }
 
-    private function obtenerRangoFechas($filtro_tiempo)
+    public function obtenerRangoFechas($filtro_tiempo)
     {
-        $hoy = date('Y-m-d');
+        $hoy = new DateTime(); // Fecha actual
+        $inicio = clone $hoy; // Inicializamos el inicio
+
         switch ($filtro_tiempo) {
             case 'dia':
-                return ['inicio' => $hoy . ' 00:00:00', 'fin' => $hoy . ' 23:59:59'];
+                // Solo hoy
+                break;
             case 'semana':
-                return [
-                    'inicio' => date('Y-m-d 00:00:00', strtotime('monday this week')),
-                    'fin' => date('Y-m-d 23:59:59', strtotime('sunday this week')),
-                ];
+                $inicio->modify('-7 days');
+                break;
             case 'mes':
-                return [
-                    'inicio' => date('Y-m-01 00:00:00'),
-                    'fin' => date('Y-m-t 23:59:59'),
-                ];
+                $inicio->modify('-1 month');
+                break;
             case 'anio':
-                return [
-                    'inicio' => date('Y-01-01 00:00:00'),
-                    'fin' => date('Y-12-31 23:59:59'),
-                ];
+                $inicio->modify('-1 year');
+                break;
             default:
-                return ['inicio' => '2000-01-01 00:00:00', 'fin' => $hoy . ' 23:59:59'];
+                return null; // Sin filtro
         }
+
+        // Devolvemos el rango de fechas
+        return [
+            'inicio' => $inicio->format('Y-m-d H:i:s'),
+            'fin' => $hoy->format('Y-m-d H:i:s')
+        ];
     }
+
 
 }
