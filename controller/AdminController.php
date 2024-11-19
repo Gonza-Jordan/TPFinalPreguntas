@@ -26,7 +26,7 @@ class AdminController
             'cantidad_partidas' => $this->partidaModel->getCantidadPartidas(),
             'cantidad_preguntas' => $this->preguntaModel->getCantidadPreguntas(),
             'preguntas_creadas' => $this->preguntaModel->getPreguntasPorRango($rangoFechas),
-            'cantidad_usuarios_nuevos' => $this->usuarioModel->getCantidadUsuariosNuevos(),
+            'cantidad_usuarios_nuevos' => $this->usuarioModel->getCantidadUsuariosPorRango($rangoFechas),
             'usuarios_por_pais' => $this->usuarioModel->getUsuariosPorPais(),
             'usuarios_por_sexo' => $this->usuarioModel->getUsuariosPorSexo(),
             'usuarios_por_grupo_edad' => $this->usuarioModel->getUsuariosPorGrupoEdad(),

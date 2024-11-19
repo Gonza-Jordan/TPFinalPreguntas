@@ -158,7 +158,7 @@ class UsuarioModel {
 
     public function esEditor($id_usuario) {
         $query = "SELECT tipo_usuario FROM usuarios WHERE id_usuario = :id_usuario";
-        $stmt = $this->db->prepare($query);
+        $stmt = $this->conn->prepare($query);
         $stmt->execute(['id_usuario' => $id_usuario]);
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
         return $resultado['tipo_usuario'] === 'editor';
@@ -214,13 +214,17 @@ class UsuarioModel {
     }
     public function getCantidadUsuariosPorRango($rangoFechas)
     {
-        $query = "SELECT COUNT(*) as count FROM users WHERE created_at BETWEEN :inicio AND :fin";
-        $stmt = $this->db->prepare($query);
-        $stmt->bindParam(':inicio', $rangoFechas['inicio']);
-        $stmt->bindParam(':fin', $rangoFechas['fin']);
-        $stmt->execute();
-        return $stmt->fetchColumn();
+        $inicio = $rangoFechas['inicio'];
+        $fin = $rangoFechas['fin'];
+
+        $query = $this->conn->prepare("SELECT COUNT(*) AS cantidad FROM usuarios WHERE fecha_creacion BETWEEN :inicio AND :fin");
+        $query->bindValue(':inicio', $inicio);
+        $query->bindValue(':fin', $fin);
+        $query->execute();
+
+        return $query->fetchColumn();
     }
+
     public function getCantidadUsuarios()
     {
         $query = "SELECT COUNT(*) FROM usuarios";
@@ -232,26 +236,26 @@ class UsuarioModel {
     public function getUsuariosPorPais()
     {
         $query = "SELECT pais, COUNT(*) as cantidad FROM usuarios GROUP BY pais";
-        return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        return $this->conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getUsuariosPorSexo()
     {
         $query = "SELECT sexo, COUNT(*) as cantidad FROM usuarios GROUP BY sexo";
-        return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        return $this->conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function getUsuariosPorGrupoEdad()
     {
         $query = "SELECT 
                 CASE 
-                    WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) < 18 THEN 'menores'
-                    WHEN TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) >= 65 THEN 'jubilados'
+                    WHEN TIMESTAMPDIFF(YEAR, anio_nacimiento, CURDATE()) < 18 THEN 'menores'
+                    WHEN TIMESTAMPDIFF(YEAR, anio_nacimiento, CURDATE()) >= 65 THEN 'jubilados'
                     ELSE 'medio'
                 END as grupo, COUNT(*) as cantidad 
               FROM usuarios 
               GROUP BY grupo";
-        return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        return $this->conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
     }
 
 }

@@ -243,7 +243,7 @@ class PreguntaModel {
 
     public function getPreguntasPorRango($rangoFechas)
     {
-        $query = "SELECT COUNT(*) FROM preguntas WHERE horario_inicio BETWEEN :inicio AND :fin";
+        $query = "SELECT COUNT(*) FROM preguntas WHERE fecha_creacion BETWEEN :inicio AND :fin";
         $stmt = $this->conn->prepare($query);
         $stmt->execute($rangoFechas);
         return $stmt->fetchColumn();
