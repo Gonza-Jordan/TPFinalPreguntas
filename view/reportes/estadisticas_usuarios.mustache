@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .reporte-container { max-width: 800px; margin: 0 auto; }
+        .seccion { margin: 20px 0; padding: 15px; border: 1px solid #ddd; }
+        .tabla-datos {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        .tabla-datos th, .tabla-datos td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .tabla-datos th { background-color: #f5f5f5; }
+        .grafico-barra {
+            height: 20px;
+            background-color: #4CAF50;
+            margin: 2px 0;
+        }
+        .resumen-box {
+            background: #f9f9f9;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="reporte-container">
+        <h1>Reporte Estadístico de Usuarios</h1>
+        <p>Generado el: {{fecha_generacion}}</p>
+        
+        <!-- Resumen General -->
+        <div class="seccion">
+            <h2>Resumen General</h2>
+            <div class="resumen-box">
+                <p>Total de Usuarios: <strong>{{estadisticas.total_usuarios}}</strong></p>
+                <p>Usuarios nuevos en el período: <strong>{{estadisticas.usuarios_periodo}}</strong></p>
+                <p>Período: {{rango_fechas.inicio}} - {{rango_fechas.fin}}</p>
+            </div>
+        </div>
+        
+        <!-- Distribución por País -->
+        <div class="seccion">
+            <h2>Distribución por País</h2>
+            <table class="tabla-datos">
+                <thead>
+                    <tr>
+                        <th>País</th>
+                        <th>Cantidad</th>
+                        <th>Porcentaje</th>
+                        <th>Distribución</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#estadisticas.porcentajes.paises}}
+                    <tr>
+                        <td>{{pais}}</td>
+                        <td>{{cantidad}}</td>
+                        <td>{{porcentaje}}%</td>
+                        <td>
+                            <div class="grafico-barra" style="width: {{porcentaje}}%"></div>
+                        </td>
+                    </tr>
+                    {{/estadisticas.porcentajes.paises}}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Distribución por Grupo de Edad -->
+        <div class="seccion">
+            <h2>Distribución por Grupo de Edad</h2>
+            <table class="tabla-datos">
+                <thead>
+                    <tr>
+                        <th>Grupo</th>
+                        <th>Cantidad</th>
+                        <th>Porcentaje</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#estadisticas.porcentajes.grupos_edad}}
+                    <tr>
+                        <td>{{grupo}}</td>
+                        <td>{{cantidad}}</td>
+                        <td>{{porcentaje}}%</td>
+                    </tr>
+                    {{/estadisticas.porcentajes.grupos_edad}}
+                </tbody>
+            </table>
+        </div>
+        
+        <!-- Distribución por Sexo -->
+        <div class="seccion">
+            <h2>Distribución por Sexo</h2>
+            <table class="tabla-datos">
+                <thead>
+                    <tr>
+                        <th>Sexo</th>
+                        <th>Cantidad</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#estadisticas.distribucion_sexo}}
+                    <tr>
+                        <td>{{sexo}}</td>
+                        <td>{{cantidad}}</td>
+                    </tr>
+                    {{/estadisticas.distribucion_sexo}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- Botón para generar el reporte PDF -->
+    <div style="text-align: center; margin-top: 20px;">
+        <button id="generarPDF" onclick="generarPDF()">Generar Reporte PDF</button>
+    </div>
+    
+<script>
+    function generarPDF() {
+        // Crear un formulario oculto para enviar la solicitud GET al servidor
+        var form = document.createElement("form");
+        form.method = "get";
+        form.action = "/TPFinalPreguntas/admin/generarReporteUsuarios"; // Ruta del método en el controlador
+
+        // Añadir el filtro de tiempo al formulario (puedes modificar esto según tu lógica)
+        var filtroTiempo = '{{filtro_tiempo}}'; // Suponiendo que ya tienes este dato en tu vista
+        var inputFiltro = document.createElement("input");
+        inputFiltro.type = "hidden";
+        inputFiltro.name = "filtro_tiempo";
+        inputFiltro.value = filtroTiempo;  // Asigna el valor que desees (por ejemplo, "mes")
+        form.appendChild(inputFiltro);
+
+        // Enviar el formulario
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+
+</body>
+</html>
