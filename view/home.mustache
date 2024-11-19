@@ -21,6 +21,11 @@
             <div class="col">
                 <a href="/TPFinalPreguntas/ranking/show" class="button btn btn-primary w-100">Ranking</a>
             </div>
+            {{#esAdmin}}
+                    <div class="col">
+                        <a href="/TPFinalPreguntas/admin/showDashboard" class="button btn btn-primary w-100">Ver reportes</a>
+                    </div>
+            {{/esAdmin}}
             {{#esEditor}}
                 <div class="col">
                     <a href="/TPFinalPreguntas/pregunta/crear" class="button btn btn-primary w-100">Crear nueva pregunta</a>

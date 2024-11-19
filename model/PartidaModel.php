@@ -309,16 +309,22 @@ class PartidaModel
     public function getCantidadPartidas()
     {
         $query = "SELECT COUNT(*) FROM partidas";
-        return $this->db->query($query)->fetchColumn();
+        return $this->conn->query($query)->fetchColumn();
     }
 
     public function getPorcentajeRespuestasPorUsuario()
     {
-        $query = "SELECT usuario_id, 
-                     ROUND(SUM(respuestas_correctas)/SUM(respuestas_totales) * 100, 2) as porcentaje 
-              FROM partidas 
-              GROUP BY usuario_id";
-        return $this->db->query($query)->fetchAll(PDO::FETCH_ASSOC);
+        $query = "
+        SELECT u.id_usuario, 
+               ROUND((u.preguntas_respondidas_correctas / u.preguntas_respondidas_total) * 100, 2) AS porcentaje,
+               COALESCE(SUM(p.puntos_sumados), 0) AS puntos_totales
+        FROM usuarios u
+        LEFT JOIN partidas p ON u.id_usuario = p.id_usuario
+        WHERE u.preguntas_respondidas_total > 0
+        GROUP BY u.id_usuario, u.preguntas_respondidas_correctas, u.preguntas_respondidas_total";
+
+        return $this->conn->query($query)->fetchAll(PDO::FETCH_ASSOC);
     }
+
 
 }

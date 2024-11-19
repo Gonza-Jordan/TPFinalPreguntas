@@ -238,13 +238,13 @@ class PreguntaModel {
     public function getCantidadPreguntas()
     {
         $query = "SELECT COUNT(*) FROM preguntas";
-        return $this->db->query($query)->fetchColumn();
+        return $this->conn->query($query)->fetchColumn();
     }
 
     public function getPreguntasPorRango($rangoFechas)
     {
-        $query = "SELECT COUNT(*) FROM preguntas WHERE horario_inicio BETWEEN :inicio AND :fin";
-        $stmt = $this->db->prepare($query);
+        $query = "SELECT COUNT(*) FROM preguntas WHERE fecha_creacion BETWEEN :inicio AND :fin";
+        $stmt = $this->conn->prepare($query);
         $stmt->execute($rangoFechas);
         return $stmt->fetchColumn();
     }

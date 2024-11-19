@@ -17,6 +17,7 @@ include_once ('controller/PartidaController.php');
 include_once ('controller/RankingController.php');
 include_once ('controller/EditorController.php');
 include_once ('controller/HistorialController.php');
+include_once ('controller/AdminController.php');
 
 // Modelos
 include_once('model/UsuarioModel.php');
@@ -61,7 +62,7 @@ class Configuration
     public function getHomeController() {
         $presenter = $this->getPresenter();
         $usuarioModel = $this->getUserModel();
-        $preguntaModel = $this->getPreguntaModel(); // Asegúrate de que este método existe y devuelve una instancia de PreguntaModel
+        $preguntaModel = $this->getPreguntaModel();
         return new HomeController($presenter, $usuarioModel, $preguntaModel);
     }
 
@@ -119,7 +120,7 @@ class Configuration
     public function getPreguntaController() {
         $db = $this->getDatabase();
         $preguntaModel = new PreguntaModel($db);
-        return new PreguntaController($preguntaModel, $this->getPresenter()); // Pasa el presenter también
+        return new PreguntaController($preguntaModel, $this->getPresenter());
     }
     public function getPreguntaModel() {
         return new PreguntaModel($this->getDatabase());

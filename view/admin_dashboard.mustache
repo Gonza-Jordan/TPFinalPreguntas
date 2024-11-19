@@ -1,15 +1,36 @@
-<h1>Panel Administrativo</h1>
+<!DOCTYPE html>
+<html lang="es">
 
-<form method="get" action="/admin/dashboard">
-    <label for="filtro_tiempo">Filtrar por:</label>
-    <select id="filtro_tiempo" name="filtro_tiempo">
-        <option value="dia">Día</option>
-        <option value="semana">Semana</option>
-        <option value="mes">Mes</option>
-        <option value="anio">Año</option>
-    </select>
-    <button type="submit">Aplicar</button>
-</form>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administrador</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/TPFinalPreguntas/public/css/header.css">
+    <link rel="stylesheet" href="/TPFinalPreguntas/public/css/footer.css">
+    <link rel="stylesheet" href="/TPFinalPreguntas/public/css/administrador.css">
+</head>
+
+<body>
+<main class="admin-view">
+    {{> header}}
+    <h1>Panel Administrativo</h1>
+
+    <div class="stats">
+        <h2>Estadisticas Generales</h2>
+        <form method="get" action="/TPFinalPreguntas/admin/dashboard">
+            <label for="filtro_tiempo">Filtrar por:</label>
+            <select id="filtro_tiempo" name="filtro_tiempo">
+                <option value="dia">Día</option>
+                <option value="semana">Semana</option>
+                <option value="mes">Mes</option>
+                <option value="anio">Año</option>
+            </select>
+            <button type="submit">Aplicar</button>
+        </form>
+    </div>
+
+
 
 <h2>Estadísticas Generales</h2>
 <ul>
@@ -55,3 +76,9 @@
     });
 </script>
 <button onclick="window.print()">Imprimir Reporte</button>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
