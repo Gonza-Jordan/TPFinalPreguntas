@@ -116,5 +116,31 @@
             </table>
         </div>
     </div>
+    <!-- Botón para generar el reporte PDF -->
+    <div style="text-align: center; margin-top: 20px;">
+        <button id="generarPDF" onclick="generarPDF()">Generar Reporte PDF</button>
+    </div>
+    
+<script>
+    function generarPDF() {
+        // Crear un formulario oculto para enviar la solicitud GET al servidor
+        var form = document.createElement("form");
+        form.method = "get";
+        form.action = "/TPFinalPreguntas/admin/generarReporteUsuarios"; // Ruta del método en el controlador
+
+        // Añadir el filtro de tiempo al formulario (puedes modificar esto según tu lógica)
+        var filtroTiempo = '{{filtro_tiempo}}'; // Suponiendo que ya tienes este dato en tu vista
+        var inputFiltro = document.createElement("input");
+        inputFiltro.type = "hidden";
+        inputFiltro.name = "filtro_tiempo";
+        inputFiltro.value = filtroTiempo;  // Asigna el valor que desees (por ejemplo, "mes")
+        form.appendChild(inputFiltro);
+
+        // Enviar el formulario
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+
 </body>
 </html>

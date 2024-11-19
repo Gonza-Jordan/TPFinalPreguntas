@@ -156,7 +156,6 @@ class AdminController
         
         return $porcentajes;
     }
-}
 
     private function obtenerRangoFechas($filtro_tiempo)
     {
