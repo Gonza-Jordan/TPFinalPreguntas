@@ -15,8 +15,7 @@ class AdminController
         $this->partidaModel = $partidaModel;
         $this->preguntaModel = $preguntaModel;
 
-        // Inicializar PDFHelper con la ruta de las plantillas
-        PDFHelper::init(__DIR__ . '/../templates'); // Ruta donde están las vistas
+        PDFHelper::init(__DIR__ . '/../view');
     }
 
     public function show($filtro_tiempo = null)
@@ -39,7 +38,6 @@ class AdminController
             'filtro_tiempo' => $filtro_tiempo ?? 'todo'
             ];
 
-        // Convertir algunos datos a JSON para gráficos
         $datos['usuarios_por_pais_json'] = json_encode($datos['usuarios_por_pais']);
         $datos['usuarios_por_sexo_json'] = json_encode($datos['usuarios_por_sexo']);
 
@@ -97,7 +95,6 @@ class AdminController
      * Genera reporte estadístico de usuarios
      */
     public function generarReporteUsuarios($rangoFechas = null) {
-        // Si no se proporciona rango de fechas, usar último mes
         if (!$rangoFechas) {
             $rangoFechas = [
                 'inicio' => date('Y-m-d', strtotime('-1 month')),
@@ -117,26 +114,18 @@ class AdminController
                 'distribucion_edad' => $this->usuarioModel->getUsuariosPorGrupoEdad()
             ]
         ];
-        
-        // Calcular algunos porcentajes adicionales
+
         $datosReporte['estadisticas']['porcentajes'] = $this->calcularPorcentajes($datosReporte['estadisticas']);
-        
-        //$template = __DIR__ . '/../Views/reports/estadisticas_usuarios.mustache';
-        // Llamar a la clase PDFHelper para descargar el PDF
-        
+
         PDFHelper::download('admin_dashboard', $datos, 'reporte_usuarios_' . date('Y-m-d') . '.pdf', [
             'format' => 'A4',
             'orientation' => 'portrait'
         ]);
     }
-    
-    /**
-     * Calcula porcentajes adicionales para el reporte
-     */
+
     private function calcularPorcentajes($estadisticas) {
         $porcentajes = [];
-        
-        // Porcentajes por país
+
         $total = array_sum(array_column($estadisticas['distribucion_paises'], 'cantidad'));
         $porcentajes['paises'] = array_map(function($pais) use ($total) {
             return [
@@ -145,8 +134,7 @@ class AdminController
                 'porcentaje' => round(($pais['cantidad'] / $total) * 100, 2)
             ];
         }, $estadisticas['distribucion_paises']);
-        
-        // Porcentajes por grupo de edad
+
         $totalEdad = array_sum(array_column($estadisticas['distribucion_edad'], 'cantidad'));
         $porcentajes['grupos_edad'] = array_map(function($grupo) use ($totalEdad) {
             return [

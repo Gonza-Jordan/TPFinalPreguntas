@@ -4,7 +4,8 @@ class TemplateEngine {
 
     public static function render($templatePath, $variables = []) {
         if (!file_exists($templatePath)) {
-            return "Error: plantilla no encontrada.";
+            error_log("Plantilla no encontrada en la ruta: " . $templatePath);
+            throw new \Exception("Plantilla no encontrada: " . $templatePath);
         }
 
         $templateContent = file_get_contents($templatePath);

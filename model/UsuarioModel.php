@@ -195,6 +195,11 @@ class UsuarioModel {
         $stmt->execute();
         $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
+        if (!$usuario) {
+            error_log("No se encontraron datos para el usuario con ID: $idUsuario");
+            return;
+        }
+
         if ($usuario['preguntas_respondidas_total'] > 0) {
             $porcentajeCorrectas = ($usuario['preguntas_respondidas_correctas'] / $usuario['preguntas_respondidas_total']) * 100;
 
@@ -212,6 +217,7 @@ class UsuarioModel {
             $stmt->execute();
         }
     }
+
     public function getCantidadUsuariosPorRango($rangoFechas)
     {
         $inicio = $rangoFechas['inicio'];
