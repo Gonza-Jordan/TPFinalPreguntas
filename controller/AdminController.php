@@ -87,7 +87,7 @@ class AdminController
         ];
 
         // Generar el reporte PDF utilizando la sintaxis estática
-        PDFHelper::stream('admin_reporte', $datos, [
+        PDFHelper::stream('admin_dashboard', $datos, [
             'format' => 'A4',
             'orientation' => 'portrait'
         ]);
@@ -121,11 +121,13 @@ class AdminController
         // Calcular algunos porcentajes adicionales
         $datosReporte['estadisticas']['porcentajes'] = $this->calcularPorcentajes($datosReporte['estadisticas']);
         
-        $template = __DIR__ . '/../Views/reports/estadisticas_usuarios.mustache';
-        PDFHelper::generateReport(
-            $template,
-            $datosReporte,
-            'reporte_usuarios_' . date('Y-m-d') . '.pdf');
+        //$template = __DIR__ . '/../Views/reports/estadisticas_usuarios.mustache';
+        // Llamar a la clase PDFHelper para descargar el PDF
+        
+        PDFHelper::download('admin_dashboard', $datos, 'reporte_usuarios_' . date('Y-m-d') . '.pdf', [
+            'format' => 'A4',
+            'orientation' => 'portrait'
+        ]);
     }
     
     /**
