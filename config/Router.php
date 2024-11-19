@@ -51,13 +51,18 @@ class Router {
             header('Location: /TPFinalPreguntas/home/show');
             exit();
         }
-        if ($controllerName === 'admin' && $methodName === 'dashboard') {
+
+        if ($controllerName === 'admin' && $methodName === 'show' && $_SESSION['tipo_usuario'] === 'administrador') {
             $filtro_tiempo = $_GET['filtro_tiempo'] ?? null; // Captura el filtro enviado
             $controller = $this->configuration->getAdminController();
             $this->executeMethodFromController($controller, $methodName,$filtro_tiempo);
             return;
         }
 
+        if ($controllerName === 'admin' && $methodName === 'show' && $_SESSION['tipo_usuario'] !== 'administrador') {
+            header('Location: /TPFinalPreguntas/home/show');
+            exit();
+        }
 
         if ($controllerName === 'historial' && $methodName === 'show') {
             error_log("Accediendo al método show en HistorialController");
@@ -86,7 +91,7 @@ class Router {
                 'ranking' => ['show']
             ],
             'administrador' => [
-                'admin' => ['showDashboard'],
+                'admin' => ['show'],
                 'ranking' => ['show']
             ],
         ];
