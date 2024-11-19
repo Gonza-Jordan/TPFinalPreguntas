@@ -12,7 +12,7 @@ class PerfilController {
         SessionHelper::verificarSesion();
     }
 
-    public function mostrarPerfil($id_usuario) {
+    public function show($id_usuario) {
         SessionHelper::verificarSesion();
 
         $usuario = $this->usuarioModel->obtenerUsuarioPorId($id_usuario);
