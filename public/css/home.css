@@ -10,6 +10,8 @@ body {
     background: url('/TPFinalPreguntas/public/img/fondo_home.jpg') no-repeat center center fixed;
     background-size: cover;
     background-color: #f8f9fa;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .home-container {
@@ -146,5 +148,3 @@ body {
     max-width: 500px;
     border-radius: 15px;
 }
-
-

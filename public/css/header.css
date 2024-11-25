@@ -1,3 +1,14 @@
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #f8f9fa; /* Color de fondo */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    padding: 10px 0;
+    height: 60px; /* Altura fija */
+}
 .header-container {
     width: 100%;
     display: flex;
