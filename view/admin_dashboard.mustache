@@ -17,7 +17,7 @@
     <h1>Panel Administrativo</h1>
 
     <div class="stats">
-        <h2>Estadisticas Generales</h2>
+        <h2>Estadísticas Generales</h2>
         <form method="get" action="/TPFinalPreguntas/admin/dashboard">
             <label for="filtro_tiempo">Filtrar por:</label>
             <select id="filtro_tiempo" name="filtro_tiempo">
@@ -30,55 +30,89 @@
         </form>
     </div>
 
+    <h2>Estadísticas Generales</h2>
+    <ul>
+        <li>Total de jugadores: {{cantidad_usuarios}}</li>
+        <li>Partidas jugadas: {{cantidad_partidas}}</li>
+        <li>Preguntas disponibles: {{cantidad_preguntas}}</li>
+        <li>Preguntas creadas: {{preguntas_creadas}}</li>
+    </ul>
 
+    <h2>Usuarios por País</h2>
+    <canvas id="usuariosPorPais" width="400" height="400"></canvas>
 
-<h2>Estadísticas Generales</h2>
-<ul>
-    <li>Total de jugadores: {{cantidad_usuarios}}</li>
-    <li>Partidas jugadas: {{cantidad_partidas}}</li>
-    <li>Preguntas disponibles: {{cantidad_preguntas}}</li>
-    <li>Preguntas creadas: {{preguntas_creadas}}</li>
-</ul>
+    <h2>Usuarios por Sexo</h2>
+    <canvas id="usuariosPorSexo" width="400" height="400"></canvas>
 
-<h2>Usuarios por País</h2>
-<canvas id="usuariosPorPais"></canvas>
+    <button onclick="window.print()">Imprimir Reporte</button>
+</main>
 
-<h2>Usuarios por Sexo</h2>
-<canvas id="usuariosPorSexo"></canvas>
-
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    const usuariosPorPais = {{usuarios_por_pais_json}};
-    const usuariosPorSexo = {{usuarios_por_sexo_json}};
+    // Datos dinámicos desde el backend (renderizados por Mustache o similar)
+    const cantidadUsuarios = {{cantidad_usuarios}};
+    const cantidadPartidas = {{cantidad_partidas}};
+    const cantidadPreguntas = {{cantidad_preguntas}};
+    const preguntasCreadas = {{preguntas_creadas}};
 
-    new Chart(document.getElementById('usuariosPorPais'), {
-        type: 'bar',
+    // Datos adicionales para los gráficos
+    const usuariosPorPais = {
+        labels: ['Argentina', 'Brasil', 'Chile'], // Reemplaza con datos dinámicos si los tienes
+        datos: [40, 35, 25] // Reemplaza con datos dinámicos si los tienes
+    };
+
+    const usuariosPorSexo = {
+        labels: ['Hombres', 'Mujeres', 'No Binarios'], // Reemplaza con datos dinámicos si los tienes
+        datos: [60, 35, 5] // Reemplaza con datos dinámicos si los tienes
+    };
+
+    // Gráfico de torta: Usuarios por País
+    const ctxPais = document.getElementById('usuariosPorPais').getContext('2d');
+    new Chart(ctxPais, {
+        type: 'pie',
         data: {
-            labels: usuariosPorPais.map(u => u.pais),
+            labels: usuariosPorPais.labels,
             datasets: [{
-                label: 'Usuarios por País',
-                data: usuariosPorPais.map(u => u.cantidad),
-                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                data: usuariosPorPais.datos,
+                backgroundColor: [
+                    'rgba(255, 99, 132, 0.5)',
+                    'rgba(54, 162, 235, 0.5)',
+                    'rgba(255, 206, 86, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(255, 99, 132, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)'
+                ],
+                borderWidth: 1
             }]
         }
     });
 
-    new Chart(document.getElementById('usuariosPorSexo'), {
+    // Gráfico de torta: Usuarios por Sexo
+    const ctxSexo = document.getElementById('usuariosPorSexo').getContext('2d');
+    new Chart(ctxSexo, {
         type: 'pie',
         data: {
-            labels: usuariosPorSexo.map(u => u.sexo),
+            labels: usuariosPorSexo.labels,
             datasets: [{
-                label: 'Usuarios por Sexo',
-                data: usuariosPorSexo.map(u => u.cantidad),
-                backgroundColor: ['#ff6384', '#36a2eb'],
+                data: usuariosPorSexo.datos,
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.5)',
+                    'rgba(153, 102, 255, 0.5)',
+                    'rgba(255, 159, 64, 0.5)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)'
+                ],
+                borderWidth: 1
             }]
         }
     });
 </script>
-<button onclick="window.print()">Imprimir Reporte</button>
-</main>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
