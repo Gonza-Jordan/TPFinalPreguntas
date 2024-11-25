@@ -1,5 +1,7 @@
 .container {
     max-width: 800px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 .historial-container {
     background-color: #f9f9f9;

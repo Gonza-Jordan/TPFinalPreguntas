@@ -6,9 +6,7 @@ class UsuarioModel {
     public function __construct($db) {
         $this->conn = $db;
     }
-
-    // Registrar nuevo usuario
-    public function registrar($nombre_completo, $anio_nacimiento, $sexo, $pais, $ciudad, $email, $contrasenia, $nombre_usuario, $foto_perfil, $token_activacion) {
+        public function registrar($nombre_completo, $anio_nacimiento, $sexo, $pais, $ciudad, $email, $contrasenia, $nombre_usuario, $foto_perfil, $token_activacion) {
         $query = "INSERT INTO " . $this->table_name . "
             SET
                 nombre_completo = :nombre_completo,

@@ -19,7 +19,7 @@ class HistorialController {
             return;
         }
 
-        $limit = 5;
+        $limit = 2;
         $page = isset($_GET['page']) ? max((int)$_GET['page'], 1) : 1;
         $offset = ($page - 1) * $limit;
 
