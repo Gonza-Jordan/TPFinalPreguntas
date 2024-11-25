@@ -16,7 +16,9 @@ class Router {
         $segments = explode('/', trim($urlPath, '/'));
 
         $controllerName = $segments[1] ?? $this->defaultController;
-        $methodName = $segments[2] ?? $this->defaultMethod;
+        $methodAndParams = $segments[2] ?? $this->defaultMethod;
+        
+        $methodName = explode('&', $methodAndParams)[0];
 
         error_log("Routing: Controller = $controllerName, Method = $methodName");
 
@@ -55,7 +57,7 @@ class Router {
         if ($controllerName === 'admin' && $methodName === 'show' && $_SESSION['tipo_usuario'] === 'administrador') {
             $filtro_tiempo = $_GET['filtro_tiempo'] ?? null; // Captura el filtro enviado
             $controller = $this->configuration->getAdminController();
-            $this->executeMethodFromController($controller, $methodName,$filtro_tiempo);
+            $this->executeMethodFromController($controller, $methodName, $filtro_tiempo);
             return;
         }
 
@@ -75,9 +77,12 @@ class Router {
         if (empty($methodName)) {
             $methodName = $this->defaultMethod;
         }
-        $filtro_tiempo = $_GET['filtro_tiempo'] ?? null;
-        $this->executeMethodFromController($controller, $methodName, $filtro_tiempo, $id);
+
+        $pagina = $_GET['pagina'] ?? null;
+
+        $this->executeMethodFromController($controller, $methodName, $pagina, $id);
     }
+
 
     private function validarAcceso($controllerName, $methodName) {
 
@@ -154,7 +159,7 @@ class Router {
         return call_user_func([$this->configuration, $validController]);
     }
 
-    private function executeMethodFromController($controller, $method, $param = null, $id=null) {
+    private function executeMethodFromController($controller, $method, $param = null, $id = null) {
         $validMethod = method_exists($controller, $method) ? $method : $this->defaultMethod;
         $reflection = new ReflectionMethod($controller, $validMethod);
         $numParams = $reflection->getNumberOfParameters();
