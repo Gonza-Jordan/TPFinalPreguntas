@@ -41,6 +41,14 @@ class AdminController
         $datos['usuarios_por_pais_json'] = json_encode($datos['usuarios_por_pais']);
         $datos['usuarios_por_sexo_json'] = json_encode($datos['usuarios_por_sexo']);
 
+        $datos['filtros'] = [
+            ['valor' => 'todo', 'nombre' => '-', 'seleccionado' => $filtro_tiempo === 'todo'],
+            ['valor' => 'dia', 'nombre' => 'Día', 'seleccionado' => $filtro_tiempo === 'dia'],
+            ['valor' => 'semana', 'nombre' => 'Semana', 'seleccionado' => $filtro_tiempo === 'semana'],
+            ['valor' => 'mes', 'nombre' => 'Mes', 'seleccionado' => $filtro_tiempo === 'mes'],
+            ['valor' => 'anio', 'nombre' => 'Año', 'seleccionado' => $filtro_tiempo === 'anio']
+        ];
+
         $this->presenter->show("admin_dashboard", $datos);
     }
     public function printReport($filtro_tiempo = null, $usuarioId)
