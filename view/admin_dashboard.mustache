@@ -18,13 +18,12 @@
 
     <div class="stats">
         <h2>Estadísticas Generales</h2>
-        <form method="get" action="/TPFinalPreguntas/admin/dashboard">
+        <form method="post" action="/TPFinalPreguntas/admin/dashboard">
             <label for="filtro_tiempo">Filtrar por:</label>
             <select id="filtro_tiempo" name="filtro_tiempo">
-                <option value="dia">Día</option>
-                <option value="semana">Semana</option>
-                <option value="mes">Mes</option>
-                <option value="anio">Año</option>
+                {{#filtros}}
+                    <option value="{{valor}}" {{#seleccionado}}selected{{/seleccionado}}>{{nombre}}</option>
+                {{/filtros}}
             </select>
             <button type="submit">Aplicar</button>
         </form>
@@ -35,7 +34,6 @@
         <li>Total de jugadores: {{cantidad_usuarios}}</li>
         <li>Partidas jugadas: {{cantidad_partidas}}</li>
         <li>Preguntas disponibles: {{cantidad_preguntas}}</li>
-        <li>Preguntas creadas: {{preguntas_creadas}}</li>
     </ul>
 
     <h2>Usuarios por País</h2>
@@ -54,7 +52,6 @@
     const cantidadUsuarios = {{cantidad_usuarios}};
     const cantidadPartidas = {{cantidad_partidas}};
     const cantidadPreguntas = {{cantidad_preguntas}};
-    const preguntasCreadas = {{preguntas_creadas}};
 
     const usuariosPorPais = {
         labels: ['Argentina', 'Brasil', 'Chile'],

@@ -68,6 +68,13 @@ class AdminController
             'porcentaje_respuestas_correctas' => $this->partidaModel->getPorcentajeRespuestasPorUsuario($rangoFechas),
         ];
 
+        $datos['filtros'] = [
+            ['valor' => 'todo', 'nombre' => '-', 'seleccionado' => $filtro_tiempo === 'todo'],
+            ['valor' => 'dia', 'nombre' => 'Día', 'seleccionado' => $filtro_tiempo === 'dia'],
+            ['valor' => 'semana', 'nombre' => 'Semana', 'seleccionado' => $filtro_tiempo === 'semana'],
+            ['valor' => 'mes', 'nombre' => 'Mes', 'seleccionado' => $filtro_tiempo === 'mes'],
+            ['valor' => 'anio', 'nombre' => 'Año', 'seleccionado' => $filtro_tiempo === 'anio']
+        ];
 
         $this->presenter->show("admin_reporte_imprimible", $datos);
     }
