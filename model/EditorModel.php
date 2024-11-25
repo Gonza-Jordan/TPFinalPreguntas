@@ -58,6 +58,4 @@ class EditorModel
         $stmt->bindParam(':id', $idPregunta);
         return $stmt->execute();
     }
-
 }
-

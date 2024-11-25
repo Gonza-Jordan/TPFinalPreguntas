@@ -79,7 +79,6 @@ class AdminController
         $this->presenter->show("admin_reporte_imprimible", $datos);
     }
 
-
     public function printPDF($filtro_tiempo = null, $usuarioId)
     {
         $this->usuarioModel->esAdministrador($usuarioId);
@@ -97,16 +96,12 @@ class AdminController
             'porcentaje_respuestas_correctas' => $this->partidaModel->getPorcentajeRespuestasPorUsuario(),
         ];
 
-        // Generar el reporte PDF utilizando la sintaxis estática
         PDFHelper::stream('admin_dashboard', $datos, [
             'format' => 'A4',
             'orientation' => 'portrait'
         ]);
     }
 
-       /**
-     * Genera reporte estadístico de usuarios
-     */
     public function generarReporteUsuarios($rangoFechas = null) {
         if (!$rangoFechas) {
             $rangoFechas = [
@@ -114,8 +109,7 @@ class AdminController
                 'fin' => date('Y-m-d')
             ];
         }
-        
-        // Recopilar todos los datos usando los métodos existentes
+
         $datosReporte = [
             'fecha_generacion' => date('Y-m-d H:i:s'),
             'rango_fechas' => $rangoFechas,
@@ -162,8 +156,8 @@ class AdminController
 
     public function obtenerRangoFechas($filtro_tiempo)
     {
-        $hoy = new DateTime(); // Fecha actual
-        $inicio = clone $hoy; // Inicializamos el inicio
+        $hoy = new DateTime();
+        $inicio = clone $hoy;
 
         switch ($filtro_tiempo) {
             case 'dia':
@@ -179,10 +173,9 @@ class AdminController
                 $inicio->modify('-1 year');
                 break;
             default:
-                return null; // Sin filtro
+                return null;
         }
 
-        // Devolvemos el rango de fechas
         return [
             'inicio' => $inicio->format('Y-m-d H:i:s'),
             'fin' => $hoy->format('Y-m-d H:i:s')

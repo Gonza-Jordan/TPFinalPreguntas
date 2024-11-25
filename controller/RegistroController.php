@@ -9,11 +9,9 @@ class RegistroController {
         $this->usuarioModel = new UsuarioModel($db);
         $this->mustache = $mustache;
     }
-
     public function show() {
         $this->mustache->show('SignUp');
     }
-
     public function registrar() {
         $datos = $_POST;
         $archivos = $_FILES;
@@ -121,4 +119,3 @@ class RegistroController {
         return false;
     }
 }
-

@@ -4,14 +4,12 @@ class EditorController
 {
     private $presenter;
     private $model;
-
     public function __construct($presenter, $model) {
         $this->presenter = $presenter;
         $this->model = $model;
 
         SessionHelper::verificarSesion();
     }
-
     public function mostrarPanelEditor() {
         $preguntasReportadas = $this->model->obtenerPreguntasReportadas();
         $preguntasSugeridas = $this->model->obtenerPreguntasSugeridas();

@@ -15,7 +15,6 @@ class EmailHelper
         // Imprimir variables de entorno para confirmar carga
         var_dump($_ENV['SMTP_HOST'], $_ENV['SMTP_USER'], $_ENV['SMTP_PORT']);
     }
-
     public function enviarCorreoActivacion($email, $token)
     {
         $mail = new PHPMailer(true);
@@ -52,6 +51,4 @@ class EmailHelper
             return false;
         }
     }
-
-
 }

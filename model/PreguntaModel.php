@@ -251,6 +251,4 @@ class PreguntaModel {
             return $stmt->fetchColumn();
         }
     }
-
-
 }

@@ -97,13 +97,11 @@
 
     document.querySelectorAll('.option-btn').forEach(button => {
         button.addEventListener('click', function () {
-            // Remover la clase 'selected' de todos los botones
             document.querySelectorAll('.option-btn').forEach(btn => {
                 btn.classList.remove('selected');
                 btn.classList.remove('btn-primary');
                 btn.classList.add('btn-outline-primary');
             });
-            // Añadir la clase 'selected' al botón clickeado
             this.classList.add('selected');
             this.classList.remove('btn-outline-primary');
             this.classList.add('btn-primary');

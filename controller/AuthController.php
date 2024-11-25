@@ -2,7 +2,6 @@
 class AuthController {
     private $mustache;
     private $userModel;
-
     public function __construct($mustache, $userModel) {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -10,7 +9,6 @@ class AuthController {
         $this->mustache = $mustache;
         $this->userModel = $userModel;
     }
-
     public function show() {
         $mensaje = isset($_GET['mensaje']) ? $_GET['mensaje'] : null;
         $data = [];

@@ -69,7 +69,6 @@ class UsuarioController {
             $email = $_POST['email'];
             $password = $_POST['password'];
 
-            // Obtener la contraseña anterior
             $usuario = $this->usuarioModel->obtenerUsuarioPorId($id_usuario);
 
             if (empty($password)) {

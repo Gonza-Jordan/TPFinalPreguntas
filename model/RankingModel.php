@@ -22,7 +22,7 @@ class RankingModel {
         $stmtRanking = $this->conn->prepare($queryRanking);
 
         foreach ($usuarios as $index => $usuario) {
-            $posicion = $index + 1;  // Crear una variable temporal para la posición
+            $posicion = $index + 1;
 
             $stmtRanking->bindParam(':id_usuario', $usuario['id_usuario'], PDO::PARAM_INT);
             $stmtRanking->bindParam(':puntaje_total', $usuario['puntaje_total'], PDO::PARAM_INT);
@@ -116,13 +116,12 @@ class RankingModel {
             $stmt->execute();
             $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Asignar posiciones dentro de cada país
             $ranking = [];
             $posicionPorPais = [];
             foreach ($usuarios as $usuario) {
                 $pais = $usuario['pais'];
                 if (!isset($posicionPorPais[$pais])) {
-                    $posicionPorPais[$pais] = 1; // Inicia la posición para el país
+                    $posicionPorPais[$pais] = 1;
                 }
                 $usuario['posicion_pais'] = $posicionPorPais[$pais];
                 $posicionPorPais[$pais]++;
@@ -157,13 +156,12 @@ class RankingModel {
             $stmt->execute();
             $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // Asignar posiciones dentro de cada ciudad
             $ranking = [];
             $posicionPorCiudad = [];
             foreach ($usuarios as $usuario) {
                 $ciudad = $usuario['ciudad'];
                 if (!isset($posicionPorCiudad[$ciudad])) {
-                    $posicionPorCiudad[$ciudad] = 1; // Inicia la posición para la ciudad
+                    $posicionPorCiudad[$ciudad] = 1;
                 }
                 $usuario['posicion_ciudad'] = $posicionPorCiudad[$ciudad];
                 $posicionPorCiudad[$ciudad]++;

@@ -1,4 +1,3 @@
-/* Estilos generales */
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f8f8;
@@ -261,25 +260,22 @@ p.tipo-usuario {
     background-color: #31b0d5;
 }
 
-/* Contenedor para la imagen de perfil y el QR */
 .imagen-perfil-contenedor {
-    display: flex; /* Establece que los elementos hijos se alineen horizontalmente */
-    align-items: center; /* Alinea verticalmente los elementos al centro */
-    gap: 20px; /* Espacio entre la foto de perfil y el QR */
+    display: flex;
+    align-items: center;
+    gap: 20px;
 }
 
-/* Estilo de la foto de perfil */
 .foto-perfil {
-    width: 100px; /* Ajusta el tamaño según sea necesario */
-    height: 100px; /* Ajusta el tamaño según sea necesario */
-    border-radius: 50%; /* Hace que la imagen sea redonda */
-    object-fit: cover; /* Hace que la imagen se ajuste sin deformarse */
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
-/* Estilo del código QR */
 .qr-codigo {
-    width: 80px; /* Ajusta el tamaño del QR */
-    height: 80px; /* Ajusta el tamaño del QR */
-    border-radius: 5px; /* Opción opcional: agrega bordes redondeados al QR */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Opción opcional: sombra para el QR */
+    width: 80px;
+    height: 80px;
+    border-radius: 5px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }

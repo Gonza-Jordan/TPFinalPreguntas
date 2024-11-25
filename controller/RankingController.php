@@ -57,7 +57,6 @@ class RankingController {
         $this->mustache->show('ranking', $data);
     }
 
-
     public function verPerfilJugador() {
         SessionHelper::verificarSesion();
 
@@ -79,6 +78,4 @@ class RankingController {
             echo "Usuario no encontrado";
         }
     }
-
-
 }

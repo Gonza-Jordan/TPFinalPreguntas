@@ -28,7 +28,6 @@ class MustachePresenter {
         echo $this->generateHtml($this->partialsPathLoader . '/' . $contentFile . ".mustache", $data);
     }
 
-
     public function generateHtml($contentFile, $data = array()) {
         $contentAsString = file_get_contents($contentFile);
         return $this->mustache->render($contentAsString, $data);
