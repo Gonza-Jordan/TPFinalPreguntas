@@ -21,10 +21,9 @@
         <form method="post" action="/TPFinalPreguntas/admin/show">
             <label for="filtro_tiempo">Filtrar por:</label>
             <select id="filtro_tiempo" name="filtro_tiempo">
-                <option value="dia">Día</option>
-                <option value="semana">Semana</option>
-                <option value="mes">Mes</option>
-                <option value="anio">Año</option>
+                {{#filtros}}
+                    <option value="{{valor}}" {{#seleccionado}}selected{{/seleccionado}}>{{nombre}}</option>
+                {{/filtros}}
             </select>
             <button type="submit">Aplicar</button>
         </form>
