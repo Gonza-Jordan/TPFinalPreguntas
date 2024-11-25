@@ -12,7 +12,7 @@
 <body>
 {{> header}}
 <div style="height: 50px;"></div>
-<h1>Ranking de Jugadores</h1>
+<h1 class="text-center">Ranking de Jugadores</h1>
 <div class="container">
     <h2>Ranking General</h2>
     <table class="table">
@@ -42,6 +42,43 @@
         {{/usuarios}}
         </tbody>
     </table>
+
+    <nav aria-label="Paginación del ranking">
+        <ul class="pagination justify-content-center">
+            {{#prev_page}}
+                <li class="page-item">
+                    <a class="page-link" href="/TPFinalPreguntas/ranking/show?pagina={{prev_page}}" aria-label="Página anterior">
+                    <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+            {{/prev_page}}
+            {{^prev_page}}
+                <li class="page-item disabled">
+                    <span class="page-link">&laquo;</span>
+                </li>
+            {{/prev_page}}
+
+            {{#pages}}
+                <li class="page-item {{active}}">
+                    <a class="page-link" href="/TPFinalPreguntas/ranking/show?pagina={{numero}}">{{numero}}</a>
+                </li>
+            {{/pages}}
+
+            {{#next_page}}
+                <li class="page-item">
+                    <a class="page-link" href="/TPFinalPreguntas/ranking/show?pagina={{next_page}}" aria-label="Página siguiente">
+                    <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+            {{/next_page}}
+            {{^next_page}}
+                <li class="page-item disabled">
+                    <span class="page-link">&raquo;</span>
+                </li>
+            {{/next_page}}
+        </ul>
+    </nav>
+
 </div>
 
 <div class="container">
@@ -51,8 +88,8 @@
         <tr>
             <th>Posición</th>
             <th>Nombre de Usuario</th>
-            <th>Mejor Puntaje</th> 
-            <th>Partidas Jugadas</th> 
+            <th>Mejor Puntaje</th>
+            <th>Partidas Jugadas</th>
         </tr>
         </thead>
         <tbody>

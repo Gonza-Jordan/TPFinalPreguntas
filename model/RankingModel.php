@@ -9,7 +9,6 @@ class RankingModel {
         $this->conn = $db;
     }
 
-
     public function actualizarRanking() {
         $queryUsuarios = "SELECT id_usuario, puntaje_total FROM " . $this->table_usuarios . " ORDER BY puntaje_total DESC";
         $stmtUsuarios = $this->conn->prepare($queryUsuarios);
@@ -27,31 +26,43 @@ class RankingModel {
 
             $stmtRanking->bindParam(':id_usuario', $usuario['id_usuario'], PDO::PARAM_INT);
             $stmtRanking->bindParam(':puntaje_total', $usuario['puntaje_total'], PDO::PARAM_INT);
-            $stmtRanking->bindParam(':posicion', $posicion, PDO::PARAM_INT);  // Pasar la variable en lugar de un cálculo directo
+            $stmtRanking->bindParam(':posicion', $posicion, PDO::PARAM_INT);
 
             $stmtRanking->execute();
         }
     }
 
+    public function obtenerRanking($limite = 10, $pagina = 1) {
+        $offset = ($pagina - 1) * $limite;
 
-
-    public function obtenerRanking($limite = 10) {
-        $query = "SELECT id_usuario, nombre_usuario, puntaje_total
-              FROM " . $this->table_usuarios . "
-              ORDER BY puntaje_total DESC
-              LIMIT " . intval($limite);
+        $query = "
+        SELECT DISTINCT id_usuario, nombre_usuario, puntaje_total
+        FROM " . $this->table_usuarios . "
+        WHERE puntaje_total > 0
+        ORDER BY puntaje_total DESC
+        LIMIT :limite OFFSET :offset";
 
         $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(':limite', $limite, PDO::PARAM_INT);
+        $stmt->bindParam(':offset', $offset, PDO::PARAM_INT);
         $stmt->execute();
+
         $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         foreach ($usuarios as $index => &$usuario) {
-            $usuario['posicion'] = $index + 1;
+            $usuario['posicion'] = $offset + $index + 1;
         }
 
         return $usuarios;
     }
 
+    public function contarUsuariosConPuntaje() {
+        $query = "SELECT COUNT(*) as total FROM " . $this->table_usuarios . " WHERE puntaje_total > 0";
+        $stmt = $this->conn->prepare($query);
+        $stmt->execute();
+        $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $resultado['total'] ?? 0;
+    }
 
     public function obtenerPosicionUsuario($id_usuario) {
         $query = "SELECT COUNT(*) + 1 AS posicion

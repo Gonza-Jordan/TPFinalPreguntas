@@ -213,3 +213,82 @@ ALTER TABLE usuarios
     ADD COLUMN preguntas_respondidas_total INT DEFAULT 0,
 ADD COLUMN preguntas_respondidas_correctas INT DEFAULT 0,
 ADD COLUMN nivel_jugador ENUM('Facil', 'Medio', 'Dificil') DEFAULT 'Medio';
+
+--Datos
+-- Insertar registros adicionales en la tabla `partidas`
+INSERT INTO `partidas` (`id_usuario`, `id_pregunta`, `horario_inicio`, `puntos_sumados`, `estado`) VALUES
+                                                                                                       (2, 15, '2024-11-20 08:30:00', 50, 'finalizada'),
+                                                                                                       (3, 12, '2024-11-21 09:00:00', 20, 'finalizada'),
+                                                                                                       (4, 18, '2024-11-22 10:15:00', 10, 'finalizada'),
+                                                                                                       (5, 25, '2024-11-22 11:30:00', 30, 'finalizada'),
+                                                                                                       (2, 7, '2024-11-22 12:45:00', 40, 'finalizada'),
+                                                                                                       (3, 20, '2024-11-23 13:00:00', 15, 'enCurso'),
+                                                                                                       (4, 8, '2024-11-23 14:30:00', 25, 'finalizada'),
+                                                                                                       (5, 3, '2024-11-24 15:45:00', 35, 'enCurso'),
+                                                                                                       (2, 6, '2024-11-24 16:00:00', 45, 'finalizada'),
+                                                                                                       (3, 19, '2024-11-24 16:15:00', 55, 'finalizada');
+
+-- Insertar registros adicionales en la tabla `preguntas_reportadas`
+INSERT INTO `preguntas_reportadas` (`id_pregunta`, `estado`, `comentario`) VALUES
+                                                                               (11, 'Reportada', 'Opciones confusas'),
+                                                                               (12, 'Aprobada', 'Revisada y aprobada'),
+                                                                               (13, 'Deshabilitada', 'Contenido inapropiado'),
+                                                                               (14, 'Reportada', 'Error en la categoría'),
+                                                                               (15, 'Aprobada', 'Corregida correctamente'),
+                                                                               (16, 'Deshabilitada', 'Pregunta duplicada'),
+                                                                               (17, 'Reportada', 'Problemas de redacción'),
+                                                                               (18, 'Aprobada', 'Verificada sin errores'),
+                                                                               (19, 'Deshabilitada', 'Inexacta históricamente'),
+                                                                               (20, 'Reportada', 'Problemas en las opciones');
+
+-- Insertar registros adicionales en la tabla `preguntas_sugeridas`
+INSERT INTO `preguntas_sugeridas` (`contenido`, `categoria`, `nivel_dificultad`, `opcion_a`, `opcion_b`, `opcion_c`, `opcion_d`, `respuesta_correcta`, `creada_por`, `estado`, `fecha_creacion`) VALUES
+                                                                                                                                                                                                     ('¿Cuál es la capital de Alemania?', 'Geografía', 'medio', 'Berlín', 'Múnich', 'Hamburgo', 'Colonia', 'A', 3, 'Pendiente', NOW()),
+                                                                                                                                                                                                     ('¿Qué elemento tiene el símbolo He?', 'Ciencia', 'facil', 'Helio', 'Hidrógeno', 'Hafnio', 'Helmio', 'A', 2, 'Pendiente', NOW()),
+                                                                                                                                                                                                     ('¿En qué continente está Egipto?', 'Geografía', 'facil', 'Asia', 'África', 'Europa', 'América', 'B', 4, 'Pendiente', NOW()),
+                                                                                                                                                                                                     ('¿Quién escribió "La Divina Comedia"?', 'Arte', 'dificil', 'Dante Alighieri', 'William Shakespeare', 'Johann Goethe', 'Homer', 'A', 1, 'Pendiente', NOW()),
+                                                                                                                                                                                                     ('¿Qué año se firmó la Declaración de Independencia de EE.UU.?', 'Historia', 'medio', '1774', '1776', '1778', '1780', 'B', 5, 'Pendiente', NOW()),
+                                                                                                                                                                                                     ('¿Qué gas respiramos principalmente?', 'Ciencia', 'facil', 'Oxígeno', 'Nitrógeno', 'Hidrógeno', 'Helio', 'B', 1, 'Pendiente', NOW()),
+                                                                                                                                                                                                     ('¿Cuál es la moneda de Japón?', 'Geografía', 'facil', 'Won', 'Yen', 'Dólar', 'Euro', 'B', 2, 'Pendiente', NOW()),
+                                                                                                                                                                                                     ('¿Quién pintó "La Noche Estrellada"?', 'Arte', 'medio', 'Van Gogh', 'Monet', 'Picasso', 'Cézanne', 'A', 3, 'Pendiente', NOW()),
+                                                                                                                                                                                                     ('¿Qué molécula es conocida como el "ADN"?', 'Ciencia', 'facil', 'Ácido Deoxirribonucleico', 'Ácido Ribonucléico', 'Proteína', 'Enzima', 'A', 4, 'Pendiente', NOW()),
+                                                                                                                                                                                                     ('¿Cuál es el país con más población?', 'Geografía', 'facil', 'India', 'China', 'EE.UU.', 'Indonesia', 'B', 5, 'Pendiente', NOW());
+
+-- Insertar registros adicionales en la tabla `ranking`
+INSERT INTO `ranking` (`id_usuario`, `puntaje_total`, `posicion`) VALUES
+                                                                      (4, 120, 4),
+                                                                      (5, 90, 5),
+                                                                      (6, 85, 6),
+                                                                      (7, 80, 7),
+                                                                      (8, 75, 8),
+                                                                      (9, 70, 9),
+                                                                      (10, 65, 10),
+                                                                      (11, 60, 11),
+                                                                      (12, 55, 12),
+                                                                      (13, 50, 13);
+
+-- Insertar registros adicionales en la tabla `usuarios`
+INSERT INTO `usuarios` (`nombre_usuario`, `contraseña`, `nombre_completo`, `email`, `anio_nacimiento`, `sexo`, `pais`, `ciudad`, `foto_perfil`, `puntaje_total`, `trampitas`, `tipo_usuario`, `fecha_creacion`, `validado`, `preguntas_respondidas_total`, `preguntas_respondidas_correctas`, `nivel_jugador`) VALUES
+                                                                                                                                                                                                                                                                                                                   ('carlos99', '$2y$10$randomhash01', 'Carlos López', 'carlos.lopez@mail.com', 1999, 'Masculino', 'España', 'Madrid', 'carlos.jpg', 100, 2, 'jugador', CURDATE(), 1, 20, 15, 'Medio'),
+                                                                                                                                                                                                                                                                                                                   ('ana23', '$2y$10$randomhash02', 'Ana García', 'ana.garcia@mail.com', 1990, 'Femenino', 'México', 'Guadalajara', 'ana.jpg', 80, 1, 'editor', CURDATE(), 1, 15, 10, 'Facil'),
+                                                                                                                                                                                                                                                                                                                   ('luisito', '$2y$10$randomhash03', 'Luis Pérez', 'luis.perez@mail.com', 1985, 'Masculino', 'Argentina', 'Rosario', 'luis.jpg', 90, 0, 'jugador', CURDATE(), 0, 18, 12, 'Dificil'),
+                                                                                                                                                                                                                                                                                                                   ('marta', '$2y$10$randomhash04', 'Marta Suárez', 'marta.suarez@mail.com', 2000, 'Femenino', 'Chile', 'Santiago', 'marta.jpg', 70, 3, 'jugador', CURDATE(), 1, 14, 9, 'Medio'),
+                                                                                                                                                                                                                                                                                                                   ('jorge', '$2y$10$randomhash05', 'Jorge López', 'jorge.lopez@mail.com', 1995, 'Masculino', 'Perú', 'Lima', 'jorge.jpg', 85, 4, 'jugador', CURDATE(), 0, 16, 11, 'Facil'),
+                                                                                                                                                                                                                                                                                                                   ('lucia', '$2y$10$randomhash06', 'Lucía Fernández', 'lucia.fernandez@mail.com', 1998, 'Femenino', 'Uruguay', 'Montevideo', 'lucia.jpg', 95, 2, 'jugador', CURDATE(), 1, 19, 13, 'Dificil'),
+                                                                                                                                                                                                                                                                                                                   ('pedro', '$2y$10$randomhash07', 'Pedro Martínez', 'pedro.martinez@mail.com', 1987, 'Masculino', 'Paraguay', 'Asunción', 'pedro.jpg', 110, 5, 'editor', CURDATE(), 1, 25, 18, 'Medio'),
+                                                                                                                                                                                                                                                                                                                   ('sofia', '$2y$10$randomhash08', 'Sofía González', 'sofia.gonzalez@mail.com', 1992, 'Femenino', 'Colombia', 'Bogotá', 'sofia.jpg', 105, 1, 'jugador', CURDATE(), 1, 22, 16, 'Medio'),
+                                                                                                                                                                                                                                                                                                                   ('antonio', '$2y$10$randomhash09', 'Antonio Torres', 'antonio.torres@mail.com', 1989, 'Masculino', 'Venezuela', 'Caracas', 'antonio.jpg', 120, 0, 'administrador', CURDATE(), 1, 30, 20, 'Dificil'),
+                                                                                                                                                                                                                                                                                                                   ('cristina', '$2y$10$randomhash10', 'Cristina López', 'cristina.lopez@mail.com', 1983, 'Femenino', 'Ecuador', 'Quito', 'cristina.jpg', 125, 3, 'jugador', CURDATE(), 0, 28, 22, 'Medio');
+
+-- Insertar registros adicionales en la tabla `usuarios_preguntas`
+INSERT INTO `usuarios_preguntas` (`id_usuario`, `id_pregunta`) VALUES
+                                                                   (4, 15),
+                                                                   (5, 12),
+                                                                   (6, 8),
+                                                                   (7, 19),
+                                                                   (8, 6),
+                                                                   (9, 10),
+                                                                   (10, 14),
+                                                                   (11, 3),
+                                                                   (12, 17),
+                                                                   (13, 4);

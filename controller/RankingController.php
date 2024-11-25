@@ -25,21 +25,38 @@ class RankingController {
 
         $this->rankingModel->actualizarRanking();
 
-        $usuarios = $this->rankingModel->obtenerRanking(10);
+        $limite = 5;
+        $paginaActual = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
+
+        $usuarios = $this->rankingModel->obtenerRanking($limite, $paginaActual);
+        $totalUsuarios = $this->rankingModel->contarUsuariosConPuntaje();
+        $totalPaginas = ceil($totalUsuarios / $limite);
+
         $rankingPorPais = $this->rankingModel->obtenerRankingPorPais();
         $rankingPorCiudad = $this->rankingModel->obtenerRankingPorCiudad();
 
-        // Asegúrate de pasar nombre_usuario y foto_perfil a la vista
         $data = [
             'usuarios' => $usuarios,
             'rankingPorPais' => $rankingPorPais,
             'rankingPorCiudad' => $rankingPorCiudad,
-            'nombre_usuario' => $_SESSION['nombre_usuario'] ?? 'Invitado', // Valor por defecto si no existe en la sesión
-            'foto_perfil' => $_SESSION['foto_perfil'] ?? 'default.png' // Imagen por defecto si no existe en la sesión
+            'pagina_actual' => $paginaActual,
+            'total_paginas' => $totalPaginas,
+            'prev_page' => ($paginaActual > 1) ? $paginaActual - 1 : null,
+            'next_page' => ($paginaActual < $totalPaginas) ? $paginaActual + 1 : null,
+            'pages' => array_map(function ($numero) use ($paginaActual) {
+                return [
+                    'numero' => $numero,
+                    'active' => ($numero == $paginaActual) ? 'active' : '',
+                ];
+            }, range(1, $totalPaginas)),
+            'nombre_usuario' => $_SESSION['nombre_usuario'] ?? 'Invitado',
+            'foto_perfil' => $_SESSION['foto_perfil'] ?? 'default.png',
         ];
+
 
         $this->mustache->show('ranking', $data);
     }
+
 
     public function verPerfilJugador() {
         SessionHelper::verificarSesion();
