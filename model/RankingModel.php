@@ -98,65 +98,79 @@ class RankingModel {
 
     public function obtenerRankingPorPais() {
         $query = "
-            SELECT 
-                u.pais,
-                u.nombre_usuario,
-                u.nombre_completo,
-                u.foto_perfil,
-                (SELECT MAX(p.puntos_sumados) 
-                 FROM $this->table_partidas p 
-                 WHERE p.id_usuario = u.id_usuario) AS mejor_puntaje,
-                (SELECT COUNT(DISTINCT p.id_partida) 
-                 FROM $this->table_partidas p 
-                 WHERE p.id_usuario = u.id_usuario) AS partidas_jugadas,
-                RANK() OVER (PARTITION BY u.pais ORDER BY (SELECT MAX(p.puntos_sumados) 
-                                                            FROM $this->table_partidas p 
-                                                            WHERE p.id_usuario = u.id_usuario) DESC) AS posicion_pais,
-                RANK() OVER (ORDER BY (SELECT MAX(p.puntos_sumados) 
-                                       FROM $this->table_partidas p 
-                                       WHERE p.id_usuario = u.id_usuario) DESC) AS posicion_global
-            FROM $this->table_usuarios u
-            WHERE u.validado = true
-            ORDER BY u.pais, mejor_puntaje DESC";
-        
+        SELECT 
+            u.pais,
+            u.id_usuario,
+            u.nombre_usuario,
+            u.foto_perfil,
+            MAX(p.puntos_sumados) AS mejor_puntaje,
+            COUNT(DISTINCT p.id_partida) AS partidas_jugadas
+        FROM " . $this->table_usuarios . " u
+        JOIN " . $this->table_partidas . " p ON u.id_usuario = p.id_usuario
+        WHERE p.puntos_sumados > 0
+        GROUP BY u.pais, u.id_usuario, u.nombre_usuario, u.foto_perfil
+        ORDER BY u.pais, mejor_puntaje DESC";
+
         try {
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Asignar posiciones dentro de cada país
+            $ranking = [];
+            $posicionPorPais = [];
+            foreach ($usuarios as $usuario) {
+                $pais = $usuario['pais'];
+                if (!isset($posicionPorPais[$pais])) {
+                    $posicionPorPais[$pais] = 1; // Inicia la posición para el país
+                }
+                $usuario['posicion_pais'] = $posicionPorPais[$pais];
+                $posicionPorPais[$pais]++;
+                $ranking[] = $usuario;
+            }
+
+            return $ranking;
         } catch (PDOException $e) {
-            error_log("Error al obtener Ranking por Pais: " . $e->getMessage());
+            error_log("Error al obtener Ranking por País: " . $e->getMessage());
             return false;
         }
     }
 
     public function obtenerRankingPorCiudad() {
         $query = "
-            SELECT 
-                u.pais,
-                u.ciudad,
-                u.nombre_usuario,
-                u.nombre_completo,
-                u.foto_perfil,
-                (SELECT MAX(p.puntos_sumados) 
-                 FROM $this->table_partidas p 
-                 WHERE p.id_usuario = u.id_usuario) AS mejor_puntaje,
-                (SELECT COUNT(DISTINCT p.id_partida) 
-                 FROM $this->table_partidas p 
-                 WHERE p.id_usuario = u.id_usuario) AS partidas_jugadas,
-                RANK() OVER (PARTITION BY u.ciudad ORDER BY (SELECT MAX(p.puntos_sumados) 
-                                                            FROM $this->table_partidas p 
-                                                            WHERE p.id_usuario = u.id_usuario) DESC) AS posicion_ciudad,
-                RANK() OVER (ORDER BY (SELECT MAX(p.puntos_sumados) 
-                                       FROM $this->table_partidas p 
-                                       WHERE p.id_usuario = u.id_usuario) DESC) AS posicion_global
-            FROM $this->table_usuarios u
-            WHERE u.validado = true
-            ORDER BY u.pais, u.ciudad, mejor_puntaje DESC";
-        
+        SELECT 
+            u.ciudad,
+            u.pais,
+            u.id_usuario,
+            u.nombre_usuario,
+            u.foto_perfil,
+            MAX(p.puntos_sumados) AS mejor_puntaje,
+            COUNT(DISTINCT p.id_partida) AS partidas_jugadas
+        FROM " . $this->table_usuarios . " u
+        JOIN " . $this->table_partidas . " p ON u.id_usuario = p.id_usuario
+        WHERE p.puntos_sumados > 0
+        GROUP BY u.ciudad, u.pais, u.id_usuario, u.nombre_usuario, u.foto_perfil
+        ORDER BY u.ciudad, mejor_puntaje DESC";
+
         try {
             $stmt = $this->conn->prepare($query);
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $usuarios = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            // Asignar posiciones dentro de cada ciudad
+            $ranking = [];
+            $posicionPorCiudad = [];
+            foreach ($usuarios as $usuario) {
+                $ciudad = $usuario['ciudad'];
+                if (!isset($posicionPorCiudad[$ciudad])) {
+                    $posicionPorCiudad[$ciudad] = 1; // Inicia la posición para la ciudad
+                }
+                $usuario['posicion_ciudad'] = $posicionPorCiudad[$ciudad];
+                $posicionPorCiudad[$ciudad]++;
+                $ranking[] = $usuario;
+            }
+
+            return $ranking;
         } catch (PDOException $e) {
             error_log("Error al obtener Ranking por Ciudad: " . $e->getMessage());
             return false;
