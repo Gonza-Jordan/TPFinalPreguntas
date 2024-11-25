@@ -27,6 +27,11 @@
       <path value="$PROJECT_DIR$/vendor/mustache/bin" />
       <path value="$PROJECT_DIR$/vendor/mustache/test" />
       <path value="$PROJECT_DIR$/vendor/mustache/src" />
+      <path value="$PROJECT_DIR$/vendor/dompdf/dompdf" />
+      <path value="$PROJECT_DIR$/vendor/dompdf/php-font-lib" />
+      <path value="$PROJECT_DIR$/vendor/masterminds/html5" />
+      <path value="$PROJECT_DIR$/vendor/dompdf/php-svg-lib" />
+      <path value="$PROJECT_DIR$/vendor/sabberworm/php-css-parser" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="7.0">
